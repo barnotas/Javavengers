@@ -1,4 +1,5 @@
 import javax.swing.*;
+// Authors: Ahmed H, Mahri, Barno, Bernard
 public class SimpleUI {
     public static void main(String args[]){
         JFrame frame = new JFrame("Javavengers");
