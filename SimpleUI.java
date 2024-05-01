@@ -8,3 +8,4 @@ public class SimpleUI {
         frame.setVisible(true);
     }
 }
+
