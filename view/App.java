@@ -44,6 +44,7 @@ public class App implements ActionListener{
     }
 
     /**
+     * 
      * Builds the main window that the user will be interacting with.
      */
     private void setup() {
