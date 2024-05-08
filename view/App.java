@@ -10,7 +10,7 @@ import model.User;
  * Presents the Home page for ProjectPeak.
  *
  * @version 0.1
- * @author Bernard Bega, Barno Tashpulatova
+ * @author Bernard Bega, Barno Tashpulatova, Ahmed Hassan, Mahri Yalkapova
  */
 public class App implements ActionListener {
     /** The main window of the application.*/
