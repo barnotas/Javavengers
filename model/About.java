@@ -3,40 +3,39 @@ package model;
 /**
  * Information about an application.
  *
- * @author Bernard Bega
+ * @author Bernard Bega, Barno Tashpulatova, Ahmed Hassan, Mahri Yalkapova
  * @version 0.1
  */
 public class About {
-
     /** The version number. */
-    private final int myVersion;
+    private static final double VERSION = 0.1;
+    
     /** The developer team. */
     private final String myDevTeam;
+    
     /** The developers' names. */
     private final String[] myDevs;
-
+    
     /**
      * Creates an object with information about an application.
      *
-     * @param theVersion the application version number.
      * @param theDevTeam the team name of the developers.
      * @param theDevs the developers' names.
      */
-    public About(int theVersion, String theDevTeam, String[] theDevs) {
-        myVersion = theVersion;
+    public About(String theDevTeam, String[] theDevs) {
         myDevTeam = theDevTeam;
         myDevs = theDevs.clone();
     }
-
+    
     /**
      * Gets the version number.
      *
      * @return the version number.
      */
-    public int getVersion() {
-        return myVersion;
+    public static double getVersion() {
+        return VERSION;
     }
-
+    
     /**
      * Gets the developers' team name.
      *
@@ -45,7 +44,7 @@ public class About {
     public String getDevTeam() {
         return myDevTeam;
     }
-
+    
     /**
      * Gets the developers' names.
      *
