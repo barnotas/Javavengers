@@ -25,6 +25,7 @@ public class App implements ActionListener {
     public App() {
         myFrame = new JFrame("Javavengers");
         myUser = null;
+    
     }
 
     /**
