@@ -2,6 +2,13 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "java",
+      "name": "Driver",
+      "request": "launch",
+      "mainClass": "controller.Driver",
+      "projectName": "Javavengers-1_1ec3c19d"
+    },
+    {
       "name": "C/C++ Runner: Debug Session",
       "type": "lldb",
       "request": "launch",
