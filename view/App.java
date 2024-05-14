@@ -1,27 +1,21 @@
 package view;
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-
 import model.User;
+
 /**
  * Presents the Home page for ProjectPeak.
  *
  * @version 0.1
- * @author Bernard Bega, Barno Tashpulatova
+ * @author Bernard Bega, Barno Tashpulatova, Ahmed Hassan, Mahri Yalkapova
  */
-
-public class App implements ActionListener{
-
+public class App implements ActionListener {
     /** The main window of the application.*/
     private final JFrame myFrame;
+
     /** The user of the application. */
     private User myUser;
 
@@ -31,6 +25,7 @@ public class App implements ActionListener{
     public App() {
         myFrame = new JFrame("Javavengers");
         myUser = null;
+    
     }
 
     /**
@@ -38,9 +33,8 @@ public class App implements ActionListener{
      */
     public void start() {
         setup();
+        createMenu();
         login();
-
-
     }
 
     /**
@@ -48,37 +42,44 @@ public class App implements ActionListener{
      */
     private void setup() {
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        myFrame.setSize(300,300);
+        myFrame.setSize(300, 300);
         myFrame.setVisible(true);
+    }
+
+    /**
+     * Creates the menu bar and adds menu items.
+     */
+    private void createMenu() {
+        JMenuBar menuBar = new JMenuBar();
+        JMenu helpMenu = new JMenu("Help");
+        JMenuItem aboutMenuItem = new JMenuItem("About");
+        aboutMenuItem.addActionListener(e -> {
+            String[] devs = {"Bernard Bega", "Barno Tashpulatova, Ahmed Hassan, Mahri Yalkapova"};
+            AboutScreen aboutScreen = new AboutScreen("Javavengers", devs);
+            aboutScreen.open();
+        });
+        helpMenu.add(aboutMenuItem);
+        menuBar.add(helpMenu);
+        myFrame.setJMenuBar(menuBar);
     }
 
     /**
      * Pops up the user log-in page.
      */
     private void login() {
-        // create appropriate layout 
+        // create appropriate layout
         // create labels for name and email and text input and button
-         JTextField nameField = new JTextField(50);
-         JTextField emailField = new JTextField(50);
-         JButton login = new JButton("Login");
-         //JLabel label = new JLabel("User Login Page");
-         
+        JTextField nameField = new JTextField(50);
+        JTextField emailField = new JTextField(50);
+        JButton login = new JButton("Login");
 
-         // layout 
-         //myFrame.add(label, BorderLayout.CENTER);
-         JPanel north = new JPanel (new GridLayout(2, 2));
-         north.add(new JLabel("Name "));
-         north.add(nameField);
-         north.add(new JLabel("Email "));
-         north.add(emailField);
-
-         myFrame.add(north, BorderLayout.NORTH);
-         myFrame.add(login, BorderLayout.SOUTH);
-
-
-
-
-
+        JPanel north = new JPanel(new GridLayout(2, 2));
+        north.add(new JLabel("Name "));
+        north.add(nameField);
+        north.add(new JLabel("Email "));
+        north.add(emailField);
+        myFrame.add(north, BorderLayout.NORTH);
+        myFrame.add(login, BorderLayout.SOUTH);
     }
 
     @Override
