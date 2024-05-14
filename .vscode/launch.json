@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "MainFrame",
+      "request": "launch",
+      "mainClass": "view.MainFrame",
+      "projectName": "Javavengers-1_1ec3c19d"
+    },
+    {
+      "type": "java",
       "name": "Driver",
       "request": "launch",
       "mainClass": "controller.Driver",
