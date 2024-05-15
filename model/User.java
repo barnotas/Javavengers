@@ -1,12 +1,13 @@
 package model;
 
+import java.io.*;
 /**
  * A User with a name and email.
  *
  * @author Bernard Bega
  * @version 0.1
  */
-public class User {
+public class User implements Serializable{
 
     /** This user's name. */
     private String myName;
@@ -59,4 +60,14 @@ public class User {
     public void setEmail(String theEmail) {
         this.myEmail = theEmail;
     }
+
+    public void export() {
+    try (FileOutputStream fout = new FileOutputStream("Javavengers/profile.ser");
+         ObjectOutputStream oos = new ObjectOutputStream(fout)) {
+        oos.writeObject(this);
+    } catch (Exception ex) {
+        ex.printStackTrace();
+  }
+}
+
 }

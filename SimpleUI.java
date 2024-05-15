@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 import javax.swing.*;
 // Authors: Ahmed H, Mahri, Barno, Bernard
 public class SimpleUI {
@@ -10,5 +8,4 @@ public class SimpleUI {
         frame.setVisible(true);
     }
 }
->>>>>>> 254831093e33be7129616e80bba085b4f109555b
 
