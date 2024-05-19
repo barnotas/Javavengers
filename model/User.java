@@ -62,12 +62,15 @@ public class User implements Serializable{
     }
 
     public void export() {
-    try (FileOutputStream fout = new FileOutputStream("Javavengers/profile.ser");
-         ObjectOutputStream oos = new ObjectOutputStream(fout)) {
-        oos.writeObject(this);
-    } catch (Exception ex) {
-        ex.printStackTrace();
-  }
-}
+        File outputFile = new File("Javavengers/profile.ser");
 
-}
+        try (FileOutputStream fout = new FileOutputStream(outputFile, true);
+             ObjectOutputStream oos = new ObjectOutputStream(fout)) {
+            oos.writeObject(this);
+            System.out.println("Export successful!");
+        } catch (IOException e) {
+            System.err.println("Error during serialization: " + e.getMessage());
+        }
+    }
+
+}       

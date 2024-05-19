@@ -84,14 +84,20 @@ public class App implements ActionListener {
         loginButton.addActionListener(this);
         myFrame.add(loginButton, BorderLayout.SOUTH);
     }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loginButton) {
-            String name = nameField.getText();
-            String email = emailField.getText();
-            myUser = new User(name, email);
-            JOptionPane.showMessageDialog(myFrame, "Login successful for: " + name);
+            if (!nameField.getText().isEmpty() && !emailField.getText().isEmpty()) {
+                User user = new User(nameField.getText(), emailField.getText());
+                user.export();
+                JOptionPane.showMessageDialog(myFrame, "Login successful for: " + user.getName());
+                nameField.setText("");  // Clear the fields after successful login
+                emailField.setText("");
+                myFrame.dispose();
+            } else {
+                JOptionPane.showMessageDialog(myFrame, "Please fill in both name and email fields.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
+    
 }
