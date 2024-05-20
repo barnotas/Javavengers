@@ -1,62 +1,35 @@
 package model;
 
-/**
- * A User with a name and email.
- *
- * @author Bernard Bega
- * @version 0.1
- */
 public class User {
+    private String firstName;
+    private String email;
+    private boolean loggedIn;
 
-    /** This user's name. */
-    private String myName;
-    /** This user's email. */
-    private String myEmail;
-
-    /**
-     * Creates a new User.
-     *
-     * @param theName is the name.
-     * @param theEmail is the email.
-     */
-    public User(String theName, String theEmail) {
-        myName = theName;
-        myEmail = theEmail;
+    public User() {
+        // Initialize the User object with default values
+        this.firstName = "Guest";
+        this.email = "";
     }
 
-    /**
-     * Gets this user's name.
-     *
-     * @return the user's name.
-     */
-    public String getName() {
-        return myName;
+    public User(String firstName, String email) {
+        this.firstName = firstName;
+        this.email = email;
     }
 
-    /**
-     * Gets this user's email.
-     *
-     * @return the user's email.
-     */
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
     public String getEmail() {
-        return myEmail;
+        return email;
     }
 
-    /**
-     * Sets this user's name to the given name.
-     *
-     * @param theName the given name.
-     */
-    public void setName(String theName) {
-        this.myName = theName;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    /**
-     * Sets this user's email to the given email.
-     *
-     * @param theEmail the given email.
-     */
-    public void setEmail(String theEmail) {
-        this.myEmail = theEmail;
-    }
 }
