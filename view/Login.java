@@ -44,7 +44,7 @@ public class Login extends JDialog implements ActionListener{
         if (e.getSource() == loginButton) {
             User user = new User(nameField.getText(), emailField.getText());
             user.export();  // Assuming User class has this method to serialize data
-            JOptionPane.showMessageDialog(this, "Login successful for: " + user.getName());
+            //JOptionPane.showMessageDialog(this, "Login successful for: " + user.getName());
             dispose();  // Close the dialog
         }
     }

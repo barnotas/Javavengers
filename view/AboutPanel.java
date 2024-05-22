@@ -3,20 +3,26 @@ package view;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Panel for displaying information about the application.
+ *
+ * @author Bernard Bega, Barno Tashpulatova, Ahmed Hassan, Mahri Yalkapova
+ */
 public class AboutPanel extends JPanel {
     private JLabel versionLabel;
     private JLabel teamLabel;
     private JTextArea devsTextArea;
 
-
+    /**
+     * Constructs an AboutPanel and sets up its components.
+     */
     public AboutPanel() {
         setLayout(new BorderLayout());
-        // Create the main content panel
+
         JPanel contentPanel = new JPanel(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.insets = new Insets(10, 10, 10, 10);
 
-        // Add the application name and version
         constraints.gridx = 0;
         constraints.gridy = 0;
         constraints.anchor = GridBagConstraints.CENTER;
@@ -29,18 +35,17 @@ public class AboutPanel extends JPanel {
         versionLabel.setFont(new Font("Arial", Font.PLAIN, 13));
         contentPanel.add(versionLabel, constraints);
 
-        // Add the application description
         constraints.gridy = 2;
         constraints.gridx = 0;
-        constraints.gridwidth = 2; // Span across 2 columns
+        constraints.gridwidth = 2;
         constraints.anchor = GridBagConstraints.CENTER;
-        constraints.fill = GridBagConstraints.HORIZONTAL; // Fill horizontally
-        constraints.weightx = 1.0; // Give the text area more horizontal weight
-
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.weightx = 1.0;
         JTextArea descriptionArea = new JTextArea(
-            "Project Peak is a project management tool designed for DIY enthusiasts, " +
-            "homeowners, family members, and landscapers. It allows you to efficiently " +
-            "plan, organize, and execute projects within your budget." );
+                "Project Peak is a project management tool designed for DIY enthusiasts, " +
+                "homeowners, family members, and landscapers. It allows you to efficiently " +
+                "plan, organize, and execute projects within your budget."
+        );
         descriptionArea.setLineWrap(true);
         descriptionArea.setWrapStyleWord(true);
         descriptionArea.setEditable(false);
@@ -48,7 +53,6 @@ public class AboutPanel extends JPanel {
         descriptionArea.setFont(new Font("Arial", Font.PLAIN, 13));
         contentPanel.add(descriptionArea, constraints);
 
-        // Add the development team information
         constraints.gridy = 3;
         constraints.gridx = 0;
         constraints.anchor = GridBagConstraints.CENTER;
@@ -56,7 +60,6 @@ public class AboutPanel extends JPanel {
         teamLabel.setFont(new Font("Arial", Font.PLAIN, 13));
         contentPanel.add(teamLabel, constraints);
 
-        // Add the developers' names
         constraints.gridy = 4;
         constraints.gridx = 0;
         constraints.anchor = GridBagConstraints.CENTER;
@@ -68,27 +71,39 @@ public class AboutPanel extends JPanel {
         devsTextArea.setFont(new Font("Arial", Font.PLAIN, 14));
         contentPanel.add(devsTextArea, constraints);
 
-        // Add the copyright information
         constraints.gridy = 5;
         constraints.gridx = 0;
         JLabel copyrightLabel = new JLabel("© 2024 Javavengers. All rights reserved.");
         copyrightLabel.setFont(new Font("Arial", Font.PLAIN, 12));
         contentPanel.add(copyrightLabel, constraints);
 
-        // Add the main content panel to the center of the AboutPanel
         add(contentPanel, BorderLayout.CENTER);
     }
 
+    /**
+     * Sets the version text in the AboutPanel.
+     *
+     * @param version the version text to display
+     */
     public void setVersion(String version) {
         versionLabel.setText(version);
     }
 
+    /**
+     * Sets the development team text in the AboutPanel.
+     *
+     * @param devTeam the development team text to display
+     */
     public void setDevTeam(String devTeam) {
         teamLabel.setText(devTeam);
     }
 
+    /**
+     * Sets the developers' names in the AboutPanel.
+     *
+     * @param devs an array of developer names to display
+     */
     public void setDevs(String[] devs) {
         devsTextArea.setText(String.join("\n", devs));
     }
-
 }
