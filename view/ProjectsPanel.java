@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+// 
 
 public class ProjectsPanel extends JPanel implements ActionListener {
     private JLabel projectNameLabel ;
@@ -36,6 +37,6 @@ public class ProjectsPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        
+
      }
     }
