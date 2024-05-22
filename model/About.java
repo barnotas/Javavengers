@@ -1,56 +1,61 @@
 package model;
 
 /**
- * Information about an application.
+ * Represents information about an application.
  *
  * @author Bernard Bega, Barno Tashpulatova, Ahmed Hassan, Mahri Yalkapova
  * @version 0.1
  */
 public class About {
-    /** The version number. */
-    private static final double VERSION = 0.1;
-    
-    /** The developer team. */
-    private final String myDevTeam;
-    
-    /** The developers' names. */
-    private final String[] myDevs;
-    
     /**
-     * Creates an object with information about an application.
-     *
-     * @param theDevTeam the team name of the developers.
-     * @param theDevs the developers' names.
+     * The version of the application.
      */
-    public About(String theDevTeam, String[] theDevs) {
-        myDevTeam = theDevTeam;
-        myDevs = theDevs.clone();
-    }
-    
+    private double version;
+
     /**
-     * Gets the version number.
-     *
-     * @return the version number.
+     * The development team of the application.
      */
-    public static double getVersion() {
-        return VERSION;
-    }
-    
+    private String devTeam;
+
     /**
-     * Gets the developers' team name.
+     * The names of the developers.
+     */
+    private String[] devs;
+
+    /**
+     * Constructs an About object with default values.
+     */
+    public About() {
+        // Initialize the About object with default values
+        this.version = 0.1;
+        this.devTeam = "Javavengers";
+        this.devs = new String[]{"Ahmed Hassan", "Barno Tashpulatova", "Bernard Bega", "Mahri Yalkapova"};
+    }
+
+    /**
+     * Returns the version of the application.
      *
-     * @return the team name.
+     * @return the version of the application
+     */
+    public double getVersion() {
+        return version;
+    }
+
+    /**
+     * Returns the development team of the application.
+     *
+     * @return the development team of the application
      */
     public String getDevTeam() {
-        return myDevTeam;
+        return devTeam;
     }
-    
+
     /**
-     * Gets the developers' names.
+     * Returns the names of the developers.
      *
-     * @return the developers' names.
+     * @return an array containing the names of the developers
      */
     public String[] getDevs() {
-        return myDevs.clone();
+        return devs;
     }
 }
