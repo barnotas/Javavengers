@@ -18,11 +18,11 @@ public class NewProjectController {
     }
 
     public class NewProjectListener implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e){
+         @Override
+         public void actionPerformed(ActionEvent e){
             NewProjectCheck();
-        }
-    }
+         }
+     }
 
     public void NewProjectCheck() {
         String projectName = newProjectView.getProjectName();
