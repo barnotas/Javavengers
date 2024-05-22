@@ -53,6 +53,13 @@ public class MainFrame extends JFrame {
         tabbedPane.addTab("Settings", settingsPanel);
         tabbedPane.addTab("Login", loginPanel);
 
+        tabbedPane.addChangeListener(e -> {
+            if (tabbedPane.getSelectedIndex() == 4) { 
+                Login loginDialog = new Login(this);
+                loginDialog.setVisible(true);
+            }
+        });
+
         // Add tab pane to the frame
         add(tabbedPane);
     }

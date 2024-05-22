@@ -1,6 +1,9 @@
 package model;
 
-public class User {
+import java.io.*;
+import java.io.Serializable;
+
+public class User implements Serializable{
     private String firstName;
     private String email;
     private boolean loggedIn;
@@ -32,4 +35,16 @@ public class User {
         this.email = email;
     }
 
-}
+    public void export() {
+        File outputFile = new File("Javavengers/profile.ser");
+
+        try (FileOutputStream fout = new FileOutputStream(outputFile, true);
+             ObjectOutputStream oos = new ObjectOutputStream(fout)) {
+            oos.writeObject(this);
+            System.out.println("Export successful!");
+        } catch (IOException e) {
+            System.err.println("Error during serialization: " + e.getMessage());
+        }
+    }
+
+}       

@@ -18,7 +18,9 @@ public class App implements ActionListener {
 
     /** The user of the application. */
     private User myUser;
-
+    private JButton loginButton;
+    private JTextField nameField;
+    private JTextField emailField;
     /**
      * Constructs a GUI for the application, ProjectPeak.
      */
@@ -54,7 +56,7 @@ public class App implements ActionListener {
         // create labels for name and email and text input and button
         JTextField nameField = new JTextField(50);
         JTextField emailField = new JTextField(50);
-        JButton login = new JButton("Login");
+        JButton loginButton = new JButton("Login");
 
         JPanel north = new JPanel(new GridLayout(2, 2));
         north.add(new JLabel("Name "));
@@ -62,12 +64,23 @@ public class App implements ActionListener {
         north.add(new JLabel("Email "));
         north.add(emailField);
         myFrame.add(north, BorderLayout.NORTH);
-        myFrame.add(login, BorderLayout.SOUTH);
+        loginButton.addActionListener(this);
+        myFrame.add(loginButton, BorderLayout.SOUTH);
     }
-
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
+        if (e.getSource() == loginButton) {
+            if (!nameField.getText().isEmpty() && !emailField.getText().isEmpty()) {
+                User user = new User(nameField.getText(), emailField.getText());
+                user.export();
+                JOptionPane.showMessageDialog(myFrame, "Login successful for: " + user.getName());
+                nameField.setText("");  // Clear the fields after successful login
+                emailField.setText("");
+                myFrame.dispose();
+            } else {
+                JOptionPane.showMessageDialog(myFrame, "Please fill in both name and email fields.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
+    
 }
