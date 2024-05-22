@@ -33,7 +33,6 @@ public class App implements ActionListener {
      */
     public void start() {
         setup();
-        createMenu();
         login();
     }
 
@@ -46,23 +45,7 @@ public class App implements ActionListener {
         myFrame.setVisible(true);
     }
 
-    /**
-     * Creates the menu bar and adds menu items.
-     */
-    private void createMenu() {
-        JMenuBar menuBar = new JMenuBar();
-        JMenu helpMenu = new JMenu("Help");
-        JMenuItem aboutMenuItem = new JMenuItem("About");
-        aboutMenuItem.addActionListener(e -> {
-            String[] devs = {"Bernard Bega", "Barno Tashpulatova, Ahmed Hassan, Mahri Yalkapova"};
-            AboutScreen aboutScreen = new AboutScreen("Javavengers", devs);
-            aboutScreen.open();
-        });
-        helpMenu.add(aboutMenuItem);
-        menuBar.add(helpMenu);
-        myFrame.setJMenuBar(menuBar);
-    }
-
+    
     /**
      * Pops up the user log-in page.
      */
