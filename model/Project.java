@@ -1,4 +1,5 @@
 package model;
+// I added
 
 public class Project {
     private String name;
