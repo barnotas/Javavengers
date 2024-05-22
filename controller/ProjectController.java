@@ -4,6 +4,7 @@ package controller;
 import model.Project;
 import view.AboutPanel;
 import view.ProjectsPanel;
+// i added
 
 @SuppressWarnings("unused")
 public class ProjectController {
