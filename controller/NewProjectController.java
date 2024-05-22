@@ -2,33 +2,49 @@ package controller;
 
 import model.NewProjectModel;
 import view.NewProjectPanel;
-import java.awt.*;
+
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class NewProjectController {
     private NewProjectModel newProjectModel;
-    private NewProjectPanel newProjectView;
+    private JFrame parentFrame;
 
-    public NewProjectController(NewProjectModel newProjectModel, NewProjectPanel newProjectView) {
+    public NewProjectController(NewProjectModel newProjectModel) {
         this.newProjectModel = newProjectModel;
-        this.newProjectView = newProjectView;
+    }
 
-        newProjectView.addCreateProjectListener(new NewProjectListener());
+    public void showNewProjectPopup() {
+        NewProjectPanel newProjectPanel = new NewProjectPanel(parentFrame);
+        newProjectPanel.addCreateProjectListener(new NewProjectListener(newProjectPanel));
+        newProjectPanel.setVisible(true);
     }
 
     public class NewProjectListener implements ActionListener {
-         @Override
-         public void actionPerformed(ActionEvent e){
-            NewProjectCheck();
-         }
-     }
+        private NewProjectPanel newProjectPanel;
 
-    public void NewProjectCheck() {
-        String projectName = newProjectView.getProjectName();
-        String projectDescription =  newProjectView.getProjectDescription();
+        public NewProjectListener(NewProjectPanel newProjectPanel) {
+            this.newProjectPanel = newProjectPanel;
+        }
 
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            NewProjectCheck(newProjectPanel);
+            newProjectPanel.dispose();
+        }
+    }
+
+    public void NewProjectCheck(NewProjectPanel newProjectPanel) {
+        int projectId = newProjectPanel.getProjectId();
+        String projectName = newProjectPanel.getProjectName();
+        String projectDescription = newProjectPanel.getProjectDescription();
+        double projectBudget = newProjectPanel.getProjectBudget();
+
+        newProjectModel.setId(projectId);
         newProjectModel.setName(projectName);
         newProjectModel.setDescription(projectDescription);
+        newProjectModel.setBudget(projectBudget);
+
     }
 }

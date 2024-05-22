@@ -6,6 +6,13 @@
       "name": "MainFrame",
       "request": "launch",
       "mainClass": "view.MainFrame",
+      "projectName": "Javavengers_7dd0a10d"
+    },
+    {
+      "type": "java",
+      "name": "MainFrame",
+      "request": "launch",
+      "mainClass": "view.MainFrame",
       "projectName": "Javavengers_9675b06d"
     },
     {
