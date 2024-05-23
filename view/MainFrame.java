@@ -7,6 +7,7 @@ import controller.*;
 import model.*;
 
 public class MainFrame extends JFrame {
+    private NewProjectModel newProjectModel;
     
     public MainFrame(UserController userController) {
         setTitle("Project Peak");
@@ -19,7 +20,7 @@ public class MainFrame extends JFrame {
 
         // Create panels for each tab
         HomePanel homePanel = new HomePanel();
-        ProjectsPanel projectsPanel = new ProjectsPanel();
+        ProjectsPanel projectsPanel = new ProjectsPanel(null);
         About about = new About();
         AboutPanel aboutPanel = new AboutPanel();
         AboutController aboutController = new AboutController(about, aboutPanel);
@@ -56,8 +57,11 @@ public class MainFrame extends JFrame {
             About about = new About();
             aboutPanel = new AboutPanel();
             AboutController aboutController = new AboutController(about, aboutPanel);
-
-            projectsPanel = new ProjectsPanel();
+            ProjectList projectList = new ProjectList();
+            NewProjectModel newProjectmodel = new NewProjectModel(newProjectModel, projectList, homePanel,projectsPanel);
+            NewProjectController newProjectController = new NewProjectController(newProjectmodel, projectList, homePanel, projectsPanel);
+            projectsPanel = new ProjectsPanel(newProjectController);
+    
 
             settingsController = new SettingsController(user, settingsPanel);
 

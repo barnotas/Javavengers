@@ -20,6 +20,10 @@ public class ProjectController {
         this.projectsPanel = projectsPanel;
     }
 
+    public ProjectController() {
+
+    }
+
     public void addProject(Project project) {
         projectList.addProject(project);
         homePanel.addProject(project.getName());

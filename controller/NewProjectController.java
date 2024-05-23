@@ -29,6 +29,11 @@ public class NewProjectController {
         
     }
 
+    public NewProjectModel newProjectModel() {
+        return newProjectModel;
+    }
+
+
     public void showNewProjectPopup(Window window) {
         NewProjectPanel newProjectPanel = new NewProjectPanel(parentFrame, this);
         newProjectPanel.addCreateProjectListener(new NewProjectListener(newProjectPanel));

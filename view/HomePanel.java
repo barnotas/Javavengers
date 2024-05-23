@@ -14,7 +14,7 @@ public class HomePanel extends JPanel {
         
         projectListModel = new DefaultListModel<>();
         projectList = new JList<>(projectListModel);
-        add(new JScrollPane(projectList));
+      //  add(new JScrollPane(projectList));
 
     }
     
