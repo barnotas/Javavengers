@@ -1,17 +1,14 @@
 package view;
 
-import javax.swing.*;
 
-import controller.AboutController;
-import controller.LoginController;
-import controller.SettingsController;
-import model.About;
-import model.LoginModel;
-import model.Settings;
+
+import javax.swing.*;
+import controller.*;
+import model.*;
 
 public class MainFrame extends JFrame {
-
-    public MainFrame() {
+    
+    public MainFrame(UserController userController) {
         setTitle("Project Peak");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
@@ -23,51 +20,56 @@ public class MainFrame extends JFrame {
         // Create panels for each tab
         HomePanel homePanel = new HomePanel();
         ProjectsPanel projectsPanel = new ProjectsPanel();
-        
         About about = new About();
         AboutPanel aboutPanel = new AboutPanel();
         AboutController aboutController = new AboutController(about, aboutPanel);
-        
-        Settings settings = new Settings();
+        User user = userController.getCurrentUser();
         SettingsPanel settingsPanel = new SettingsPanel();
-        SettingsController settingsController = new SettingsController(settings, settingsPanel);
+        SettingsController settingsController = new SettingsController(user, settingsPanel);
 
-
-        LoginModel loginModel = new LoginModel();
-        Settings settingsModel = new Settings();
-        LoginPanel loginPanel = new LoginPanel();
-        LoginController loginController = new LoginController(loginModel, settingsModel, loginPanel, settingsPanel, settingsController);
-
-        // Update the view with initial data from the model
-        settingsController.updateView(false);
         settingsController.updateModel();
+        settingsController.updateView(true);
+
         aboutController.updateView();
-
-
-        
 
         // Add panels to the tab pane
         tabbedPane.addTab("Home", homePanel);
         tabbedPane.addTab("Projects", projectsPanel);
         tabbedPane.addTab("About", aboutPanel);
         tabbedPane.addTab("Settings", settingsPanel);
-        tabbedPane.addTab("Login", loginPanel);
-
-        tabbedPane.addChangeListener(e -> {
-            if (tabbedPane.getSelectedIndex() == 4) { 
-                Login loginDialog = new Login(this);
-                loginDialog.setVisible(true);
-            }
-        });
 
         // Add tab pane to the frame
         add(tabbedPane);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            MainFrame frame = new MainFrame();
-            frame.setVisible(true);
-        });
-    }
+    public MainFrame(User user, HomePanel homePanel, ProjectsPanel projectsPanel, SettingsPanel settingsPanel,
+    AboutPanel aboutPanel, ProjectController projectController, SettingsController settingsController) {
+            setTitle("Project Peak");
+            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            setSize(800, 600);
+            setLocationRelativeTo(null);
+
+            // Create the tab pane
+            JTabbedPane tabbedPane = new JTabbedPane();
+
+            // Create panels for each tab
+            About about = new About();
+            aboutPanel = new AboutPanel();
+            AboutController aboutController = new AboutController(about, aboutPanel);
+
+            projectsPanel = new ProjectsPanel();
+
+            settingsController = new SettingsController(user, settingsPanel);
+
+            aboutController.updateView();
+
+            // Add panels to the tab pane
+            tabbedPane.addTab("Home", homePanel);
+            tabbedPane.addTab("Projects", projectsPanel);
+            tabbedPane.addTab("About", aboutPanel);
+            tabbedPane.addTab("Settings", settingsPanel);
+
+            // Add tab pane to the frame
+            add(tabbedPane);
+        }
 }

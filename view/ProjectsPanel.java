@@ -1,19 +1,16 @@
 package view;
 
-import controller.NewProjectController;
-import model.NewProjectModel;
-
+import controller.ProjectController;
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 
 public class ProjectsPanel extends JPanel {
-    private JLabel projectNameLabel;
+     private JLabel projectNameLabel;
     private JLabel projectDescriptionLabel;
     private JButton newProjectButton;
-    private NewProjectController newProjectController;
-    private NewProjectModel newProjectModel;
+    private ProjectController projectController;
+    private JList<String> projectList;
+    private DefaultListModel<String> projectListModel;
 
     public ProjectsPanel() {
 
@@ -27,13 +24,15 @@ public class ProjectsPanel extends JPanel {
         add(projectNameLabel);
         add(projectDescriptionLabel);
 
-        newProjectModel = new NewProjectModel();
-        newProjectController = new NewProjectController(newProjectModel);
-        newProjectButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                newProjectController.showNewProjectPopup();
-            }
+        projectListModel = new DefaultListModel<>();
+        projectList = new JList<>(projectListModel);
+        add(new JScrollPane(projectList));
+        projectListModel = new DefaultListModel<>();
+        projectList = new JList<>(projectListModel);
+        add(new JScrollPane(projectList));
+
+        newProjectButton.addActionListener(e -> {
+            projectController.showNewProjectPopup(SwingUtilities.getWindowAncestor(ProjectsPanel.this));
         });
     }
 
@@ -44,4 +43,11 @@ public class ProjectsPanel extends JPanel {
     public void setProjectDescription(String description) {
         projectDescriptionLabel.setText("Project Description: " + description);
     }
+
+    public void addProject(String projectName) {
+        projectListModel.addElement(projectName);
+        revalidate();
+        repaint();
+    }
+
 }

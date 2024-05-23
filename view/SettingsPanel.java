@@ -17,6 +17,7 @@ public class SettingsPanel extends JPanel {
     private JButton importInfoButton;
     private JLabel loginStatusLabel;
 
+
     public SettingsPanel() {
         setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
@@ -160,4 +161,5 @@ public class SettingsPanel extends JPanel {
     public void addImportInfoListener(ActionListener theListener) {
         importInfoButton.addActionListener(theListener);
     }
+
 }
