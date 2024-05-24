@@ -17,7 +17,7 @@ import org.junit.jupiter.api.Test;
 public class AboutTest {
 
     /** An About object used for testing. */
-    private About A = new About();
+    private final About A = new About();
 
     /**
      * Tests the getVersion method.
