@@ -2,7 +2,6 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class SettingsPanel extends JPanel {
@@ -16,6 +15,7 @@ public class SettingsPanel extends JPanel {
     private JButton exportInfoButton;
     private JButton importInfoButton;
     private JLabel loginStatusLabel;
+
 
     public SettingsPanel() {
         setLayout(new GridBagLayout());
@@ -66,6 +66,7 @@ public class SettingsPanel extends JPanel {
         constraints.gridwidth = 1;
         constraints.anchor = GridBagConstraints.LINE_START;
         add(emailField, constraints);
+
         // Create and add the export button
         exportButton = new JButton("Export Settings");
         constraints.gridx = 0;
@@ -98,27 +99,27 @@ public class SettingsPanel extends JPanel {
         return firstNameField.getText();
     }
 
-    public void setFirstName(String firstName) {
-        nameLabel.setText("Name: " + firstName);
-        firstNameField.setText(firstName);
+    public void setFirstName(String theFirstName) {
+        nameLabel.setText("Name: " + theFirstName);
+        firstNameField.setText(theFirstName);
     }
 
     public String getEmail() {
         return emailField.getText();
     }
 
-    public void setEmail(String email) {
-        emailLabel.setText("Email: " + email);
-        emailField.setText(email);
+    public void setEmail(String theEmail) {
+        emailLabel.setText("Email: " + theEmail);
+        emailField.setText(theEmail);
     }
 
-    public void setLoggedIn(boolean loggedIn) {
+    public void setLoggedIn(boolean theLoggedIn) {
         // Show/hide the email label and field based on the login status
-        emailLabel.setVisible(loggedIn);
-        emailField.setVisible(loggedIn);
+        emailLabel.setVisible(theLoggedIn);
+        emailField.setVisible(theLoggedIn);
 
         // Update the login status label
-        if (loggedIn) {
+        if (theLoggedIn) {
             loginStatusLabel.setText("Logged In");
         } else {
             loginStatusLabel.setText("Logged Out");
@@ -144,19 +145,20 @@ public class SettingsPanel extends JPanel {
         repaint();
     }
 
-    public void addExportSettingsListener(ActionListener listener) {
-        exportButton.addActionListener(listener);
+    public void addExportSettingsListener(ActionListener theListener) {
+        exportButton.addActionListener(theListener);
     }
 
-    public void addImportSettingsListener(ActionListener listener) {
-        importButton.addActionListener(listener);
+    public void addImportSettingsListener(ActionListener theListener) {
+        importButton.addActionListener(theListener);
     }
 
-    public void addExportInfoListener(ActionListener listener) {
-        exportInfoButton.addActionListener(listener);
+    public void addExportInfoListener(ActionListener theListener) {
+        exportInfoButton.addActionListener(theListener);
     }
 
-    public void addImportInfoListener(ActionListener listener) {
-        importInfoButton.addActionListener(listener);
+    public void addImportInfoListener(ActionListener theListener) {
+        importInfoButton.addActionListener(theListener);
     }
+
 }
