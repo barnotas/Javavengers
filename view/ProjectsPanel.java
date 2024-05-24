@@ -24,7 +24,7 @@ public class ProjectsPanel extends JPanel {
         JPanel projectListPanel = new JPanel(new BorderLayout());
         projectListModel = new DefaultListModel<>();
         projectList = new JList<>(projectListModel);
-        projectListPanel.add(new JScrollPane(projectList), BorderLayout.CENTER);
+       // projectListPanel.add(new JScrollPane(projectList), BorderLayout.CENTER);
         add(projectListPanel, BorderLayout.EAST);
 
         // Create a panel for the project details
