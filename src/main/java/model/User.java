@@ -17,8 +17,7 @@ public class User implements Serializable {
      */
     public User() {
         // Initialize the User object with default values
-        this.firstName = "Guest";
-        this.email = "";
+        
     }
 
     /**
