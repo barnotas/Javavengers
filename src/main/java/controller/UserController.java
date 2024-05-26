@@ -20,10 +20,10 @@ public class UserController {
         return null;
     }
 
-    public User createUser(String username, String password) {
+    public User createUser(String username, String password, String email) {
         User existingUser = userRepository.findUser(username);
         if (existingUser == null) {
-            User newUser = new User(username, password);
+            User newUser = new User(username, password, email);
             userRepository.addUser(newUser);
             userRepository.saveUsers();
             return newUser;

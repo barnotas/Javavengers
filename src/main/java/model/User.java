@@ -6,19 +6,9 @@ import java.io.*;
  * Represents a user with a first name and email address.
  */
 public class User implements Serializable {
-    private String firstName;
     private String email;
     private String password;
     private String username;
-
-    
-    /**
-     * Constructs a new User with default values.
-     */
-    public User() {
-        // Initialize the User object with default values
-        
-    }
 
     /**
      * Constructs a new User with the specified first name and email address.
@@ -26,9 +16,10 @@ public class User implements Serializable {
      * @param username the username of the user
      * @param password     the password of the user
      */
-    public User(String username, String password) {
+    public User(String username, String password, String email) {
         this.username = username;
         this.password = password;
+        this.email = email;
     }
     
 
@@ -47,24 +38,6 @@ public class User implements Serializable {
     
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    /**
-     * Returns the first name of the user.
-     *
-     * @return the first name of the user
-     */
-    public String getFirstName() {
-        return firstName;
-    }
-
-    /**
-     * Sets the first name of the user.
-     *
-     * @param firstName the first name to set
-     */
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
     }
 
     /**

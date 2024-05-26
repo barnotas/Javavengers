@@ -1,5 +1,6 @@
 package model;
 
+
 /**
  * Represents the settings of the application.
  */
@@ -11,7 +12,7 @@ public class Settings {
      */
     public Settings() {
         // Initialize the Settings object with a default User
-        this.user = new User();
+        this.user = new User(null, null, null);
     }
 
     /**

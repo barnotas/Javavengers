@@ -95,13 +95,13 @@ public class SettingsPanel extends JPanel {
     }
     
 
-    public String getFirstName() {
+    public String getUsername() {
         return firstNameField.getText();
     }
 
-    public void setFirstName(String theFirstName) {
-        nameLabel.setText("Name: " + theFirstName);
-        firstNameField.setText(theFirstName);
+    public void setUsername(String theUsername) {
+        nameLabel.setText("Name: " + theUsername);
+        firstNameField.setText(theUsername);
     }
 
     public String getEmail() {
@@ -132,7 +132,7 @@ public class SettingsPanel extends JPanel {
         if (isLoggedIn) {
             // Update the panel to show the logged-in state
             // For example, you can show a welcome message or enable certain components
-            JLabel welcomeLabel = new JLabel("Welcome, " + getFirstName() + "!");
+            JLabel welcomeLabel = new JLabel("Welcome, " + getUsername() + "!");
             add(welcomeLabel);
             // Enable or show other components specific to the logged-in state
         } else {

@@ -47,9 +47,9 @@ public class LoginController {
     if (loginModel.authenticate()) {
         // Authentication successful
         loginModel.setLoggedIn(true);
-        settingsModel.getUser().setFirstName(username);
+        settingsModel.getUser().setUsername(username);
         settingsView.setLoggedIn(true);
-        settingsView.setFirstName(username);
+        settingsView.setUsername(username);
         settingsController.updateView(true);
 
         // Show a pop-up message for successful login

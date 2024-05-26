@@ -16,15 +16,15 @@ public class SettingsController {
     }
 
     public void updateView(boolean loggedIn) {
-        view.setFirstName(model.getFirstName());
+        view.setUsername(model.getUsername());
         view.setEmail(model.getEmail());
         view.setLoggedIn(loggedIn);
     }
 
     public void updateModel() {
-        String firstName = view.getFirstName();
+        String username = view.getUsername();
         String email = view.getEmail();
-        model.setFirstName(firstName);
+        model.setUsername(username);
         model.setEmail(email);
     }
 
