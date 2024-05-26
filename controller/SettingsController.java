@@ -1,9 +1,5 @@
 package controller;
 
-import model.Settings;
-import model.User;
-import view.SettingsPanel;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -15,11 +11,29 @@ import java.io.PrintWriter;
 
 import javax.swing.JFileChooser;
 
+import model.Settings;
+import model.User;
+import view.SettingsPanel;
+/**
+ * Setting controller class provides event handling 
+ * feature for project page.
+ * as an inner class
+ * @author Bega Bernard
+ * @author Mahri Yalkapova
+ * @author Ahmed Hassan 
+ * @author Barno Tashpulatova
+ * @version 1.1
+ */
+
 public class SettingsController {
     private Settings model;
     private SettingsPanel view;
 
-
+    /**
+     * Constructs setting controller class.
+     * @param model
+     * @param view
+     */
     public SettingsController(Settings model, SettingsPanel view) {
         this.model = model;
         this.view = view;
@@ -28,6 +42,10 @@ public class SettingsController {
         view.addExportSettingsListener(new ExportSettingsListener());
         view.addImportSettingsListener(new ImportSettingsListener());
     }
+    /**
+     * Updates view when user authentication is approved.
+     * @param loggedIn
+     */
 
     public void updateView(boolean loggedIn) {
         User user = model.getUser();
@@ -36,6 +54,9 @@ public class SettingsController {
         view.setLoggedIn(loggedIn);
         //view.updatePanel(loggedIn);
     }
+    /**
+     * Demonstrates user credentials. 
+     */
 
     public void updateModel() {
         String firstName = view.getFirstName();
@@ -43,8 +64,13 @@ public class SettingsController {
         User user = new User(firstName, email);
         model.setUser(user);
     }
+    
 
-
+    /**
+     * Inner class implements Action 
+     * Listener interface to handle action event.
+     * 
+     */
     private class ExportSettingsListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -52,6 +78,10 @@ public class SettingsController {
         }
     }
 
+    /**
+     * Inner class implements Action Listener 
+     * interface to handle action events and file chooser.
+     */
     private class ImportSettingsListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -97,6 +127,7 @@ private void importSettings() {
             
             reader.close();
             
+            
             // Update the model with the imported settings
             User user = new User(firstName, email);
             model.setUser(user);
@@ -110,5 +141,4 @@ private void importSettings() {
         System.out.println("Error importing settings: " + e.getMessage());
     }
 }
-
 }

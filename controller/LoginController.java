@@ -1,21 +1,55 @@
 package controller;
 
-import model.LoginModel;
-import model.Settings;
-import view.LoginPanel;
-import view.SettingsPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
+import model.LoginModel;
+import model.Settings;
+import view.LoginPanel;
+import view.SettingsPanel;
+/**
+ * LoginController class provides event handling 
+ * feature for login page and implements ActionListener 
+ * as an inner class
+ * @author Bega Bernard
+ * @author Mahri Yalkapova
+ * @author Ahmed Hassan 
+ * @author Barno Tashpulatova
+ * @version 1.1
+ */
+
 public class LoginController {
+    /**
+     * A field for login model.
+     */
     private LoginModel loginModel;
+    /**
+     * A field for setting model.
+     */
     private Settings settingsModel;
+    /**
+     * A field for login view.
+     */
     private LoginPanel loginView;
+    /**
+     * A field for setting view.
+     */
     private SettingsPanel settingsView;
+    /**
+     * A field for setting controller. 
+     */
     private SettingsController settingsController;
 
+    /**
+     * Constructs a login controller class.
+     * @param loginModel
+     * @param settingsModel
+     * @param loginView
+     * @param settingsView
+     * @param settingsController
+     */
     public LoginController(LoginModel loginModel, Settings settingsModel, LoginPanel loginView, SettingsPanel settingsView, SettingsController settingsController) {
         this.loginModel = loginModel;
         this.settingsModel = settingsModel;
@@ -27,13 +61,22 @@ public class LoginController {
         loginView.addLoginListener(new LoginListener());
     }
 
+    /**
+     * Inner class implements Action
+     *  Listener interface to handle action 
+     */
     private class LoginListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             loginCheck();
         }
     }
-
+    /**
+     * This method authenticates a user's login credentials.
+     * Checks if the provided username and password match 
+     * the credentials stored in the system. If credentials 
+     * are valid, the user is considered authenticated.
+     */
     public void loginCheck() {
     // Get the entered username and PIN from the view
     String username = loginView.getUsername();
