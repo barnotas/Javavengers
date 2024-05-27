@@ -11,6 +11,7 @@ public class CreateUserDialog extends JDialog {
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JTextField emailField;
+    private JTextField firstNameField;
 
     public CreateUserDialog(UserController userController) {
         this.userController = userController;
@@ -61,11 +62,22 @@ public class CreateUserDialog extends JDialog {
         constraints.gridx = 1;
         constraints.gridy = 2;
         panel.add(emailField, constraints);
+
+        JLabel firstNameLabel = new JLabel("FirstName:");
+        constraints.gridx = 0;
+        constraints.gridy = 3;
+        panel.add(firstNameLabel, constraints);
+    
+        firstNameField = new JTextField(20);
+        firstNameField.setPreferredSize(new Dimension(200, 25));
+        constraints.gridx = 1;
+        constraints.gridy = 3;
+        panel.add(firstNameField, constraints);
     
         JButton createButton = new JButton("Create");
         createButton.addActionListener(e -> createUserButtonClicked());
         constraints.gridx = 0;
-        constraints.gridy = 3;
+        constraints.gridy = 4;
         constraints.gridwidth = 2;
         constraints.anchor = GridBagConstraints.CENTER;
         panel.add(createButton, constraints);
@@ -73,7 +85,7 @@ public class CreateUserDialog extends JDialog {
         JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(e -> dispose());
         constraints.gridx = 0;
-        constraints.gridy = 4;
+        constraints.gridy = 5;
         constraints.gridwidth = 2;
         constraints.anchor = GridBagConstraints.CENTER;
         panel.add(cancelButton, constraints);
@@ -86,11 +98,13 @@ public class CreateUserDialog extends JDialog {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
         String email = emailField.getText();
+        String firstName = firstNameField.getText();
     
-        User user = userController.createUser(username, password, email);
+        User user = userController.createUser(username, password, email, firstName);
         if (user != null) {
             user.setUsername(username);
             user.setEmail(email);
+            user.setFirstName(firstName);
             dispose();
             //App.showMainFrame(user);
         } else {

@@ -28,10 +28,9 @@ public class MainFrame extends JFrame {
         SettingsPanel settingsPanel = new SettingsPanel();
         SettingsController settingsController = new SettingsController(user, settingsPanel);
 
-        settingsController.updateModel();
-        settingsController.updateView(true);
-
+        
         aboutController.updateView();
+
 
         // Add panels to the tab pane
         tabbedPane.addTab("Home", homePanel);

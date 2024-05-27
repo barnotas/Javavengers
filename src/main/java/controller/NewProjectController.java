@@ -73,7 +73,7 @@ public class NewProjectController {
             projectList.addProject(project);
 
             // Update the home panel and projects panel
-            homePanel.addProject(projectName);
+            homePanel.addProject(projectName, projectDescription);
             projectsPanel.addProject(projectName);
 
             newProjectPanel.dispose();
@@ -87,9 +87,15 @@ public class NewProjectController {
         newProjectPanel.setVisible(true);
     }
 
+
     public void addProject(Project project) {
         projectList.addProject(project);
-        homePanel.addProject(project.getName());
+        homePanel.addProject(project.getName(), project.getDescription());
         projectsPanel.addProject(project.getName());
+
+        homePanel.revalidate();
+        homePanel.repaint();
+        projectsPanel.revalidate();
+        projectsPanel.repaint();
     }
 }

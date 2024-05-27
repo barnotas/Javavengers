@@ -9,6 +9,7 @@ public class User implements Serializable {
     private String email;
     private String password;
     private String username;
+    private String firstName;
 
     /**
      * Constructs a new User with the specified first name and email address.
@@ -16,10 +17,11 @@ public class User implements Serializable {
      * @param username the username of the user
      * @param password     the password of the user
      */
-    public User(String username, String password, String email) {
+    public User(String username, String password, String email, String firstName) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.firstName = firstName;
     }
     
 
@@ -105,5 +107,14 @@ public class User implements Serializable {
    
     public boolean authenticate(String username, String password) {
         return this.username.equals(username) && this.password.equals(password);
+    }
+
+
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+    public String getFirstName(){
+        return firstName;
     }
 }

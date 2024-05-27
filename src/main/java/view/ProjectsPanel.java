@@ -2,6 +2,7 @@ package view;
 
 import controller.NewProjectController;
 import model.NewProjectModel;
+import model.Project;
 import model.ProjectList;
 
 import javax.swing.*;
@@ -24,8 +25,8 @@ public class ProjectsPanel extends JPanel {
         JPanel projectListPanel = new JPanel(new BorderLayout());
         projectListModel = new DefaultListModel<>();
         projectList = new JList<>(projectListModel);
-       // projectListPanel.add(new JScrollPane(projectList), BorderLayout.CENTER);
-        add(projectListPanel, BorderLayout.EAST);
+        projectListPanel.add(new JScrollPane(projectList), BorderLayout.CENTER);
+        add(projectListPanel, BorderLayout.WEST);
 
         // Create a panel for the project details
         JPanel projectDetailsPanel = new JPanel(new GridBagLayout());
@@ -84,5 +85,21 @@ public class ProjectsPanel extends JPanel {
         projectListModel.addElement(projectName);
         revalidate();
         repaint();
+    }
+       public void addProject(Project project) {
+        String listEntry = project.getName() + " - Description: " + project.getDescription();
+        projectListModel.addElement(listEntry);
+        revalidate();
+        repaint();
+    }
+    public void addProject(String projectName, String projectDescription) {
+        String listEntry = projectName + " - Description: " + projectDescription;
+        projectListModel.addElement(listEntry);
+        revalidate();
+        repaint();
+    }
+
+    public void setNewProjectController(NewProjectController newProjectController) {
+        this.newProjectController = newProjectController;
     }
 }

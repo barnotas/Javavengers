@@ -5,160 +5,79 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class SettingsPanel extends JPanel {
-    private JLabel welcomeLabel;
-    private JLabel nameLabel;
-    private JLabel emailLabel;
-    private JTextField firstNameField;
+    private JTextField usernameField;
     private JTextField emailField;
+    private JButton saveButton;
     private JButton exportButton;
     private JButton importButton;
-    private JButton exportInfoButton;
-    private JButton importInfoButton;
-    private JLabel loginStatusLabel;
-
 
     public SettingsPanel() {
         setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
-        constraints.insets = new Insets(10, 10, 10, 10);
+        constraints.insets = new Insets(5, 5, 5, 5);
 
-        // Create and add the welcome label
-        welcomeLabel = new JLabel("Welcome to Project Peak!");
-        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        // Username
         constraints.gridx = 0;
         constraints.gridy = 0;
-        constraints.gridwidth = 2;
-        constraints.anchor = GridBagConstraints.CENTER;
-        add(welcomeLabel, constraints);
+        add(new JLabel("Username:"), constraints);
 
-        // Create and add the name label
-        nameLabel = new JLabel();
-        nameLabel.setFont(new Font("Arial", Font.PLAIN, 16));
+        constraints.gridx = 1;
+        constraints.gridy = 0;
+        usernameField = new JTextField(20);
+        usernameField.setEditable(false);
+        add(usernameField, constraints);
+
+        // Email
         constraints.gridx = 0;
         constraints.gridy = 1;
-        constraints.gridwidth = 1;
-        constraints.anchor = GridBagConstraints.LINE_START;
-        add(nameLabel, constraints);
+        add(new JLabel("Email:"), constraints);
 
-        // Create and add the email label
-        emailLabel = new JLabel();
-        emailLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-        emailLabel.setVisible(false); // Hide the email label initially
-        constraints.gridx = 0;
-        constraints.gridy = 2;
-        constraints.gridwidth = 1;
-        constraints.anchor = GridBagConstraints.LINE_START;
-        add(emailLabel, constraints);
-
-        // Create and add the first name field
-        firstNameField = new JTextField(20);
-        constraints.gridx = 0;
-        constraints.gridy = 3;
-        constraints.gridwidth = 1;
-        constraints.anchor = GridBagConstraints.LINE_START;
-        add(firstNameField, constraints);
-
-        // Create and add the email field
+        constraints.gridx = 1;
+        constraints.gridy = 1;
         emailField = new JTextField(20);
-        emailField.setVisible(false); // Hide the email field initially
-        constraints.gridx = 0;
-        constraints.gridy = 4;
-        constraints.gridwidth = 1;
-        constraints.anchor = GridBagConstraints.LINE_START;
+        emailField.setEditable(false);
         add(emailField, constraints);
 
-        // Create and add the export button
-        exportButton = new JButton("Export Settings");
-        constraints.gridx = 0;
-        constraints.gridy = 5;
-        constraints.gridwidth = 1;
-        constraints.anchor = GridBagConstraints.LINE_START;
-        add(exportButton, constraints);
+        // Buttons
+        JPanel buttonPanel = new JPanel();
+        saveButton = new JButton("Save");
+        exportButton = new JButton("Export");
+        importButton = new JButton("Import");
+        buttonPanel.add(saveButton);
+        buttonPanel.add(exportButton);
+        buttonPanel.add(importButton);
 
-        // Create and add the import button
-        importButton = new JButton("Import Settings");
-        constraints.gridx = 1;
-        constraints.gridy = 5;
-        constraints.gridwidth = 1;
-        constraints.anchor = GridBagConstraints.LINE_START;
-        add(importButton, constraints);
-
-        // Create and add the login status label
-        loginStatusLabel = new JLabel();
-        loginStatusLabel.setFont(new Font("Arial", Font.PLAIN, 16));
         constraints.gridx = 0;
-        constraints.gridy = 6;
+        constraints.gridy = 2;
         constraints.gridwidth = 2;
-        constraints.anchor = GridBagConstraints.CENTER;
-        add(loginStatusLabel, constraints);
-
+        add(buttonPanel, constraints);
     }
-    
 
     public String getUsername() {
-        return firstNameField.getText();
+        return usernameField.getText();
     }
 
-    public void setUsername(String theUsername) {
-        nameLabel.setText("Name: " + theUsername);
-        firstNameField.setText(theUsername);
+    public void setUsername(String username) {
+        usernameField.setText(username);
     }
 
     public String getEmail() {
         return emailField.getText();
     }
 
-    public void setEmail(String theEmail) {
-        emailLabel.setText("Email: " + theEmail);
-        emailField.setText(theEmail);
+    public void setEmail(String email) {
+        emailField.setText(email);
     }
 
-    public void setLoggedIn(boolean theLoggedIn) {
-        // Show/hide the email label and field based on the login status
-        emailLabel.setVisible(theLoggedIn);
-        emailField.setVisible(theLoggedIn);
-
-        // Update the login status label
-        if (theLoggedIn) {
-            loginStatusLabel.setText("Logged In");
-        } else {
-            loginStatusLabel.setText("Logged Out");
-        }
+    public void addSaveButtonListener(ActionListener listener) {
+        saveButton.addActionListener(listener);
     }
 
-    
-
-    public void updatePanel(boolean isLoggedIn) {
-        if (isLoggedIn) {
-            // Update the panel to show the logged-in state
-            // For example, you can show a welcome message or enable certain components
-            JLabel welcomeLabel = new JLabel("Welcome, " + getUsername() + "!");
-            add(welcomeLabel);
-            // Enable or show other components specific to the logged-in state
-        } else {
-            // Update the panel to show the logged-out state
-            // For example, you can clear the panel or disable certain components
-            removeAll();
-            // Disable or hide components specific to the logged-out state
-        }
-        revalidate();
-        repaint();
+    public void addExportButtonListener(ActionListener listener) {
+        exportButton.addActionListener(listener);
     }
 
-    public void addExportSettingsListener(ActionListener theListener) {
-        exportButton.addActionListener(theListener);
+    public void addImportButtonListener(ActionListener listener) {
+        importButton.addActionListener(listener);
     }
-
-    public void addImportSettingsListener(ActionListener theListener) {
-        importButton.addActionListener(theListener);
-    }
-
-    public void addExportInfoListener(ActionListener theListener) {
-        exportInfoButton.addActionListener(theListener);
-    }
-
-    public void addImportInfoListener(ActionListener theListener) {
-        importInfoButton.addActionListener(theListener);
-    }
-
 }

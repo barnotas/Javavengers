@@ -8,7 +8,10 @@ import model.ProjectList;
 import model.User;
 import model.UserRepository;
 
+
 public class App {
+    private static NewProjectController newProjectController;
+    private static SettingsController settingsController;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -23,16 +26,56 @@ public class App {
         SwingUtilities.invokeLater(() -> {
             ProjectList projectList = new ProjectList();
             HomePanel homePanel = new HomePanel();
-            ProjectsPanel projectsPanel = new ProjectsPanel(null);
             SettingsPanel settingsPanel = new SettingsPanel();
             AboutPanel aboutPanel = new AboutPanel();
+    
+            // Create the ProjectsPanel first
+            ProjectsPanel projectsPanel = new ProjectsPanel(newProjectController);
+    
+            // Create the NewProjectModel and NewProjectController
+            NewProjectModel newProjectModel = new NewProjectModel(null, projectList, homePanel, projectsPanel);
+            NewProjectController newProjectController = new NewProjectController(newProjectModel, projectList, homePanel, projectsPanel);
+    
+            // Set the NewProjectController in the ProjectsPanel
+            projectsPanel.setNewProjectController(newProjectController);
+    
+            // Create the ProjectController with the updated ProjectsPanel
             ProjectController projectController = new ProjectController(projectList, homePanel, projectsPanel);
+    
+            // Create the SettingsController
             SettingsController settingsController = new SettingsController(user, settingsPanel);
 
+    
+            // Create and show the MainFrame
             MainFrame mainFrame = new MainFrame(user, homePanel, projectsPanel, settingsPanel, aboutPanel, projectController, settingsController);
             mainFrame.setVisible(true);
         });
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // public static void showMainFrame(User user) {
+    //     SwingUtilities.invokeLater(() -> {
+    //         ProjectList projectList = new ProjectList();
+    //         HomePanel homePanel = new HomePanel();
+    //         ProjectsPanel projectsPanel = new ProjectsPanel(null);
+    //         SettingsPanel settingsPanel = new SettingsPanel();
+    //         AboutPanel aboutPanel = new AboutPanel();
+    //         ProjectController projectController = new ProjectController(projectList, homePanel, projectsPanel);
+    //         SettingsController settingsController = new SettingsController(user, settingsPanel);
+
+    //         MainFrame mainFrame = new MainFrame(user, homePanel, projectsPanel, settingsPanel, aboutPanel, projectController, settingsController);
+    //         mainFrame.setVisible(true);
+    //     });
+    // }
+
+
 
 //     public static void showMainFrame(User user) {
 //     SwingUtilities.invokeLater(() -> {

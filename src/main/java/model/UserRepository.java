@@ -18,12 +18,14 @@ public class UserRepository {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] userData = line.split(",");
-                if (userData.length == 3) {
+                if (userData.length == 4) {
                     String username = userData[0];
                     String password = userData[1];
                     String email = userData[2];
-                    User user = new User(username, password, email);
+                    String firstName = userData[3];
+                    User user = new User(username, password, email, firstName);
                     user.setEmail(email);
+                    user.setFirstName(firstName);
                     userList.add(user);
                 }
             }
@@ -36,7 +38,7 @@ public class UserRepository {
     public void saveUsers() {
         try (PrintWriter writer = new PrintWriter(new FileWriter(USER_FILE))) {
             for (User user : users) {
-                writer.println(user.getUsername() + "," + user.getPassword() + "," + user.getEmail());
+                writer.println(user.getUsername() + "," + user.getPassword() + "," + user.getEmail() + "," + user.getFirstName());
             }
         } catch (IOException e) {
             System.out.println("Error saving users: " + e.getMessage());

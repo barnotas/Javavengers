@@ -36,7 +36,7 @@ public class NewProjectModel {
         Project project = new Project(name, description);
         project.setBudget(budget);
         projectList.addProject(project);
-        homePanel.addProject(name);
+        homePanel.addProject(name, description);
         projectsPanel.addProject(name);
     }
 
