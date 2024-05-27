@@ -19,7 +19,7 @@ public class HomePanel extends JPanel {
     public void addProject(String projectName, String projectDescription) {
         String listEntry = projectName + " - Description: " + projectDescription;
         projectListModel.addElement(listEntry);
-        revalidate();
-        repaint();
+      //  revalidate();
+     //   repaint();
     }
 }
