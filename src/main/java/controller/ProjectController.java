@@ -27,11 +27,11 @@ public class ProjectController {
     public void addProject(Project project) {
         projectList.addProject(project);
         homePanel.addProject(project.getName(), project.getDescription());
-        projectsPanel.addProject(project);
-        homePanel.revalidate();
-        homePanel.repaint();
-        projectsPanel.revalidate();
-        projectsPanel.repaint();
+        //projectsPanel.addProject(project);
+        // homePanel.revalidate();
+        // homePanel.repaint();
+        // projectsPanel.revalidate();
+        // projectsPanel.repaint();
     }
 
     public void showNewProjectPopup(Window window) {
