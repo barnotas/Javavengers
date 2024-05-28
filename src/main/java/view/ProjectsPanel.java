@@ -81,17 +81,17 @@ public class ProjectsPanel extends JPanel {
         expensesLabel.setText("Expenses: $" + expenses);
     }
 
-    // public void addProject(String projectName) {
-    //     projectListModel.addElement(projectName);
-    //     revalidate();
-    //     repaint();
-    // }
-    //    public void addProject(Project project) {
-    //     String listEntry = project.getName() + " - Description: " + project.getDescription();
-    //     projectListModel.addElement(listEntry);
-    //     revalidate();
-    //     repaint();
-    // }
+    public void addProject(String projectName) {
+        projectListModel.addElement(projectName);
+        revalidate();
+        repaint();
+    }
+       public void addProject(Project project) {
+        String listEntry = project.getName() + " - Description: " + project.getDescription();
+        projectListModel.addElement(listEntry);
+        revalidate();
+        repaint();
+    }
     public void addProject(String projectName, String projectDescription) {
         String listEntry = projectName + " - Description: " + projectDescription;
         projectListModel.addElement(listEntry);
