@@ -1,17 +1,36 @@
 package model;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+/**
+ * Controller for the About section of the application.
+ *
+ * @author Bernard Bega, Barno Tashpulatova, Ahmed Hassan, Mahri Yalkapova
+ */
 
 public class UserRepository {
+    /**
+     * A static field for user file path.
+     */
     private static final String USER_FILE = "/Users/ahmed/360project/Javavengers-1/Javavengers/Users.txt";
     private List<User> users;
 
+    /**
+     * Constructs user repository class.
+     */
     public UserRepository() {
         this.users = loadUsers();
     }
 
+    /**
+     * Reads user credentials from given file.
+     * @return
+     */
     private List<User> loadUsers() {
         List<User> userList = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(USER_FILE))) {

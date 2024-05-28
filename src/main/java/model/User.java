@@ -1,6 +1,14 @@
 package model;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.io.Serializable;
 
 /**
  * Represents a user with a first name and email address.
@@ -25,19 +33,31 @@ public class User implements Serializable {
     }
     
 
-
+    /**
+     * Returns username.
+     * @return
+     */
     public String getUsername() {
         return username;
     }
-    
+    /**
+     * Sets username.
+     * @param username
+     */
     public void setUsername(String username) {
         this.username = username;
     }
-    
+    /**
+     * Returns password.
+     * @return
+     */
     public String getPassword() {
         return password;
     }
-    
+    /**
+     * Sets password.
+     * @param password
+     */
     public void setPassword(String password) {
         this.password = password;
     }
@@ -60,6 +80,10 @@ public class User implements Serializable {
         this.email = email;
     }
 
+    /**
+     * Exports a file from local path to the system.
+     * @param filePath
+     */
     public void exportSettings(String filePath) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
             writer.println(username);
@@ -71,6 +95,10 @@ public class User implements Serializable {
         }
     }
 
+    /**
+     * Imports a file from local path to the system.
+     * @param filePath
+     */
     public void importSettings(String filePath) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String username = reader.readLine();
@@ -111,9 +139,17 @@ public class User implements Serializable {
 
 
 
+    /**
+     * Sets first name.
+     * @param firstName
+     */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
+    /**
+     * Returns first name.
+     * @return
+     */
     public String getFirstName(){
         return firstName;
     }

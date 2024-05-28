@@ -1,8 +1,8 @@
 package model;
 
-import view.HomePanel;
-import view.NewProjectPanel;
-import view.ProjectsPanel;
+import src.main.java.view.HomePanel;
+import src.main.java.view.NewProjectPanel;
+import src.main.java.view.ProjectsPanel;
 
 /**
  * Represents a model for creating a new project.
