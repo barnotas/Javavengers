@@ -1,9 +1,6 @@
 package modelT;
 
-import org.junit.jupiter.api.Test;
 import model.ProjectDocument;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Unit tests for the ProjectDocument class.

@@ -1,7 +1,5 @@
 package modelT;
 
-import org.junit.jupiter.api.Test;
-
 /**
  * Unit tests for the NewProjectModel class.
  *

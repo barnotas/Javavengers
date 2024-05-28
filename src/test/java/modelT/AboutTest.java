@@ -1,10 +1,6 @@
 package modelT;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import model.About;
-import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for the About class.

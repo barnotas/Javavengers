@@ -1,6 +1,5 @@
 package modelT;
 
-import org.junit.jupiter.api.Test;
 import model.ProjectList;
 
 /**
