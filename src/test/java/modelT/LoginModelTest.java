@@ -1,4 +1,4 @@
-package test.java.modelT;
+package modelT;
 
 import model.LoginModel;
 import org.junit.jupiter.api.Test;

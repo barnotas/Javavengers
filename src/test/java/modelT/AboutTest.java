@@ -1,4 +1,4 @@
-package test.java.modelT;
+package modelT;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
