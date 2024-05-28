@@ -25,7 +25,7 @@ public class ProjectController {
     }
 
     public void addProject(Project project) {
-        projectList.addProject(project);
+        //projectList.addProject(project);
         homePanel.addProject(project.getName(), project.getDescription());
         projectsPanel.addProject(project);
         homePanel.revalidate();
