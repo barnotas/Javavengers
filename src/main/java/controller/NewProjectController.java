@@ -70,11 +70,11 @@ public class NewProjectController {
             // Create the project and add it to the project list
             Project project = new Project(projectName, projectDescription);
             project.setBudget(projectBudget);
-            projectList.addProject(project);
+            //projectList.addProject(project);
 
             // Update the home panel and projects panel
             homePanel.addProject(projectName, projectDescription);
-           // projectsPanel.addProject(projectName);
+            //projectsPanel.addProject(projectName);
 
             newProjectPanel.dispose();
         } catch (NumberFormatException e) {
@@ -89,9 +89,9 @@ public class NewProjectController {
 
 
     public void addProject(Project project) {
-        projectList.addProject(project);
-        homePanel.addProject(project.getName(), project.getDescription());
-       // projectsPanel.addProject(project.getName());
+        //projectList.addProject(project);
+        //homePanel.addProject(project.getName(), project.getDescription());
+        //projectsPanel.addProject(project.getName());
 
         homePanel.revalidate();
         homePanel.repaint();
