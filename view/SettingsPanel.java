@@ -1,22 +1,71 @@
 package view;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+/**
+ * Represents JPanel window for displaying GUI components.
+ * This class provides a window container for setting feature.
+ * 
+ * @author Bega Bernard
+ * @author Mahri Yalkapova
+ * @author Ahmed Hassan 
+ * @author Barno Tashpulatova
+ * @version 1.1
+ */
+
 public class SettingsPanel extends JPanel {
+    /**
+     * A field for welcome label.
+     */
     private JLabel welcomeLabel;
+    /**
+     * A field for name label.
+     */
     private JLabel nameLabel;
+    /**
+     * A field for email label.
+     */
     private JLabel emailLabel;
+    /**
+     * A field for first name field.
+     */
     private JTextField firstNameField;
+    /**
+     * A field for email field.
+     */
     private JTextField emailField;
+    /**
+     * A field for export button.
+     */
     private JButton exportButton;
+    /**
+     * A field for import button.
+     */
     private JButton importButton;
+    /**
+     * A field for export info button.
+     */
     private JButton exportInfoButton;
+    /**
+     * A field for import info button.
+     */
     private JButton importInfoButton;
+    /**
+     * A field for login status label.
+     */
     private JLabel loginStatusLabel;
 
+    /**
+     * Constructs the panel with components.
+     */
     public SettingsPanel() {
         setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
@@ -93,25 +142,42 @@ public class SettingsPanel extends JPanel {
 
     }
     
-
+    /**
+     * Returns first name.
+     * @return
+     */
     public String getFirstName() {
         return firstNameField.getText();
     }
-
+    /**
+     * Sets first name.
+     * @param firstName
+     */
     public void setFirstName(String firstName) {
         nameLabel.setText("Name: " + firstName);
         firstNameField.setText(firstName);
     }
+    /**
+     * Returns email.
+     * @return
+     */
 
     public String getEmail() {
         return emailField.getText();
     }
-
+    /**
+     * Sets email.
+     * @param email
+     */
     public void setEmail(String email) {
         emailLabel.setText("Email: " + email);
         emailField.setText(email);
     }
-
+    
+    /**
+     * Sets loggedIn.
+     * @param loggedIn
+     */
     public void setLoggedIn(boolean loggedIn) {
         // Show/hide the email label and field based on the login status
         emailLabel.setVisible(loggedIn);
@@ -126,7 +192,10 @@ public class SettingsPanel extends JPanel {
     }
 
     
-
+    /**
+     * Updates panel when authentication is successful.
+     * @param isLoggedIn
+     */
     public void updatePanel(boolean isLoggedIn) {
         if (isLoggedIn) {
             // Update the panel to show the logged-in state
@@ -143,18 +212,32 @@ public class SettingsPanel extends JPanel {
         revalidate();
         repaint();
     }
-
+    /**
+     * Action listener for enabling JButtons.
+     * @param listener
+     */
     public void addExportSettingsListener(ActionListener listener) {
         exportButton.addActionListener(listener);
     }
 
+     /**
+     * Action listener for enabling JButtons.
+     * @param listener
+     */
     public void addImportSettingsListener(ActionListener listener) {
         importButton.addActionListener(listener);
     }
-
+    /**
+     * Action listener for enabling JButtons.
+     * @param listener
+     */
     public void addExportInfoListener(ActionListener listener) {
         exportInfoButton.addActionListener(listener);
     }
+    /**
+     * Action listener for enabling JButtons.
+     * @param listener
+     */
 
     public void addImportInfoListener(ActionListener listener) {
         importInfoButton.addActionListener(listener);
