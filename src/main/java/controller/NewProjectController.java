@@ -90,8 +90,8 @@ public class NewProjectController {
 
     public void addProject(Project project) {
         //projectList.addProject(project);
-        homePanel.addProject(project.getName(), project.getDescription());
-        projectsPanel.addProject(project.getName());
+        // homePanel.addProject(project.getName(), project.getDescription());
+        // projectsPanel.addProject(project.getName());
 
         homePanel.revalidate();
         homePanel.repaint();
