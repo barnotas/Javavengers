@@ -1,15 +1,24 @@
 package modelT;
 
 import model.User;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
-public class Usertest {
-    private User user;
+/**
+ * Unit tests for the User class.
+ *
+ * @author Bernard Bega
+ * @version 1.0
+ */
+public class UserTest {
 
-    @Before
-    public void setUp() {
-        user = new User("testuser", "password123", "johndoe", "baldman");
+    /**
+     * Tests User constructor.
+     */
+    @Test
+    public void testUserConstructor() {
+        User user = new User("test", "1234");
+        Assert.assertEquals("test", user.getUsername());
+        Assert.assertEquals("1234", user.getPassword());
     }
 
     @Test

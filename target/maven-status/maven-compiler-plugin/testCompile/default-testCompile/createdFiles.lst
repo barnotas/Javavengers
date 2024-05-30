@@ -1,1 +1,6 @@
-modelT/Usertest.class
+modelT\ProjectDocumentTest.class
+modelT\ProjectTest.class
+test\java\modelT\AboutTest.class
+modelT\LoginModelTest.class
+modelT\SettingsTest.class
+modelT\UserTest.class
