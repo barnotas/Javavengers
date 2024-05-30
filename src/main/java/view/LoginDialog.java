@@ -6,10 +6,30 @@ import model.User;
 import javax.swing.*;
 import java.awt.*;
 
+
+/**
+ * The LoginDialog class represents a dialog window for user login.
+ * It allows users to enter their username and password to authenticate and log in to the application.
+ * The dialog also provides an option to create a new user account.
+ */
+
 public class LoginDialog extends JDialog {
+
+    /** The UserController instance for handling user authentication. */
     private UserController userController;
+
+    /** The JTextField for entering the username. */
     private JTextField usernameField;
+
+    /** The JPasswordField for entering the password. */
     private JPasswordField passwordField;
+
+    
+    /**
+     * Constructs a new LoginDialog with the specified UserController.
+     *
+     * @param userController the UserController instance for handling user authentication
+     */
 
     public LoginDialog(UserController userController) {
         this.userController = userController;
@@ -22,6 +42,10 @@ public class LoginDialog extends JDialog {
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Initializes the components of the LoginDialog.
+     * Creates and configures the necessary UI components such as labels, text fields, and buttons.
+     */
     private void initComponents() {
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
@@ -68,6 +92,12 @@ public class LoginDialog extends JDialog {
         add(panel);
     }
     
+    /**
+     * Handles the login button click event.
+     * Retrieves the entered username and password and attempts to log in the user using the UserController.
+     * If the login is successful, the dialog is disposed, and the main application frame is shown.
+     * If the login fails, an error message is displayed.
+     */
     private void loginButtonClicked() {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
@@ -80,6 +110,10 @@ public class LoginDialog extends JDialog {
         }
     }
 
+    /**
+     * Handles the create user button click event.
+     * Opens a new CreateUserDialog to allow the user to create a new account.
+     */
     private void createUserButtonClicked() {
         CreateUserDialog createUserDialog = new CreateUserDialog(userController);
         createUserDialog.setVisible(true);
