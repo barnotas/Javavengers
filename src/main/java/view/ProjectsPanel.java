@@ -9,6 +9,7 @@ import java.awt.*;
 public class ProjectsPanel extends JPanel {
     private JLabel projectNameLabel;
     private JLabel projectDescriptionLabel;
+
     private JList<String> projectList;
     private DefaultListModel<String> projectListModel;
     private JLabel budgetLabel;
