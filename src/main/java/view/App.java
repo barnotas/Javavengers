@@ -3,23 +3,10 @@ package view;
 import javax.swing.SwingUtilities;
 
 import controller.*;
-<<<<<<< HEAD
-import model.NewProjectModel;
-import model.ProjectList;
-import model.*;
-
-
-public class App {
-    private static NewProjectController newProjectController;
-    private static SettingsController settingsController;
-    private static About about;
-
-=======
 import model.*;
 import view.*;
 
 public class App {
->>>>>>> Ahmed
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             UserRepository userRepository = new UserRepository();
@@ -35,25 +22,6 @@ public class App {
             HomePanel homePanel = new HomePanel();
             SettingsPanel settingsPanel = new SettingsPanel();
             AboutPanel aboutPanel = new AboutPanel();
-<<<<<<< HEAD
-    
-            // Create the ProjectsPanel first
-            ProjectsPanel projectsPanel = new ProjectsPanel(newProjectController);
-    
-            // Create the NewProjectModel and NewProjectController
-            NewProjectModel newProjectModel = new NewProjectModel(null, projectList, homePanel, projectsPanel);
-            NewProjectController newProjectController = new NewProjectController(newProjectModel, projectList, homePanel, projectsPanel);
-    
-            // Set the NewProjectController in the ProjectsPanel
-            projectsPanel.setNewProjectController(newProjectController);
-    
-            // Create the ProjectController with the updated ProjectsPanel
-            ProjectController projectController = new ProjectController(projectList, homePanel, projectsPanel);
-    
-            // Create the SettingsController
-            SettingsController settingsController = new SettingsController(user, about, settingsPanel);
-=======
->>>>>>> Ahmed
 
             // Create the ProjectRepository
             ProjectRepository projectRepository = new ProjectRepository();
