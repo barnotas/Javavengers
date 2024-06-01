@@ -31,4 +31,7 @@ public class AboutController {
         view.setDevTeam("Developed by: " + model.getDevTeam());
         view.setDevs(model.getDevs());
     }
+    public void exportAbout(String filePath) {
+        model.exportAbout(filePath);
+    }
 }

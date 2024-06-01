@@ -26,7 +26,7 @@ public class MainFrame extends JFrame {
         AboutController aboutController = new AboutController(about, aboutPanel);
         User user = userController.getCurrentUser();
         SettingsPanel settingsPanel = new SettingsPanel();
-        SettingsController settingsController = new SettingsController(user, settingsPanel);
+        SettingsController settingsController = new SettingsController(user, about, settingsPanel);
 
         
         aboutController.updateView();
@@ -62,7 +62,7 @@ public class MainFrame extends JFrame {
             projectsPanel = new ProjectsPanel(newProjectController);
     
 
-            settingsController = new SettingsController(user, settingsPanel);
+            settingsController = new SettingsController(user, about, settingsPanel);
 
             aboutController.updateView();
 
