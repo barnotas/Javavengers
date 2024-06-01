@@ -38,7 +38,7 @@ public class ProjectController {
                 projectsPanel.addProject(project);
             }
         }
-    }
+   }
 
     public void loadProjects(User user) {
         if (homePanel != null) {
