@@ -38,7 +38,7 @@ public class ProjectController {
                 projectsPanel.updateProject(index, project);
             }
         }
-    }
+   }
 
     public void deleteProject(Project project) {
         boolean removed = projectRepository.removeProject(project);
