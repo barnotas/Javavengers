@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserRepository {
-    private static final String USER_FILE = "/Users/ahmed/360project/Javavengers-1/Javavengers/Users.txt";
+    private static final String USER_FILE = "Javavengers/Users.txt";
     private List<User> users;
 
     public UserRepository() {
