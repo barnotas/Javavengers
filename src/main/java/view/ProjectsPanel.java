@@ -23,23 +23,7 @@ public class ProjectsPanel extends JPanel {
      * The JLabel for displaying the project description.
      */
     private JLabel projectDescriptionLabel;
-<<<<<<< HEAD
 
-    /**
-     * The JButton for adding a new project.
-     */
-    private JButton newProjectButton;
-
-    /**
-     * The NewProjectController instance for handling the creation of new projects.
-     */
-    private NewProjectController newProjectController;
-
-    /**
-     * The JList for displaying the list of projects.
-     */
-=======
->>>>>>> Ahmed
     private JList<String> projectList;
 
     /**

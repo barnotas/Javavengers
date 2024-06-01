@@ -20,12 +20,6 @@ public class MainFrame extends JFrame {
         // Create panels for each tab
         About about = new About();
         AboutController aboutController = new AboutController(about, aboutPanel);
-<<<<<<< HEAD
-        User user = userController.getCurrentUser();
-        SettingsPanel settingsPanel = new SettingsPanel();
-        SettingsController settingsController = new SettingsController(user, about, settingsPanel);
-=======
->>>>>>> Ahmed
 
         ProjectRepository projectRepository = projectController.getProjectRepository();
         List<Project> projects = projectRepository.getProjects();
@@ -50,20 +44,3 @@ public class MainFrame extends JFrame {
 
 
 
-<<<<<<< HEAD
-            settingsController = new SettingsController(user, about, settingsPanel);
-
-            aboutController.updateView();
-
-            // Add panels to the tab pane
-            tabbedPane.addTab("Home", homePanel);
-            tabbedPane.addTab("Projects", projectsPanel);
-            tabbedPane.addTab("About", aboutPanel);
-            tabbedPane.addTab("Settings", settingsPanel);
-
-            // Add tab pane to the frame
-            add(tabbedPane);
-        }
-}
-=======
->>>>>>> Ahmed
