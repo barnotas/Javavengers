@@ -5,13 +5,13 @@ import javax.swing.SwingUtilities;
 import controller.*;
 import model.NewProjectModel;
 import model.ProjectList;
-import model.User;
-import model.UserRepository;
+import model.*;
 
 
 public class App {
     private static NewProjectController newProjectController;
     private static SettingsController settingsController;
+    private static About about;
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
@@ -43,7 +43,7 @@ public class App {
             ProjectController projectController = new ProjectController(projectList, homePanel, projectsPanel);
     
             // Create the SettingsController
-            SettingsController settingsController = new SettingsController(user, settingsPanel);
+            SettingsController settingsController = new SettingsController(user, about, settingsPanel);
 
     
             // Create and show the MainFrame
