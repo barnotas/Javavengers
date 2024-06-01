@@ -19,31 +19,14 @@ public class ProjectController {
         this.projectsPanel = projectsPanel;
     }
 
-    public ProjectController() {
-
-    }
-
-    public void addProject(Project project) {
-        projectList.addProject(project);
-        homePanel.addProject(project.getName(), project.getDescription());
-        projectsPanel.addProject(project);
-        homePanel.revalidate();
-        homePanel.repaint();
-        projectsPanel.revalidate();
-        projectsPanel.repaint();
-    }
-
-    public void updateProject(Project project) {
-        int index = projectRepository.getProjects().indexOf(project);
-        if (index != -1) {
-            projectRepository.getProjects().set(index, project);
-            projectRepository.saveProjects();
-            homePanel.updateProject(index, project.getName(), project.getDescription(), project.getBudget(), project.getExpenses());
-            if (projectsPanel != null) {
-                projectsPanel.updateProject(index, project);
-            }
+   public void createProject(Project project) {
+        projectRepository.addProject(project);
+        projectRepository.saveProjects();
+        homePanel.addProject(project.getName(), project.getDescription(), project.getBudget(), project.getExpenses());
+        if (projectsPanel != null) {
+            projectsPanel.addProject(project);
         }
-    }
+   }
 
     public void deleteProject(Project project) {
         boolean removed = projectRepository.removeProject(project);

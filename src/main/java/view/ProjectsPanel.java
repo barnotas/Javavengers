@@ -58,18 +58,8 @@ public class ProjectsPanel extends JPanel {
     private JLabel expensesLabel;
     private ProjectController projectController;
 
-<<<<<<< HEAD
-    /**
-     * Constructs a new ProjectsPanel with the specified NewProjectController.
-     *
-     * @param projectController the NewProjectController instance for handling the creation of new projects
-     */
-
-    public ProjectsPanel(NewProjectController projectController) {
-=======
     public ProjectsPanel(ProjectController projectController) {
         this.projectController = projectController;
->>>>>>> Ahmed
         setLayout(new BorderLayout());
 
         // Create a panel for the project list
