@@ -3,16 +3,10 @@ package view;
 import javax.swing.SwingUtilities;
 
 import controller.*;
-import model.NewProjectModel;
-import model.ProjectList;
 import model.*;
-
+import view.*;
 
 public class App {
-    private static NewProjectController newProjectController;
-    private static SettingsController settingsController;
-    private static About about;
-
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             UserRepository userRepository = new UserRepository();
@@ -28,73 +22,29 @@ public class App {
             HomePanel homePanel = new HomePanel();
             SettingsPanel settingsPanel = new SettingsPanel();
             AboutPanel aboutPanel = new AboutPanel();
-    
-            // Create the ProjectsPanel first
-            ProjectsPanel projectsPanel = new ProjectsPanel(newProjectController);
-    
-            // Create the NewProjectModel and NewProjectController
-            NewProjectModel newProjectModel = new NewProjectModel(null, projectList, homePanel, projectsPanel);
-            NewProjectController newProjectController = new NewProjectController(newProjectModel, projectList, homePanel, projectsPanel);
-    
-            // Set the NewProjectController in the ProjectsPanel
-            projectsPanel.setNewProjectController(newProjectController);
-    
-            // Create the ProjectController with the updated ProjectsPanel
-            ProjectController projectController = new ProjectController(projectList, homePanel, projectsPanel);
-    
+
+            // Create the ProjectRepository
+            ProjectRepository projectRepository = new ProjectRepository();
+
+            // Create the ProjectController
+            ProjectController projectController = new ProjectController(projectRepository, homePanel);
+
+            // Create the ProjectsPanel with the ProjectController
+            ProjectsPanel projectsPanel = new ProjectsPanel(projectController);
+            
+            // Set the ProjectsPanel in the ProjectController
+            projectController.setProjectsPanel(projectsPanel);
+
             // Create the SettingsController
+            About about = new About();
             SettingsController settingsController = new SettingsController(user, about, settingsPanel);
 
-    
             // Create and show the MainFrame
             MainFrame mainFrame = new MainFrame(user, homePanel, projectsPanel, settingsPanel, aboutPanel, projectController, settingsController);
             mainFrame.setVisible(true);
         });
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    // public static void showMainFrame(User user) {
-    //     SwingUtilities.invokeLater(() -> {
-    //         ProjectList projectList = new ProjectList();
-    //         HomePanel homePanel = new HomePanel();
-    //         ProjectsPanel projectsPanel = new ProjectsPanel(null);
-    //         SettingsPanel settingsPanel = new SettingsPanel();
-    //         AboutPanel aboutPanel = new AboutPanel();
-    //         ProjectController projectController = new ProjectController(projectList, homePanel, projectsPanel);
-    //         SettingsController settingsController = new SettingsController(user, settingsPanel);
-
-    //         MainFrame mainFrame = new MainFrame(user, homePanel, projectsPanel, settingsPanel, aboutPanel, projectController, settingsController);
-    //         mainFrame.setVisible(true);
-    //     });
-    // }
-
-
-
-//     public static void showMainFrame(User user) {
-//     SwingUtilities.invokeLater(() -> {
-//         ProjectList projectList = new ProjectList();
-//         HomePanel homePanel = new HomePanel();
-//         SettingsPanel settingsPanel = new SettingsPanel();
-//         AboutPanel aboutPanel = new AboutPanel();
-
-//         ProjectController projectController = new ProjectController(projectList, homePanel, null);
-//         NewProjectModel newProjectModel = new NewProjectModel();
-//         NewProjectController newProjectController = new NewProjectController(newProjectModel, projectList, homePanel, null);
-//         ProjectsPanel projectsPanel = new ProjectsPanel(newProjectController);
-
-//         SettingsController settingsController = new SettingsController(user, settingsPanel);
-
-//         MainFrame mainFrame = new MainFrame(user, homePanel, projectsPanel, settingsPanel, aboutPanel, projectController, settingsController);
-//         mainFrame.setVisible(true);
-//     });
-// }
-
-
 }
+
+
+
