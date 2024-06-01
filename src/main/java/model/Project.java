@@ -1,11 +1,18 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Represents a project with a name and description.
  */
 public class Project {
+
+    private List<ProjectDocument> documents;
     private String name;
     private String description;
+    private double expenses;
+    private double budget;
 
     /**
      * Constructs a new Project with the specified name and description.
@@ -13,9 +20,12 @@ public class Project {
      * @param name        the name of the project
      * @param description the description of the project
      */
-    public Project(String name, String description) {
+    public Project(String name, String description, double budget) {
         this.name = name;
         this.description = description;
+        this.budget = budget;
+        this.documents = new ArrayList<>();
+        this.expenses = 0;
     }
 
     /**
@@ -53,7 +63,30 @@ public class Project {
     public void setDescription(String description) {
         this.description = description;
     }
-    public double setBudget(double budget){
+    public void setBudget(double budget){
+        this.budget = budget;
+    }
+    public double getBudget(){
         return budget;
+    }
+
+    public void addDocument(ProjectDocument document) {
+        documents.add(document);
+    }
+
+    public void removeDocument(ProjectDocument document) {
+        documents.remove(document);
+    }
+
+    public List<ProjectDocument> getDocuments() {
+        return documents;
+    }
+
+    public void addExpense(double amount) {
+        expenses += amount;
+    }
+
+    public double getExpenses() {
+        return expenses;
     }
 }
