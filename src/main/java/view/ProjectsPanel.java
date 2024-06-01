@@ -196,7 +196,6 @@ public class ProjectsPanel extends JPanel {
         expensesLabel.setText("Expenses: $" + expenses);
     }
 
-<<<<<<< HEAD
     public void updateProject(int index, Project project) {
         String listEntry = "Project Name: " + project.getName() + " - Description: " + project.getDescription() +
                 " - Budget: $" + project.getBudget() + " - Expenses: $" + project.getExpenses();
@@ -218,50 +217,5 @@ public class ProjectsPanel extends JPanel {
         if (index != -1) {
             projectListModel.remove(index);
         }
-=======
-    /**
-     * Adds a new project to the project list.
-     *
-     * @param projectName the name of the project to be added
-     */
-    public void addProject(String projectName) {
-        projectListModel.addElement(projectName);
-        revalidate();
-        repaint();
-    }
-
-     /**
-     * Adds a new project to the project list.
-     *
-     * @param project the Project object to be added
-     */
-       public void addProject(Project project) {
-        String listEntry = project.getName() + " - Description: " + project.getDescription();
-        projectListModel.addElement(listEntry);
-        revalidate();
-        repaint();
-    }
-
-    /**
-     * Adds a new project to the project list.
-     *
-     * @param projectName the name of the project to be added
-     * @param projectDescription the description of the project to be added
-     */
-    public void addProject(String projectName, String projectDescription) {
-        String listEntry = projectName + " - Description: " + projectDescription;
-        projectListModel.addElement(listEntry);
-        revalidate();
-        repaint();
-    }
-
-    /**
-     * Sets the NewProjectController instance for handling the creation of new projects.
-     *
-     * @param newProjectController the NewProjectController instance to be set
-     */
-    public void setNewProjectController(NewProjectController newProjectController) {
-        this.newProjectController = newProjectController;
->>>>>>> 99b2288 (little changes)
     }
 }
