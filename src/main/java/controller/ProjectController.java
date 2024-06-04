@@ -45,6 +45,21 @@ public class ProjectController {
             }
         }
    }
+}
+
+    public Project getProject(String projectName) {
+        User currentUser = userController.getCurrentUser();
+        if (currentUser != null){
+            ProjectList projectList = currentUser.getProjectList();
+            for(Project project : projectList.getProjects()){
+                if(project.getName().equals(projectName)){
+                    return project;
+                }
+            }
+        }
+        return null;
+
+    }
 
     public void loadProjects(User user) {
         if (homePanel != null) {
@@ -66,6 +81,7 @@ public class ProjectController {
             }
         }
     }
+
 
     // public void loadProjects(User user) {
     //     ProjectList projectList = user.getProjectList();
@@ -104,8 +120,8 @@ public class ProjectController {
         projectRepository.removeProject(currentUser, project);
         //loadProjects(currentUser);
     }
-}
 
+}
     public ProjectRepository getProjectRepository() {
         return projectRepository;
     }
@@ -113,4 +129,6 @@ public class ProjectController {
     public User getCurrentUser() {
         return userController.getCurrentUser();
     }
+
 }
+
