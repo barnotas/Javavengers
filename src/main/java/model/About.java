@@ -14,11 +14,9 @@ import java.io.Serializable;
  * @version 0.1
  */
 public class About implements Serializable  {
-public class About implements Serializable  {
     /**
      * The version of the application.
      */
-    private static final double VERSION = 1.1;
     private static final double VERSION = 1.1;
 
     /**
@@ -73,17 +71,5 @@ public class About implements Serializable  {
             System.out.println("Error exporting about information: " + e.getMessage());
         }
     }
-}
 
-
-    public void exportAbout(String filePath) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(filePath, true))) {
-            writer.println("About Info below");
-            writer.println("Dev Team: " + DEV_TEAM);
-            writer.println("Developers: " + String.join(", ", DEVS));
-            writer.println("Version: " + VERSION);
-        } catch (IOException e) {
-            System.out.println("Error exporting about information: " + e.getMessage());
-        }
-    }
 }

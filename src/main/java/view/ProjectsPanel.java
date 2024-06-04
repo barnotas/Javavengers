@@ -23,23 +23,10 @@ public class ProjectsPanel extends JPanel {
      * The JLabel for displaying the project description.
      */
     private JLabel projectDescriptionLabel;
-<<<<<<< HEAD
-=======
-
-    /**
-     * The JButton for adding a new project.
-     */
-    private JButton newProjectButton;
-
-    /**
-     * The NewProjectController instance for handling the creation of new projects.
-     */
-    private NewProjectController newProjectController;
 
     /**
      * The JList for displaying the list of projects.
      */
->>>>>>> 99b2288 (little changes)
     private JList<String> projectList;
 
     /**
@@ -58,18 +45,14 @@ public class ProjectsPanel extends JPanel {
     private JLabel expensesLabel;
     private ProjectController projectController;
 
-<<<<<<< HEAD
-    public ProjectsPanel(ProjectController projectController) {
-        this.projectController = projectController;
-=======
     /**
      * Constructs a new ProjectsPanel with the specified NewProjectController.
      *
      * @param projectController the NewProjectController instance for handling the creation of new projects
      */
 
-    public ProjectsPanel(NewProjectController projectController) {
->>>>>>> 99b2288 (little changes)
+    public ProjectsPanel(ProjectController projectController) {
+        this.projectController = projectController;
         setLayout(new BorderLayout());
 
         // Create a panel for the project list
