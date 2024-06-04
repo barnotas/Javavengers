@@ -1,33 +1,44 @@
 package model;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectRepository {
-    private static final String PROJECT_FILE = "/Users/ahmed/360project/Javavengers-1/Javavengers/Projects.txt";
-    private List<Project> projects;
+    private static final String PROJECTS_DIRECTORY = "projects";
 
     public ProjectRepository() {
-        this.projects = loadProjects();
+        File projectsDir = new File(PROJECTS_DIRECTORY);
+        if (!projectsDir.exists()) {
+            projectsDir.mkdirs();
+        }
     }
 
-    private List<Project> loadProjects() {
-        List<Project> projectList = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(PROJECT_FILE))) {
+    public void loadProjects(User user) {
+        ProjectList projectList = user.getProjectList();
+        String userProjectFile = getUserProjectFile(user);
+        File file = new File(userProjectFile);
+
+        if (!file.exists()) {
+            // File doesn't exist, create a new empty file
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                System.out.println("Error creating user project file: " + e.getMessage());
+            }
+            return;
+        }
+        try (BufferedReader reader = new BufferedReader(new FileReader(userProjectFile))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                String[] projectData = line.split(",");
+                String[] projectData = line.split(", ");
                 if (projectData.length == 4) {
                     String name = projectData[0];
                     String description = projectData[1];
                     double budget = Double.parseDouble(projectData[2]);
-                    double expenses = Double.parseDouble(projectData[3]);
+                    double expenses = 0.0;
                     Project project = new Project(name, description, budget);
-                    project.setBudget(budget);
-                    project.addExpense(expenses);
+                    project.setExpenses(expenses);
 
-                    // Load project documents
                     int numDocuments = Integer.parseInt(reader.readLine());
                     for (int i = 0; i < numDocuments; i++) {
                         String documentLine = reader.readLine();
@@ -40,42 +51,60 @@ public class ProjectRepository {
                         }
                     }
 
-                    projectList.add(project);
+                    projectList.addProject(project);
                 }
             }
         } catch (IOException e) {
-            System.out.println("Error loading projects: " + e.getMessage());
+            System.out.println("Error loading projects for user " + user.getUsername() + ": " + e.getMessage());
         }
-        return projectList;
     }
 
-    public void saveProjects() {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(PROJECT_FILE))) {
-            for (Project project : projects) {
-                writer.println(project.getName() + "," + project.getDescription() + "," +
-                        project.getBudget() + "," + project.getExpenses());
-
-                // Save project documents
-                List<ProjectDocument> documents = project.getDocuments();
-                writer.println(documents.size());
-                for (ProjectDocument document : documents) {
-                    writer.println(document.name() + "," + document.getFilepath());
+    public void saveProjects(User user) {
+        String userProjectFile = getUserProjectFile(user);
+        File file = new File(userProjectFile);
+    
+        try {
+            // Create the file if it doesn't exist
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+    
+            try (PrintWriter writer = new PrintWriter(new FileWriter(file))) {
+                ProjectList projectList = user.getProjectList();
+                List<Project> projects = projectList.getProjects();
+                for (Project project : projects) {
+                    writer.println(project.getName() + ", " + project.getDescription() + ", " + project.getBudget() + ", " + project.getExpenses());
+    
+                    List<ProjectDocument> documents = project.getDocuments();
+                    int numDocuments = documents.size();
+                    writer.println(numDocuments);
+    
+                    if (numDocuments > 0) {
+                        for (ProjectDocument document : documents) {
+                            writer.println(document.name() + "," + document.getFilepath());
+                        }
+                    }
                 }
+                writer.flush(); // Flush the PrintWriter to ensure data is written to the file
             }
         } catch (IOException e) {
-            System.out.println("Error saving projects: " + e.getMessage());
+            System.out.println("Error saving projects for user " + user.getUsername() + ": " + e.getMessage());
         }
     }
 
-    public void addProject(Project project) {
-        projects.add(project);
+
+    private String getUserProjectFile(User user) {
+        String uniqueIdentifier = user.getEmail().replace("@", "_").replace(".", "_"); // Replace '@' and '.' with '_' in the email address
+        return PROJECTS_DIRECTORY + "/" + user.getUsername() + "_" + uniqueIdentifier + "_projects.txt";
     }
 
-    public List<Project> getProjects() {
-        return projects;
+    public void addProject(User user, Project project) {
+        user.addProject(project);
+        saveProjects(user);
     }
 
-    public boolean removeProject(Project project) {
-        return projects.remove(project);
+    public void removeProject(User user, Project project) {
+        user.removeProject(project);
+        saveProjects(user);
     }
 }

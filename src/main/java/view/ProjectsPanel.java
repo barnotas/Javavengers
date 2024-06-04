@@ -45,7 +45,7 @@ public class ProjectsPanel extends JPanel {
     /**
      * The DefaultListModel for storing the project list items.
      */
-    private DefaultListModel<String> projectListModel;
+    public DefaultListModel<String> projectListModel;
 
     /**
      * The JLabel for displaying the project budget.
@@ -139,10 +139,13 @@ public class ProjectsPanel extends JPanel {
             String projectName = projectNameField.getText();
             String projectDescription = projectDescriptionArea.getText();
             double projectBudget = Double.parseDouble(projectBudgetField.getText());
-            Project project = new Project(projectName, projectDescription, projectBudget);
-            projectController.createProject(project);
+            projectController.createProject(projectName, projectDescription, projectBudget);
             newProjectDialog.dispose();
+            
+            // Update the UI by loading the projects
+            //projectController.loadProjects(projectController.getCurrentUser());
         });
+        dialogButtonPanel.add(createButton);
         dialogButtonPanel.add(createButton);
     
         newProjectDialog.add(dialogButtonPanel, BorderLayout.SOUTH);
@@ -151,14 +154,6 @@ public class ProjectsPanel extends JPanel {
         newProjectDialog.setLocationRelativeTo(SwingUtilities.getWindowAncestor(this));
         newProjectDialog.setVisible(true);
     }
-
-    public void addProject(Project project) {
-        String listEntry = "Project Name: " + project.getName() + " - Description: " + project.getDescription() + " - Budget: $" + project.getBudget() + " - Expenses: $" + project.getExpenses();
-        projectListModel.addElement(listEntry);
-        revalidate();
-        repaint();
-    }
-
 
      /**
      * Sets the project name to be displayed.
@@ -196,10 +191,20 @@ public class ProjectsPanel extends JPanel {
         expensesLabel.setText("Expenses: $" + expenses);
     }
 
+    public void addProject(Project project) {
+        String listEntry = "Project Name: " + project.getName() + " - Description: " + project.getDescription() + " - Budget: $" + project.getBudget() + " - Expenses: $" + project.getExpenses();
+        projectListModel.addElement(listEntry);
+        revalidate();
+        repaint();
+    }
+
     public void updateProject(int index, Project project) {
         String listEntry = "Project Name: " + project.getName() + " - Description: " + project.getDescription() +
                 " - Budget: $" + project.getBudget() + " - Expenses: $" + project.getExpenses();
         projectListModel.setElementAt(listEntry, index);
+        
+        // Call the ProjectController to update the project
+        projectController.updateProject(project);
     }
     
     public void removeProject(Project project) {
@@ -217,5 +222,13 @@ public class ProjectsPanel extends JPanel {
         if (index != -1) {
             projectListModel.remove(index);
         }
+        
+        // Call the ProjectController to delete the project
+        projectController.deleteProject(project);
+    }
+
+
+    public void clearProjects() {
+        projectListModel.clear();
     }
 }
