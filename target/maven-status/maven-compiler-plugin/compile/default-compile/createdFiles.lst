@@ -10,6 +10,7 @@ view/MainFrame.class
 controller/ProjectController.class
 controller/AboutController.class
 model/Project.class
+view/HomePanel$1.class
 view/AboutPanel.class
 model/ProjectList.class
 model/User.class
