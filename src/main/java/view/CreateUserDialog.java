@@ -101,14 +101,13 @@ public class CreateUserDialog extends JDialog {
         String firstName = firstNameField.getText();
     
         User user = userController.createUser(username, password, email, firstName);
-        if (user != null) {
-            user.setUsername(username);
-            user.setEmail(email);
-            user.setFirstName(firstName);
-            dispose();
-            //App.showMainFrame(user);
-        } else {
-            JOptionPane.showMessageDialog(this, "Failed to create user", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+    if (user != null) {
+        user.setUsername(username);
+        user.setEmail(email);
+        user.setFirstName(firstName);
+        dispose();
+    } else {
+        JOptionPane.showMessageDialog(this, "Failed to create user", "Error", JOptionPane.ERROR_MESSAGE);
+    }
     }
 }

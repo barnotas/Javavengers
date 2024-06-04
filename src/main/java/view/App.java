@@ -16,7 +16,7 @@ public class App {
         });
     }
 
-    public static void showMainFrame(User user) {
+    public static void showMainFrame(User user, UserController userController) {
         SwingUtilities.invokeLater(() -> {
             ProjectList projectList = new ProjectList();
             HomePanel homePanel = new HomePanel();
@@ -27,7 +27,8 @@ public class App {
             ProjectRepository projectRepository = new ProjectRepository();
 
             // Create the ProjectController
-            ProjectController projectController = new ProjectController(projectRepository, homePanel);
+            ProjectController projectController = new ProjectController(projectRepository, homePanel, userController);
+            
 
             // Create the ProjectsPanel with the ProjectController
             ProjectsPanel projectsPanel = new ProjectsPanel(projectController);
