@@ -26,9 +26,15 @@ public class ProjectController {
     public void createProject(String name, String description, double budget) {
         User currentUser = userController.getCurrentUser();
         if (currentUser != null) {
-            Project project = new Project(name, description, budget);
-            currentUser.getProjectList().addProject(project);
-            projectRepository.saveProjects(currentUser);
+            // Check if a project with the same name already exists
+            ProjectList projectList = currentUser.getProjectList();
+            boolean projectExists = projectList.getProjects().stream()
+                    .anyMatch(project -> project.getName().equals(name));
+    
+            if (!projectExists) {
+                Project project = new Project(name, description, budget);
+                currentUser.getProjectList().addProject(project);
+                projectRepository.saveProjects(currentUser);
     
             // Add the new project to the panels
             if (homePanel != null) {
@@ -84,7 +90,7 @@ public class ProjectController {
             }
             
             projectRepository.saveProjects(currentUser);
-            loadProjects(currentUser);
+            //loadProjects(currentUser);
         }
     }
 
@@ -96,7 +102,7 @@ public class ProjectController {
         projectList.getProjects().remove(project);
         
         projectRepository.removeProject(currentUser, project);
-        loadProjects(currentUser);
+        //loadProjects(currentUser);
     }
 }
 
