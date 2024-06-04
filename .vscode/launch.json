@@ -6,6 +6,13 @@
       "name": "App",
       "request": "launch",
       "mainClass": "view.App",
+      "projectName": "your-artifact-id"
+    },
+    {
+      "type": "java",
+      "name": "App",
+      "request": "launch",
+      "mainClass": "view.App",
       "projectName": "Javavengers-1_1ec3c19d"
     },
     {

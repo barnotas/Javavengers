@@ -89,4 +89,8 @@ public class Project {
     public double getExpenses() {
         return expenses;
     }
+
+    public void setExpenses(double expenses) {
+        this.expenses = expenses;
+    }
 }

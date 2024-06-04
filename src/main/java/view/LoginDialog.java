@@ -104,7 +104,7 @@ public class LoginDialog extends JDialog {
         User user = userController.loginUser(username, password);
         if (user != null) {
             dispose();
-            App.showMainFrame(user);
+            App.showMainFrame(user, userController);  // Pass the userController
         } else {
             JOptionPane.showMessageDialog(this, "Invalid username or password", "Login Failed", JOptionPane.ERROR_MESSAGE);
         }

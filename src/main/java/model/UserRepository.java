@@ -5,6 +5,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 /**
@@ -14,48 +18,46 @@ import java.util.List;
  */
 
 public class UserRepository {
-    /**
-     * A static field for user file path.
-     */
-    private static final String USER_FILE = "/Users/ahmed/360project/Javavengers-1/Javavengers/Users.txt";
+    private static final String USER_FOLDER = "user_data";
+    private static final String USER_FILE = "Users.txt";
     private List<User> users;
 
     /**
      * Constructs user repository class.
      */
     public UserRepository() {
+        createUserFolder();
         this.users = loadUsers();
     }
 
-    /**
-     * Reads user credentials from given file.
-     * @return
-     */
     private List<User> loadUsers() {
         List<User> userList = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(USER_FILE))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] userData = line.split(",");
-                if (userData.length == 4) {
-                    String username = userData[0];
-                    String password = userData[1];
-                    String email = userData[2];
-                    String firstName = userData[3];
-                    User user = new User(username, password, email, firstName);
-                    user.setEmail(email);
-                    user.setFirstName(firstName);
-                    userList.add(user);
+        Path userFilePath = Paths.get(USER_FOLDER, USER_FILE);
+
+        if (Files.exists(userFilePath)) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(userFilePath.toFile()))) {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String[] userData = line.split(",");
+                    if (userData.length == 4) {
+                        String username = userData[0];
+                        String password = userData[1];
+                        String email = userData[2];
+                        String firstName = userData[3];
+                        User user = new User(username, password, email, firstName);
+                        userList.add(user);
+                    }
                 }
+            } catch (IOException e) {
+                System.out.println("Error loading users: " + e.getMessage());
             }
-        } catch (IOException e) {
-            System.out.println("Error loading users: " + e.getMessage());
         }
         return userList;
     }
 
     public void saveUsers() {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(USER_FILE))) {
+        Path userFilePath = Paths.get(USER_FOLDER, USER_FILE);
+        try (PrintWriter writer = new PrintWriter(new FileWriter(userFilePath.toFile()))) {
             for (User user : users) {
                 writer.println(user.getUsername() + "," + user.getPassword() + "," + user.getEmail() + "," + user.getFirstName());
             }
@@ -75,5 +77,6 @@ public class UserRepository {
 
     public void addUser(User user) {
         users.add(user);
+        saveUsers();
     }
 }

@@ -2,6 +2,8 @@ package view;
 
 import javax.swing.*;
 
+import model.Project;
+
 public class HomePanel extends JPanel {
     private JList<String> projectList;
     private DefaultListModel<String> projectListModel;
@@ -19,6 +21,7 @@ public class HomePanel extends JPanel {
     public void addProject(String projectName, String projectDescription, double budget, double expenses) {
         String listEntry = "Project Name: " + projectName + " - Description: " + projectDescription + " - Budget: $" + budget + " - Expenses: $" + expenses;
         projectListModel.addElement(listEntry);
+        
     }
 
     public void updateProject(int index, String name, String description, double budget, double expenses) {
@@ -41,5 +44,8 @@ public class HomePanel extends JPanel {
         if (index != -1) {
             projectListModel.remove(index);
         }
+    }
+    public void clearProjects() {
+        projectListModel.clear();
     }
 }
