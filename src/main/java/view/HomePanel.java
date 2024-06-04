@@ -38,6 +38,7 @@ public class HomePanel extends JPanel {
                 " - Budget: $" + budget + " - Expenses: $" + expenses +
                 " - Total Cost: $" + (budget - expenses);
         projectListModel.addElement(listEntry);
+        
     }
 
     public void updateProject(int index, String name, String description, double budget, double expenses) {

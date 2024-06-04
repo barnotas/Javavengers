@@ -19,12 +19,8 @@ public class MainFrame extends JFrame {
         About about = new About();
         AboutController aboutController = new AboutController(about, aboutPanel);
 
-        ProjectRepository projectRepository = projectController.getProjectRepository();
-        List<Project> projects = projectRepository.getProjects();
-        for (Project project : projects) {
-            homePanel.addProject(project.getName(), project.getDescription(), project.getBudget(), project.getExpenses());
-            projectsPanel.addProject(project);
-        }
+        // Load user-specific projects
+        projectController.loadProjects(user);
 
         aboutController.updateView();
 
@@ -38,7 +34,3 @@ public class MainFrame extends JFrame {
         add(tabbedPane);
     }
 }
-
-
-
-
