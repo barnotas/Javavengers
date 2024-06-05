@@ -7,7 +7,6 @@ import model.Project;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 
 public class HomePanel extends JPanel {
     private JList<String> projectList;
@@ -145,28 +144,6 @@ public class HomePanel extends JPanel {
         }
         });
         dialogButtonPanel.add(deleteButton);
-
-        JButton documentButton = new JButton("Add Document");
-            documentButton.addActionListener(e -> {
-                Project project = projectController.getProject(projectName);
-                if (project != null) {
-                    JFileChooser fileChooser = new JFileChooser();
-                    int result = fileChooser.showOpenDialog(this);
-                    if (result == JFileChooser.APPROVE_OPTION) {
-                        File selectedFile = fileChooser.getSelectedFile();
-                        // Create a new ProjectDocument with the selected file
-                        String documentName = selectedFile.getName();
-                        String filePath = selectedFile.getAbsolutePath();
-                        ProjectDocument document = new ProjectDocument(documentName, filePath);
-                        // Add the document to the project
-                        project.addDocument(document);
-                        // Save the updated project
-                        projectController.updateProject(project);
-                        JOptionPane.showMessageDialog(this, "Document added successfully!");
-                    }
-                }
-            });
-        dialogButtonPanel.add(documentButton);
 
         editProjectDialog.add(dialogButtonPanel, BorderLayout.SOUTH);
 
