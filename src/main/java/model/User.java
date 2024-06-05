@@ -1,6 +1,8 @@
 package model;
 
+import java.awt.List;
 import java.io.*;
+import java.util.ArrayList;
 
 /**
  * Represents a user with a first name and email address.
@@ -10,6 +12,7 @@ public class User implements Serializable {
     private String password;
     private String username;
     private String firstName;
+    private ProjectList projectList;
 
     /**
      * Constructs a new User with the specified first name and email address.
@@ -22,8 +25,22 @@ public class User implements Serializable {
         this.password = password;
         this.email = email;
         this.firstName = firstName;
+        this.projectList = new ProjectList();
+
+    }
+
+    public ProjectList getProjectList() {
+        return projectList;
+    }
+
+    public void addProject(Project project) {
+        projectList.addProject(project);
     }
     
+    public void removeProject(Project project) {
+        projectList.getProjects().remove(project);
+    }
+
 
 
     public String getUsername() {

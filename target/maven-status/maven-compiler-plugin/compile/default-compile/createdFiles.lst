@@ -1,7 +1,4 @@
-view\HomePanel.class
 view\SettingsPanel.class
-view\LoginDialog.class
-view\MainFrame.class
-view\NewProjectPanel$CreateProjectListener.class
-view\NewProjectPanel.class
 view\ProjectsPanel.class
+view\ProjectsPanel$2.class
+view\ProjectsPanel$1.class

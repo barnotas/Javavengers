@@ -5,6 +5,7 @@ import model.User;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.regex.Pattern;
 
 public class CreateUserDialog extends JDialog {
     private UserController userController;
@@ -12,6 +13,8 @@ public class CreateUserDialog extends JDialog {
     private JPasswordField passwordField;
     private JTextField emailField;
     private JTextField firstNameField;
+
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]+$");
 
     public CreateUserDialog(UserController userController) {
         this.userController = userController;
@@ -99,16 +102,26 @@ public class CreateUserDialog extends JDialog {
         String password = new String(passwordField.getPassword());
         String email = emailField.getText();
         String firstName = firstNameField.getText();
-    
+
+        // Validate email format
+        if (!isValidEmail(email)) {
+            JOptionPane.showMessageDialog(this, "Invalid email format", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         User user = userController.createUser(username, password, email, firstName);
         if (user != null) {
             user.setUsername(username);
             user.setEmail(email);
             user.setFirstName(firstName);
             dispose();
-            //App.showMainFrame(user);
         } else {
             JOptionPane.showMessageDialog(this, "Failed to create user", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+
+    private boolean isValidEmail(String email) {
+        return EMAIL_PATTERN.matcher(email).matches();
+    }
 }
+

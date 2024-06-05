@@ -15,6 +15,7 @@ public class UserController {
     public User loginUser(String username, String password) {
         User user = userRepository.findUser(username);
         if (user != null && user.getPassword().equals(password)) {
+            currentUser = user;
             return user;
         }
         return null;
