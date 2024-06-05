@@ -2,10 +2,6 @@ package view;
 
 import javax.swing.*;
 
-import controller.ProjectController;
-import model.Project;
-
-
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -13,15 +9,27 @@ import java.awt.event.MouseEvent;
 public class HomePanel extends JPanel {
     private JList<String> projectList;
     private DefaultListModel<String> projectListModel;
-    private ProjectController projectController;
 
 
 
     public HomePanel() {
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        add(new JLabel("Welcome to Project Peak!"));
-        add(new JLabel("This is the home panel."));
-
+        setLayout(new BorderLayout());
+    
+        // Create a panel for the welcome message
+        JPanel welcomePanel = new JPanel(new BorderLayout());
+        welcomePanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0)); // Add some vertical padding
+    
+        // Create a label for the welcome message
+        JLabel welcomeLabel = new JLabel("Welcome to Project Peak!");
+        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 24)); // Set a larger font size
+        welcomeLabel.setHorizontalAlignment(SwingConstants.CENTER); // Center the text horizontally
+        welcomePanel.add(welcomeLabel, BorderLayout.CENTER);
+    
+        // Add the welcome panel to the top of the HomePanel
+        add(welcomePanel, BorderLayout.NORTH);
+    
+        // Create a panel for the project list
+        JPanel projectListPanel = new JPanel(new BorderLayout());
         projectListModel = new DefaultListModel<>();
         projectList = new JList<>(projectListModel);
         projectList.addMouseListener(new MouseAdapter() {
@@ -30,33 +38,38 @@ public class HomePanel extends JPanel {
                 if (e.getClickCount() == 2) {
                     int selectedIndex = projectList.getSelectedIndex();
                     if (selectedIndex != -1) {
-                        showEditProjectDialog(selectedIndex);
+                        showViewProjectDialog(selectedIndex);
                     }
                 }
             }
         });
-        add(new JScrollPane(projectList));
+        projectListPanel.add(new JScrollPane(projectList), BorderLayout.CENTER);
+    
+        // Add the project list panel to the center of the HomePanel
+        add(projectListPanel, BorderLayout.CENTER);
     }
 
-    public void setProjectController(ProjectController projectController) {
-        this.projectController = projectController;
+    public void addProject(String projectName, String projectDescription, double budget, double expenses, boolean isPrivate) {
+        if (!isPrivate) {
+            String listEntry = "Project Name: " + projectName + " - Description: " + projectDescription +
+                    " - Budget: $" + budget + " - Expenses: $" + expenses +
+                    " - Total Cost: $" + (budget - expenses);
+            projectListModel.addElement(listEntry);
+        }
+    }
+    
+    public void updateProject(int index, String name, String description, double budget, double expenses, boolean isPrivate) {
+        if (!isPrivate) {
+            String listEntry = "Project Name: " + name + " - Description: " + description +
+                    " - Budget: $" + budget + " - Expenses: $" + expenses +
+                    " - Total Cost: $" + (budget - expenses);
+            projectListModel.setElementAt(listEntry, index);
+        } else {
+            projectListModel.remove(index);
+        }
     }
 
-    public void addProject(String projectName, String projectDescription, double budget, double expenses) {
-        String listEntry = "Project Name: " + projectName + " - Description: " + projectDescription +
-                " - Budget: $" + budget + " - Expenses: $" + expenses +
-                " - Total Cost: $" + (budget - expenses);
-        projectListModel.addElement(listEntry);
-    }
-
-    public void updateProject(int index, String name, String description, double budget, double expenses) {
-        String listEntry = "Project Name: " + name + " - Description: " + description +
-                " - Budget: $" + budget + " - Expenses: $" + expenses +
-                " - Total Cost: $" + (budget - expenses);
-        projectListModel.setElementAt(listEntry, index);
-    }
-
-    private void showEditProjectDialog(int selectedIndex) {
+    private void showViewProjectDialog(int selectedIndex) {
         String listEntry = projectListModel.getElementAt(selectedIndex);
         String[] parts = listEntry.split(" - ");
         String projectName = parts[0].substring("Project Name: ".length());
@@ -64,94 +77,62 @@ public class HomePanel extends JPanel {
         String projectBudget = parts[2].substring("Budget: $".length());
         String projectExpenses = parts[3].substring("Expenses: $".length());
 
-        JDialog editProjectDialog = new JDialog(SwingUtilities.getWindowAncestor(this), "Edit Project");
-        editProjectDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-        editProjectDialog.setLayout(new BorderLayout());
+        JDialog viewProjectDialog = new JDialog(SwingUtilities.getWindowAncestor(this), "View Project");
+        viewProjectDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        viewProjectDialog.setLayout(new BorderLayout());
 
         // Create a panel for editing the project details
-        JPanel editProjectPanel = new JPanel(new GridBagLayout());
-        GridBagConstraints editProjectConstraints = new GridBagConstraints();
-        editProjectConstraints.gridx = 0;
-        editProjectConstraints.gridy = 0;
-        editProjectConstraints.anchor = GridBagConstraints.WEST;
-        editProjectConstraints.insets = new Insets(5, 5, 5, 5);
+        JPanel viewProjectPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints viewProjectConstraints = new GridBagConstraints();
+        viewProjectConstraints.gridx = 0;
+        viewProjectConstraints.gridy = 0;
+        viewProjectConstraints.anchor = GridBagConstraints.WEST;
+        viewProjectConstraints.insets = new Insets(5, 5, 5, 5);
 
         JLabel projectNameLabel = new JLabel("Project Name:");
-        editProjectPanel.add(projectNameLabel, editProjectConstraints);
+        viewProjectPanel.add(projectNameLabel, viewProjectConstraints);
 
-        editProjectConstraints.gridx = 1;
+        viewProjectConstraints.gridx = 1;
         JTextField projectNameField = new JTextField(projectName, 20);
-        editProjectPanel.add(projectNameField, editProjectConstraints);
+        projectNameField.setEditable(false);
+        viewProjectPanel.add(projectNameField, viewProjectConstraints);
 
-        editProjectConstraints.gridx = 0;
-        editProjectConstraints.gridy = 1;
+        viewProjectConstraints.gridx = 0;
+        viewProjectConstraints.gridy = 1;
         JLabel projectDescriptionLabel = new JLabel("Project Description:");
-        editProjectPanel.add(projectDescriptionLabel, editProjectConstraints);
+        viewProjectPanel.add(projectDescriptionLabel, viewProjectConstraints);
 
-        editProjectConstraints.gridx = 1;
+        viewProjectConstraints.gridx = 1;
         JTextArea projectDescriptionArea = new JTextArea(projectDescription, 4, 20);
+        projectDescriptionArea.setEditable(false);
         JScrollPane projectDescriptionScrollPane = new JScrollPane(projectDescriptionArea);
-        editProjectPanel.add(projectDescriptionScrollPane, editProjectConstraints);
+        viewProjectPanel.add(projectDescriptionScrollPane, viewProjectConstraints);
 
-        editProjectConstraints.gridx = 0;
-        editProjectConstraints.gridy = 2;
+        viewProjectConstraints.gridx = 0;
+        viewProjectConstraints.gridy = 2;
         JLabel projectBudgetLabel = new JLabel("Project Budget:");
-        editProjectPanel.add(projectBudgetLabel, editProjectConstraints);
+        viewProjectPanel.add(projectBudgetLabel, viewProjectConstraints);
 
-        editProjectConstraints.gridx = 1;
+        viewProjectConstraints.gridx = 1;
         JTextField projectBudgetField = new JTextField(projectBudget, 10);
-        editProjectPanel.add(projectBudgetField, editProjectConstraints);
+        projectBudgetField.setEditable(false);
+        viewProjectPanel.add(projectBudgetField, viewProjectConstraints);
 
-        editProjectConstraints.gridx = 0;
-        editProjectConstraints.gridy = 3;
+        viewProjectConstraints.gridx = 0;
+        viewProjectConstraints.gridy = 3;
         JLabel projectExpensesLabel = new JLabel("Project Expenses:");
-        editProjectPanel.add(projectExpensesLabel, editProjectConstraints);
+        viewProjectPanel.add(projectExpensesLabel, viewProjectConstraints);
 
-        editProjectConstraints.gridx = 1;
+        viewProjectConstraints.gridx = 1;
         JTextField projectExpensesField = new JTextField(projectExpenses, 10);
-        editProjectPanel.add(projectExpensesField, editProjectConstraints);
+        projectExpensesField.setEditable(false);
+        viewProjectPanel.add(projectExpensesField, viewProjectConstraints);
 
-        editProjectDialog.add(editProjectPanel, BorderLayout.CENTER);
+        viewProjectDialog.add(viewProjectPanel, BorderLayout.CENTER);
 
-        // Create a panel for the dialog buttons
-        JPanel dialogButtonPanel = new JPanel();
-        JButton saveButton = new JButton("Save");
-        saveButton.addActionListener(e -> {
-            String updatedProjectName = projectNameField.getText();
-            String updatedProjectDescription = projectDescriptionArea.getText();
-            double updatedProjectBudget = Double.parseDouble(projectBudgetField.getText());
-            double updatedProjectExpenses = Double.parseDouble(projectExpensesField.getText());
-
-            // Update the project in the list model
-            updateProject(selectedIndex, updatedProjectName, updatedProjectDescription, updatedProjectBudget, updatedProjectExpenses);
-
-            editProjectDialog.dispose();
-        });
-        dialogButtonPanel.add(saveButton);
-
-        JButton deleteButton = new JButton("Delete");
-        deleteButton.addActionListener(e -> {
-            int confirmResult = JOptionPane.showConfirmDialog(this,
-            "Are you sure you want to delete this project?",
-            "Confirm Delete", JOptionPane.YES_NO_OPTION);
-            if (confirmResult == JOptionPane.YES_OPTION) {
-            // Remove the project from the list model and delete it using the ProjectController
-            String projectname = parts[0].substring("Project Name: ".length());
-            Project projects = projectController.getProject(projectname);
-            if (projects != null) {
-                projectListModel.remove(selectedIndex);
-                projectController.deleteProject(projects);
-            }
-            editProjectDialog.dispose();
-        }
-        });
-        dialogButtonPanel.add(deleteButton);
-
-        editProjectDialog.add(dialogButtonPanel, BorderLayout.SOUTH);
-
-        editProjectDialog.pack();
-        editProjectDialog.setLocationRelativeTo(SwingUtilities.getWindowAncestor(this));
-        editProjectDialog.setVisible(true);
+        viewProjectDialog.pack();
+        viewProjectDialog.setLocationRelativeTo(SwingUtilities.getWindowAncestor(this));
+        viewProjectDialog.setVisible(true);
     }
 
     public void removeProject(String projectName) {
