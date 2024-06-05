@@ -38,7 +38,33 @@ public class ProjectController {
     
                 // Add the new project to the panels
                 if (homePanel != null) {
-                    homePanel.addProject(project.getName(), project.getDescription(), project.getBudget(), project.getExpenses());
+                    homePanel.addProject(project.getName(), project.getDescription(), project.getBudget(), project.getExpenses(), project.isPrivate());
+                }
+                if (projectsPanel != null) {
+                    projectsPanel.addProject(project);
+                }
+            }
+        }
+    }
+
+    public void createProject(String name, String description, double budget, boolean isPrivate, String pin) {
+        User currentUser = userController.getCurrentUser();
+        if (currentUser != null) {
+            // Check if a project with the same name already exists
+            ProjectList projectList = currentUser.getProjectList();
+            boolean projectExists = projectList.getProjects().stream()
+                    .anyMatch(project -> project.getName().equals(name));
+    
+            if (!projectExists) {
+                Project project = new Project(name, description, budget);
+                project.setPrivate(isPrivate);
+                project.setPin(pin);
+                currentUser.getProjectList().addProject(project);
+                projectRepository.saveProjects(currentUser);
+    
+                // Add the new project to the panels
+                if (homePanel != null) {
+                    homePanel.addProject(project.getName(), project.getDescription(), project.getBudget(), project.getExpenses(), project.isPrivate());
                 }
                 if (projectsPanel != null) {
                     projectsPanel.addProject(project);
@@ -69,13 +95,14 @@ public class ProjectController {
         if (projectsPanel != null) {
             projectsPanel.clearProjects();
         }
-    
+        
         projectRepository.loadProjects(user);
-    
+        
         ProjectList projectList = user.getProjectList();
         for (Project project : projectList.getProjects()) {
+            boolean isPrivate = project.isPrivate();
             if (homePanel != null) {
-                homePanel.addProject(project.getName(), project.getDescription(), project.getBudget(), project.getExpenses());
+                homePanel.addProject(project.getName(), project.getDescription(), project.getBudget(), project.getExpenses(), isPrivate);
             }
             if (projectsPanel != null) {
                 projectsPanel.addProject(project);
