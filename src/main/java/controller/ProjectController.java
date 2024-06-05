@@ -122,6 +122,21 @@ public class ProjectController {
     //     }
     // }
 
+    // public void updateProject(Project project) {
+    //     User currentUser = userController.getCurrentUser();
+    //     if (currentUser != null) {
+    //         // Update the Project instance in the ProjectList
+    //         ProjectList projectList = currentUser.getProjectList();
+    //         int index = projectList.getProjects().indexOf(project);
+    //         if (index != -1) {
+    //             projectList.getProjects().set(index, project);
+    //         }
+            
+    //         projectRepository.saveProjects(currentUser);
+    //         //loadProjects(currentUser);
+    //     }
+    // }
+
     public void updateProject(Project project) {
         User currentUser = userController.getCurrentUser();
         if (currentUser != null) {
@@ -133,7 +148,28 @@ public class ProjectController {
             }
             
             projectRepository.saveProjects(currentUser);
-            //loadProjects(currentUser);
+            
+            // Update the HomePanel
+            if (homePanel != null) {
+                int homeIndex = -1;
+                for (int i = 0; i < homePanel.getProjectListModel().getSize(); i++) {
+                    String listEntry = homePanel.getProjectListModel().getElementAt(i);
+                    if (listEntry.startsWith("Project Name: " + project.getName() + " - ")) {
+                        homeIndex = i;
+                        break;
+                    }
+                }
+                
+                // Remove the old project entry from the HomePanel
+                if (homeIndex != -1) {
+                    homePanel.removeProject(project.getName());
+                }
+                
+                // Add or update the project in the HomePanel based on its privacy status
+                if (!project.isPrivate()) {
+                    homePanel.addProject(project.getName(), project.getDescription(), project.getBudget(), project.getExpenses(), project.isPrivate());
+                }
+            }
         }
     }
 
