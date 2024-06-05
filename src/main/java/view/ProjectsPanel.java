@@ -353,32 +353,29 @@ public class ProjectsPanel extends JPanel {
         }
     }
 
-    private void openDocument(ProjectDocument selectedDocument) {
-        try {
-            String filePath = selectedDocument.getFilepath();
-            Path path = Paths.get(filePath);
+private void openDocument(ProjectDocument selectedDocument) {
+    try {
+        String filePath = selectedDocument.getFilepath();
+        Path path = Paths.get(filePath);
 
-            // Get the MIME type of the file
-            String mimeType = Files.probeContentType(path);
-
-            if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.OPEN)) {
-                Desktop desktop = Desktop.getDesktop();
-                desktop.open(path.toFile());
-            } else {
-                // Handle the case when the Desktop API is not supported
-                JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ProjectsPanel.this),
-                        "Failed to open the document. Desktop API is not supported.",
-                        "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            SwingUtilities.invokeLater(() -> {
-                JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ProjectsPanel.this),
-                        "Failed to open the document.",
-                        "Error", JOptionPane.ERROR_MESSAGE);
-            });
+        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.OPEN)) {
+            Desktop desktop = Desktop.getDesktop();
+            desktop.open(path.toFile());
+        } else {
+            // Handle the case when the Desktop API is not supported
+            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ProjectsPanel.this),
+                    "Failed to open the document. Desktop API is not supported.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
+    } catch (IOException ex) {
+        ex.printStackTrace();
+        SwingUtilities.invokeLater(() -> {
+            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ProjectsPanel.this),
+                    "Failed to open the document.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        });
     }
+}
 
     /**
      * Sets the project name to be displayed.
