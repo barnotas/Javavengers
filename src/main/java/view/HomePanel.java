@@ -1,13 +1,22 @@
 package view;
 
 import javax.swing.*;
+
+import controller.ProjectController;
+import model.Project;
+import model.ProjectDocument;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 
 public class HomePanel extends JPanel {
     private JList<String> projectList;
     private DefaultListModel<String> projectListModel;
+    private ProjectController projectController;
+
+
 
     public HomePanel() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -28,6 +37,10 @@ public class HomePanel extends JPanel {
             }
         });
         add(new JScrollPane(projectList));
+    }
+
+    public void setProjectController(ProjectController projectController) {
+        this.projectController = projectController;
     }
 
     public void addProject(String projectName, String projectDescription, double budget, double expenses) {
@@ -116,6 +129,46 @@ public class HomePanel extends JPanel {
             editProjectDialog.dispose();
         });
         dialogButtonPanel.add(saveButton);
+
+        JButton deleteButton = new JButton("Delete");
+        deleteButton.addActionListener(e -> {
+            int confirmResult = JOptionPane.showConfirmDialog(this,
+            "Are you sure you want to delete this project?",
+            "Confirm Delete", JOptionPane.YES_NO_OPTION);
+            if (confirmResult == JOptionPane.YES_OPTION) {
+            // Remove the project from the list model and delete it using the ProjectController
+            String projectname = parts[0].substring("Project Name: ".length());
+            Project projects = projectController.getProject(projectname);
+            if (projects != null) {
+                projectListModel.remove(selectedIndex);
+                projectController.deleteProject(projects);
+            }
+            editProjectDialog.dispose();
+        }
+        });
+        dialogButtonPanel.add(deleteButton);
+
+        JButton documentButton = new JButton("Add Document");
+            documentButton.addActionListener(e -> {
+                Project project = projectController.getProject(projectName);
+                if (project != null) {
+                    JFileChooser fileChooser = new JFileChooser();
+                    int result = fileChooser.showOpenDialog(this);
+                    if (result == JFileChooser.APPROVE_OPTION) {
+                        File selectedFile = fileChooser.getSelectedFile();
+                        // Create a new ProjectDocument with the selected file
+                        String documentName = selectedFile.getName();
+                        String filePath = selectedFile.getAbsolutePath();
+                        ProjectDocument document = new ProjectDocument(documentName, filePath);
+                        // Add the document to the project
+                        project.addDocument(document);
+                        // Save the updated project
+                        projectController.updateProject(project);
+                        JOptionPane.showMessageDialog(this, "Document added successfully!");
+                    }
+                }
+            });
+        dialogButtonPanel.add(documentButton);
 
         editProjectDialog.add(dialogButtonPanel, BorderLayout.SOUTH);
 
