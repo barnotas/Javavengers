@@ -13,6 +13,8 @@ public class Project {
     private String description;
     private double expenses;
     private double budget;
+    private boolean isPrivate;
+    private String pin;
 
     /**
      * Constructs a new Project with the specified name and description.
@@ -26,6 +28,23 @@ public class Project {
         this.budget = budget;
         this.documents = new ArrayList<>();
         this.expenses = 0;
+    }
+
+    public String getPin() {
+        return pin;
+    }
+
+    public void setPin(String pin) {
+        this.pin = pin;
+    }
+    
+    public boolean isPrivate(){
+        return isPrivate;
+
+    } 
+
+    public void setPrivate(boolean isPrivate){
+        this.isPrivate = isPrivate;
     }
 
     /**
