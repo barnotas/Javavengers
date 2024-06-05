@@ -1,12 +1,19 @@
 package view;
 
 import model.Project;
+import model.ProjectDocument;
 import controller.ProjectController;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 
 /**
@@ -14,32 +21,32 @@ import java.awt.event.MouseEvent;
  * It provides a list of projects, project details, and buttons for adding new projects.
  */
 
-    public class ProjectsPanel extends JPanel {
-        
-        /**
-         * The JLabel for displaying the project name.
-         */
-        private JLabel projectNameLabel;
+public class ProjectsPanel extends JPanel {
+    
+    /**
+     * The JLabel for displaying the project name.
+     */
+    private JLabel projectNameLabel;
 
-        /**
-         * The JLabel for displaying the project description.
-         */
-        private JLabel projectDescriptionLabel;
+    /**
+     * The JLabel for displaying the project description.
+     */
+    private JLabel projectDescriptionLabel;
 
 /**
  * The JList for displaying the list of projects.
  */
     private JList<String> projectList;
 
-        /**
-         * The DefaultListModel for storing the project list items.
-         */
-        public DefaultListModel<String> projectListModel;
+    /**
+     * The DefaultListModel for storing the project list items.
+     */
+    public DefaultListModel<String> projectListModel;
 
-        /**
-         * The JLabel for displaying the project budget.
-         */
-        private JLabel budgetLabel;
+    /**
+     * The JLabel for displaying the project budget.
+     */
+    private JLabel budgetLabel;
 
     /**
      * The JLabel for displaying the project expenses.
@@ -273,23 +280,23 @@ public ProjectsPanel(ProjectController projectController) {
         projectDescriptionLabel.setText("Project Description: " + description);
     }
 
-        /**
-         * Sets the project budget to be displayed.
-         *
-         * @param budget the budget of the project
-         */
-        public void setBudget(double budget) {
-            budgetLabel.setText("Budget: $" + budget);
-        }
+    /**
+     * Sets the project budget to be displayed.
+     *
+     * @param budget the budget of the project
+     */
+    public void setBudget(double budget) {
+        budgetLabel.setText("Budget: $" + budget);
+    }
 
-        /**
-         * Sets the project expenses to be displayed.
-         *
-         * @param expenses the expenses of the project
-         */
-        public void setExpenses(double expenses) {
-            expensesLabel.setText("Expenses: $" + expenses);
-        }
+    /**
+     * Sets the project expenses to be displayed.
+     *
+     * @param expenses the expenses of the project
+     */
+    public void setExpenses(double expenses) {
+        expensesLabel.setText("Expenses: $" + expenses);
+    }
 
     public void addProject(Project project) {
         String listEntry = "Project Name: " + project.getName() + " - Description: " + project.getDescription() + " - Budget: $" + project.getBudget() + " - Expenses: $" + project.getExpenses()+
