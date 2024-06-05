@@ -1,6 +1,9 @@
 package view;
 
 import javax.swing.*;
+
+import model.Project;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -124,12 +127,12 @@ public class HomePanel extends JPanel {
         editProjectDialog.setVisible(true);
     }
 
-    public void removeProject(String projectName) {
+    public void removeProject(Project project) {
         // Find the index of the project in the list model
         int index = -1;
         for (int i = 0; i < projectListModel.getSize(); i++) {
             String listEntry = projectListModel.getElementAt(i);
-            if (listEntry.startsWith("Project Name: " + projectName + " - ")) {
+            if (listEntry.startsWith("Project Name: " + project.getName() + " - ")) {
                 index = i;
                 break;
             }

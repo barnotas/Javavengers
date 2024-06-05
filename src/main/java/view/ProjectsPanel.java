@@ -80,9 +80,14 @@ public ProjectsPanel(ProjectController projectController) {
         JButton newProjectButton = new JButton("Add New Project");
         newProjectButton.addActionListener(e -> showCreateNewProjectDialog());
 
+        // Create a button to delete the selected project
+        JButton deleteProjectButton = new JButton("Delete Project");
+        deleteProjectButton.addActionListener(e -> deleteSelectedProject());
+        
         // Create a panel for the buttons
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(newProjectButton);
+        buttonPanel.add(deleteProjectButton);
         add(buttonPanel, BorderLayout.NORTH);
     }
 
@@ -325,6 +330,20 @@ public ProjectsPanel(ProjectController projectController) {
         // Call the ProjectController to delete the project
         projectController.deleteProject(project); 
     }
+
+    private void deleteSelectedProject() {
+        int selectedIndex = projectList.getSelectedIndex();
+        if (selectedIndex != -1) {
+            String listEntry = projectListModel.getElementAt(selectedIndex);
+            String[] parts = listEntry.split(" - ");
+            String projectName = parts[0].substring("Project Name: ".length());
+            Project project = projectController.getProject(projectName);
+            if (project != null) {
+                removeProject(project);
+            }
+        }
+    }
+
     public void clearProjects() {
         projectListModel.clear();
     }

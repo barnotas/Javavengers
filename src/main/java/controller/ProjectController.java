@@ -118,6 +118,7 @@ public class ProjectController {
         projectList.getProjects().remove(project);
         
         projectRepository.removeProject(currentUser, project);
+        homePanel.removeProject(project);
         //loadProjects(currentUser);
     }
 
