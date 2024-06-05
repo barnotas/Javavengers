@@ -31,6 +31,7 @@ public class User implements Serializable {
         this.password = password;
         this.email = email;
         this.firstName = firstName;
+        this.projectList = new ProjectList();
     }
 
     public ProjectList getProjectList(){
