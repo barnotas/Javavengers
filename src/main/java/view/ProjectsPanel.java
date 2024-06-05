@@ -8,13 +8,26 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.io.FileInputStream;
+import java.util.Arrays;
+import java.util.List;
 
+import org.apache.poi.hwpf.HWPFDocument;
+import org.apache.poi.hwpf.extractor.WordExtractor;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.xslf.usermodel.XMLSlideShow;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.rendering.PDFRenderer;
+import org.apache.poi.sl.usermodel.Slide;
 
 /**
  * The ProjectsPanel class represents a panel for displaying and managing projects.
@@ -261,6 +274,10 @@ public ProjectsPanel(ProjectController projectController) {
         }
     }
 
+   /** This method opens a documents using the file path 
+    *  that is created when adding a project 
+    */ 
+
 private void openDocument(ProjectDocument selectedDocument) {
     try {
         String filePath = selectedDocument.getFilepath();
@@ -284,6 +301,121 @@ private void openDocument(ProjectDocument selectedDocument) {
         });
     }
 }
+
+/** This method below is if we want documents to be selected and viewed within the application 
+ *  This method has a lot of bugs
+ */
+
+// private void openDocument(ProjectDocument selectedDocument) {
+//     JFileChooser fileChooser = new JFileChooser();
+//     int result = fileChooser.showOpenDialog(SwingUtilities.getWindowAncestor(this));
+//     if (result == JFileChooser.APPROVE_OPTION) {
+//         File selectedFile = fileChooser.getSelectedFile();
+//         try {
+//             String filePath = selectedFile.getAbsolutePath();
+//             Path path = Paths.get(filePath);
+//             String fileExtension = path.getFileName().toString().toLowerCase();
+//             int lastDotIndex = fileExtension.lastIndexOf(".");
+//             if (lastDotIndex != -1) {
+//                 fileExtension = fileExtension.substring(lastDotIndex + 1);
+//             }
+
+//             JFrame documentFrame = new JFrame(selectedDocument.name());
+//             documentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+//             JPanel documentPanel = new JPanel(new BorderLayout());
+
+//             List<String> pdfExtensions = Arrays.asList("pdf");
+//             List<String> docExtensions = Arrays.asList("doc", "docx");
+//             List<String> excelExtensions = Arrays.asList("xls", "xlsx");
+//             List<String> pptExtensions = Arrays.asList("ppt", "pptx");
+
+//             if (pdfExtensions.contains(fileExtension)) {
+//                 PDDocument document = PDDocument.load(selectedFile);
+//                 PDFRenderer pdfRenderer = new PDFRenderer(document);
+//                 BufferedImage image = pdfRenderer.renderImageWithDPI(0, 300);
+//                 JLabel imageLabel = new JLabel(new ImageIcon(image));
+//                 documentPanel.add(new JScrollPane(imageLabel), BorderLayout.CENTER);
+//                 document.close();
+//             } else if (docExtensions.contains(fileExtension)) {
+//                 FileInputStream fileInputStream = new FileInputStream(selectedFile);
+//                 HWPFDocument wordDocument = new HWPFDocument(fileInputStream);
+//                 WordExtractor extractor = new WordExtractor(wordDocument);
+//                 String documentText = extractor.getText();
+//                 JEditorPane documentViewer = new JEditorPane();
+//                 documentViewer.setEditable(false);
+//                 documentViewer.setContentType("text/plain");
+//                 documentViewer.setText(documentText);
+//                 documentPanel.add(new JScrollPane(documentViewer), BorderLayout.CENTER);
+//                 fileInputStream.close();
+//             } else if (excelExtensions.contains(fileExtension)) {
+//                 FileInputStream fileInputStream = new FileInputStream(selectedFile);
+//                 Workbook workbook = WorkbookFactory.create(fileInputStream);
+//                 Sheet sheet = workbook.getSheetAt(0);
+//                 StringBuilder stringBuilder = new StringBuilder();
+//                 for (Row row : sheet) {
+//                     for (Cell cell : row) {
+//                         stringBuilder.append(getCellValue(cell)).append("\t");
+//                     }
+//                     stringBuilder.append("\n");
+//                 }
+//                 JEditorPane documentViewer = new JEditorPane();
+//                 documentViewer.setEditable(false);
+//                 documentViewer.setContentType("text/plain");
+//                 documentViewer.setText(stringBuilder.toString());
+//                 documentPanel.add(new JScrollPane(documentViewer), BorderLayout.CENTER);
+//                 fileInputStream.close();
+//             } else if (pptExtensions.contains(fileExtension)) {
+//                 FileInputStream fileInputStream = new FileInputStream(selectedFile);
+//                 XMLSlideShow pptDocument = new XMLSlideShow(fileInputStream);
+//                 boolean isBlank = pptDocument.getSlides().isEmpty();
+//                 if (!isBlank) {
+//                     Slide slide = pptDocument.getSlides().get(0);
+//                     BufferedImage image = new BufferedImage(slide.getSlideShow().getPageSize().width, slide.getSlideShow().getPageSize().height, BufferedImage.TYPE_INT_ARGB);
+//                     Graphics2D graphics = image.createGraphics();
+//                     graphics.setPaint(Color.WHITE);
+//                     graphics.fillRect(0, 0, image.getWidth(), image.getHeight());
+//                     slide.draw(graphics);
+//                     JLabel imageLabel = new JLabel(new ImageIcon(image));
+//                     documentPanel.add(new JScrollPane(imageLabel), BorderLayout.CENTER);
+//                 }
+//                 fileInputStream.close();
+//             } else {
+//                 JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ProjectsPanel.this),
+//                         "This file type is not supported for viewing within the application.",
+//                         "Unsupported File Type", JOptionPane.WARNING_MESSAGE);
+//                 return;
+//             }
+
+//             documentFrame.getContentPane().add(documentPanel);
+//             documentFrame.setSize(800, 600);
+//             documentFrame.setLocationRelativeTo(SwingUtilities.getWindowAncestor(this));
+//             documentFrame.setVisible(true);
+//         } catch (IOException ex) {
+//             ex.printStackTrace();
+//             SwingUtilities.invokeLater(() -> {
+//                 JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ProjectsPanel.this),
+//                         "Failed to open the document.",
+//                         "Error", JOptionPane.ERROR_MESSAGE);
+//             });
+//         }
+//     }
+// }
+
+// private String getCellValue(Cell cell) {
+//     switch (cell.getCellType()) {
+//         case NUMERIC:
+//             return String.valueOf(cell.getNumericCellValue());
+//         case STRING:
+//             return cell.getStringCellValue();
+//         case BOOLEAN:
+//             return String.valueOf(cell.getBooleanCellValue());
+//         case FORMULA:
+//             return cell.getCellFormula();
+//         default:
+//             return "";
+//     }
+// }
 
     /**
      * Sets the project name to be displayed.
