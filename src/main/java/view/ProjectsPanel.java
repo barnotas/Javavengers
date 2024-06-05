@@ -79,6 +79,7 @@ public class ProjectsPanel extends JPanel {
                     int selectedIndex = projectList.getSelectedIndex();
                     if (selectedIndex != -1) {
                         showEditProjectDialog(selectedIndex);
+                        
                     }
                 }
             }
@@ -96,10 +97,6 @@ public class ProjectsPanel extends JPanel {
         add(buttonPanel, BorderLayout.NORTH);
     }
 
-    
-
-
-
     private void showCreateNewProjectDialog() {
         JDialog newProjectDialog = new JDialog(SwingUtilities.getWindowAncestor(this), "Create New Project");
         newProjectDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -107,37 +104,55 @@ public class ProjectsPanel extends JPanel {
     
         // Create a panel for creating a new project
         JPanel newProjectPanel = new JPanel(new GridBagLayout());
-        GridBagConstraints newProjectConstraints = new GridBagConstraints();
-        newProjectConstraints.gridx = 0;
-        newProjectConstraints.gridy = 0;
-        newProjectConstraints.anchor = GridBagConstraints.WEST;
-        newProjectConstraints.insets = new Insets(5, 5, 5, 5);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(5, 5, 5, 5);
     
         JLabel projectNameLabel = new JLabel("Project Name:");
-        newProjectPanel.add(projectNameLabel, newProjectConstraints);
+        newProjectPanel.add(projectNameLabel, gbc);
     
-        newProjectConstraints.gridx = 1;
+        gbc.gridx = 1;
         JTextField projectNameField = new JTextField(20);
-        newProjectPanel.add(projectNameField, newProjectConstraints);
+        newProjectPanel.add(projectNameField, gbc);
     
-        newProjectConstraints.gridx = 0;
-        newProjectConstraints.gridy = 1;
+        gbc.gridx = 0;
+        gbc.gridy++;
         JLabel projectDescriptionLabel = new JLabel("Project Description:");
-        newProjectPanel.add(projectDescriptionLabel, newProjectConstraints);
+        newProjectPanel.add(projectDescriptionLabel, gbc);
     
-        newProjectConstraints.gridx = 1;
+        gbc.gridx = 1;
         JTextArea projectDescriptionArea = new JTextArea(4, 20);
         JScrollPane projectDescriptionScrollPane = new JScrollPane(projectDescriptionArea);
-        newProjectPanel.add(projectDescriptionScrollPane, newProjectConstraints);
+        newProjectPanel.add(projectDescriptionScrollPane, gbc);
     
-        newProjectConstraints.gridx = 0;
-        newProjectConstraints.gridy = 2;
+        gbc.gridx = 0;
+        gbc.gridy++;
         JLabel projectBudgetLabel = new JLabel("Project Budget:");
-        newProjectPanel.add(projectBudgetLabel, newProjectConstraints);
+        newProjectPanel.add(projectBudgetLabel, gbc);
     
-        newProjectConstraints.gridx = 1;
+        gbc.gridx = 1;
         JTextField projectBudgetField = new JTextField(10);
-        newProjectPanel.add(projectBudgetField, newProjectConstraints);
+        newProjectPanel.add(projectBudgetField, gbc);
+    
+        gbc.gridx = 0;
+        gbc.gridy++;
+        JLabel privateProjectLabel = new JLabel("Private Project:");
+        newProjectPanel.add(privateProjectLabel, gbc);
+    
+        gbc.gridx = 1;
+        JCheckBox privateCheckbox = new JCheckBox();
+        newProjectPanel.add(privateCheckbox, gbc);
+    
+        gbc.gridx = 0;
+        gbc.gridy++;
+        JLabel pinLabel = new JLabel("PIN:");
+        newProjectPanel.add(pinLabel, gbc);
+    
+        gbc.gridx = 1;
+        JTextField pinField = new JTextField(10);
+        newProjectPanel.add(pinField, gbc);
     
         newProjectDialog.add(newProjectPanel, BorderLayout.CENTER);
     
@@ -148,13 +163,15 @@ public class ProjectsPanel extends JPanel {
             String projectName = projectNameField.getText();
             String projectDescription = projectDescriptionArea.getText();
             double projectBudget = Double.parseDouble(projectBudgetField.getText());
+            boolean isPrivate = privateCheckbox.isSelected();
+            String pin = pinField.getText();
+    
+            Project project = new Project(projectName, projectDescription, projectBudget);
+            project.setPrivate(isPrivate);
+            project.setPin(pin);
             projectController.createProject(projectName, projectDescription, projectBudget);
             newProjectDialog.dispose();
-            
-            // Update the UI by loading the projects
-            //projectController.loadProjects(projectController.getCurrentUser());
         });
-        dialogButtonPanel.add(createButton);
         dialogButtonPanel.add(createButton);
     
         newProjectDialog.add(dialogButtonPanel, BorderLayout.SOUTH);
@@ -163,7 +180,6 @@ public class ProjectsPanel extends JPanel {
         newProjectDialog.setLocationRelativeTo(SwingUtilities.getWindowAncestor(this));
         newProjectDialog.setVisible(true);
     }
-
 
 
     private void showEditProjectDialog(int selectedIndex) {
@@ -175,62 +191,73 @@ public class ProjectsPanel extends JPanel {
         Project project = projectController.getProject(projectName);
     
         if (project != null) {
+            
             JDialog editProjectDialog = new JDialog(SwingUtilities.getWindowAncestor(this), "Edit Project");
             editProjectDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
             editProjectDialog.setLayout(new BorderLayout());
     
             // Create a panel for editing the project details
             JPanel editProjectPanel = new JPanel(new GridBagLayout());
-            GridBagConstraints editProjectConstraints = new GridBagConstraints();
-            editProjectConstraints.gridx = 0;
-            editProjectConstraints.gridy = 0;
-            editProjectConstraints.anchor = GridBagConstraints.WEST;
-            editProjectConstraints.insets = new Insets(5, 5, 5, 5);
-    
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            gbc.anchor = GridBagConstraints.WEST;
+            gbc.insets = new Insets(5, 5, 5, 5);
+
             JLabel projectNameLabel = new JLabel("Project Name:");
-            editProjectPanel.add(projectNameLabel, editProjectConstraints);
-    
-            editProjectConstraints.gridx = 1;
+            editProjectPanel.add(projectNameLabel, gbc);
+
+            gbc.gridx = 1;
             JTextField projectNameField = new JTextField(project.getName(), 20);
-            editProjectPanel.add(projectNameField, editProjectConstraints);
-    
-            editProjectConstraints.gridx = 0;
-            editProjectConstraints.gridy = 1;
+            editProjectPanel.add(projectNameField, gbc);
+
+            gbc.gridx = 0;
+            gbc.gridy++;
             JLabel projectDescriptionLabel = new JLabel("Project Description:");
-            editProjectPanel.add(projectDescriptionLabel, editProjectConstraints);
-    
-            editProjectConstraints.gridx = 1;
+            editProjectPanel.add(projectDescriptionLabel, gbc);
+
+            gbc.gridx = 1;
             JTextArea projectDescriptionArea = new JTextArea(project.getDescription(), 4, 20);
             JScrollPane projectDescriptionScrollPane = new JScrollPane(projectDescriptionArea);
-            editProjectPanel.add(projectDescriptionScrollPane, editProjectConstraints);
-    
-            editProjectConstraints.gridx = 0;
-            editProjectConstraints.gridy = 2;
+            editProjectPanel.add(projectDescriptionScrollPane, gbc);
+
+            gbc.gridx = 0;
+            gbc.gridy++;
             JLabel projectBudgetLabel = new JLabel("Project Budget:");
-            editProjectPanel.add(projectBudgetLabel, editProjectConstraints);
-    
-            editProjectConstraints.gridx = 1;
+            editProjectPanel.add(projectBudgetLabel, gbc);
+
+            gbc.gridx = 1;
             JTextField projectBudgetField = new JTextField(String.valueOf(project.getBudget()), 10);
-            editProjectPanel.add(projectBudgetField, editProjectConstraints);
-    
-            editProjectConstraints.gridx = 0;
-            editProjectConstraints.gridy = 3;
+            editProjectPanel.add(projectBudgetField, gbc);
+
+            gbc.gridx = 0;
+            gbc.gridy++;
             JLabel projectExpensesLabel = new JLabel("Project Expenses:");
-            editProjectPanel.add(projectExpensesLabel, editProjectConstraints);
-    
-            editProjectConstraints.gridx = 1;
+            editProjectPanel.add(projectExpensesLabel, gbc);
+
+            gbc.gridx = 1;
             JTextField projectExpensesField = new JTextField(String.valueOf(project.getExpenses()), 10);
-            editProjectPanel.add(projectExpensesField, editProjectConstraints);
-    
-            editProjectConstraints.gridx = 0;
-            editProjectConstraints.gridy = 4;
-            JLabel totalCostLabel = new JLabel("Total Cost:");
-            editProjectPanel.add(totalCostLabel, editProjectConstraints);
-    
-            editProjectConstraints.gridx = 1;
-            JLabel totalCostValueLabel = new JLabel(String.valueOf(project.getBudget() - project.getExpenses()));
-            editProjectPanel.add(totalCostValueLabel, editProjectConstraints);
-    
+            editProjectPanel.add(projectExpensesField, gbc);
+
+            gbc.gridx = 0;
+            gbc.gridy++;
+            JLabel privateProjectLabel = new JLabel("Private Project:");
+            editProjectPanel.add(privateProjectLabel, gbc);
+
+            gbc.gridx = 1;
+            JCheckBox privateCheckbox = new JCheckBox();
+            privateCheckbox.setSelected(project.isPrivate());
+            editProjectPanel.add(privateCheckbox, gbc);
+
+            gbc.gridx = 0;
+            gbc.gridy++;
+            JLabel pinLabel = new JLabel("PIN:");
+            editProjectPanel.add(pinLabel, gbc);
+
+            gbc.gridx = 1;
+            JTextField pinField = new JTextField(project.getPin(), 10);
+            editProjectPanel.add(pinField, gbc);
+
             editProjectDialog.add(editProjectPanel, BorderLayout.CENTER);
     
             // Create a panel for the dialog buttons
@@ -247,7 +274,13 @@ public class ProjectsPanel extends JPanel {
                 project.setDescription(updatedProjectDescription);
                 project.setBudget(updatedProjectBudget);
                 project.setExpenses(updatedProjectExpenses);
-    
+                
+                String pin = pinField.getText();
+                project.setPin(pin);
+
+                boolean isPrivate = privateCheckbox.isSelected();
+                project.setPrivate(isPrivate);
+                
                 // Update the project in the list model and call the controller to update the project
                 updateProject(selectedIndex, project);
     
