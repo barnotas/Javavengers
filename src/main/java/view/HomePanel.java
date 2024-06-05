@@ -11,6 +11,9 @@ import java.awt.event.MouseEvent;
 public class HomePanel extends JPanel {
     private JList<String> projectList;
     private DefaultListModel<String> projectListModel;
+    private ProjectController projectController;
+
+
 
     public HomePanel() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -31,6 +34,10 @@ public class HomePanel extends JPanel {
             }
         });
         add(new JScrollPane(projectList));
+    }
+
+    public void setProjectController(ProjectController projectController) {
+        this.projectController = projectController;
     }
 
     public void addProject(String projectName, String projectDescription, double budget, double expenses) {
@@ -119,6 +126,24 @@ public class HomePanel extends JPanel {
             editProjectDialog.dispose();
         });
         dialogButtonPanel.add(saveButton);
+
+        JButton deleteButton = new JButton("Delete");
+        deleteButton.addActionListener(e -> {
+            int confirmResult = JOptionPane.showConfirmDialog(this,
+            "Are you sure you want to delete this project?",
+            "Confirm Delete", JOptionPane.YES_NO_OPTION);
+            if (confirmResult == JOptionPane.YES_OPTION) {
+            // Remove the project from the list model and delete it using the ProjectController
+            String projectname = parts[0].substring("Project Name: ".length());
+            Project projects = projectController.getProject(projectname);
+            if (projects != null) {
+                projectListModel.remove(selectedIndex);
+                projectController.deleteProject(projects);
+            }
+            editProjectDialog.dispose();
+        }
+        });
+        dialogButtonPanel.add(deleteButton);
 
         editProjectDialog.add(dialogButtonPanel, BorderLayout.SOUTH);
 

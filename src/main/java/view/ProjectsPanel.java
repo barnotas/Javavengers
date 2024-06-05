@@ -1,13 +1,33 @@
 package view;
 
 import model.Project;
+import model.ProjectDocument;
 import controller.ProjectController;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.io.FileInputStream;
+import java.util.Arrays;
+import java.util.List;
 
+import org.apache.poi.hwpf.HWPFDocument;
+import org.apache.poi.hwpf.extractor.WordExtractor;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.xslf.usermodel.XMLSlideShow;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.rendering.PDFRenderer;
+import org.apache.poi.sl.usermodel.Slide;
 
 /**
  * The ProjectsPanel class represents a panel for displaying and managing projects.
@@ -69,6 +89,7 @@ public ProjectsPanel(ProjectController projectController) {
                     int selectedIndex = projectList.getSelectedIndex();
                     if (selectedIndex != -1) {
                         showEditProjectDialog(selectedIndex);
+                        
                     }
                 }
             }
@@ -98,37 +119,55 @@ public ProjectsPanel(ProjectController projectController) {
     
         // Create a panel for creating a new project
         JPanel newProjectPanel = new JPanel(new GridBagLayout());
-        GridBagConstraints newProjectConstraints = new GridBagConstraints();
-        newProjectConstraints.gridx = 0;
-        newProjectConstraints.gridy = 0;
-        newProjectConstraints.anchor = GridBagConstraints.WEST;
-        newProjectConstraints.insets = new Insets(5, 5, 5, 5);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(5, 5, 5, 5);
     
         JLabel projectNameLabel = new JLabel("Project Name:");
-        newProjectPanel.add(projectNameLabel, newProjectConstraints);
+        newProjectPanel.add(projectNameLabel, gbc);
     
-        newProjectConstraints.gridx = 1;
+        gbc.gridx = 1;
         JTextField projectNameField = new JTextField(20);
-        newProjectPanel.add(projectNameField, newProjectConstraints);
+        newProjectPanel.add(projectNameField, gbc);
     
-        newProjectConstraints.gridx = 0;
-        newProjectConstraints.gridy = 1;
+        gbc.gridx = 0;
+        gbc.gridy++;
         JLabel projectDescriptionLabel = new JLabel("Project Description:");
-        newProjectPanel.add(projectDescriptionLabel, newProjectConstraints);
+        newProjectPanel.add(projectDescriptionLabel, gbc);
     
-        newProjectConstraints.gridx = 1;
+        gbc.gridx = 1;
         JTextArea projectDescriptionArea = new JTextArea(4, 20);
         JScrollPane projectDescriptionScrollPane = new JScrollPane(projectDescriptionArea);
-        newProjectPanel.add(projectDescriptionScrollPane, newProjectConstraints);
+        newProjectPanel.add(projectDescriptionScrollPane, gbc);
     
-        newProjectConstraints.gridx = 0;
-        newProjectConstraints.gridy = 2;
+        gbc.gridx = 0;
+        gbc.gridy++;
         JLabel projectBudgetLabel = new JLabel("Project Budget:");
-        newProjectPanel.add(projectBudgetLabel, newProjectConstraints);
+        newProjectPanel.add(projectBudgetLabel, gbc);
     
-        newProjectConstraints.gridx = 1;
+        gbc.gridx = 1;
         JTextField projectBudgetField = new JTextField(10);
-        newProjectPanel.add(projectBudgetField, newProjectConstraints);
+        newProjectPanel.add(projectBudgetField, gbc);
+    
+        gbc.gridx = 0;
+        gbc.gridy++;
+        JLabel privateProjectLabel = new JLabel("Private Project:");
+        newProjectPanel.add(privateProjectLabel, gbc);
+    
+        gbc.gridx = 1;
+        JCheckBox privateCheckbox = new JCheckBox();
+        newProjectPanel.add(privateCheckbox, gbc);
+    
+        gbc.gridx = 0;
+        gbc.gridy++;
+        JLabel pinLabel = new JLabel("PIN:");
+        newProjectPanel.add(pinLabel, gbc);
+    
+        gbc.gridx = 1;
+        JTextField pinField = new JTextField(10);
+        newProjectPanel.add(pinField, gbc);
     
         newProjectDialog.add(newProjectPanel, BorderLayout.CENTER);
     
@@ -139,13 +178,15 @@ public ProjectsPanel(ProjectController projectController) {
             String projectName = projectNameField.getText();
             String projectDescription = projectDescriptionArea.getText();
             double projectBudget = Double.parseDouble(projectBudgetField.getText());
+            boolean isPrivate = privateCheckbox.isSelected();
+            String pin = pinField.getText();
+    
+            Project project = new Project(projectName, projectDescription, projectBudget);
+            project.setPrivate(isPrivate);
+            project.setPin(pin);
             projectController.createProject(projectName, projectDescription, projectBudget);
             newProjectDialog.dispose();
-            
-            // Update the UI by loading the projects
-            //projectController.loadProjects(projectController.getCurrentUser());
         });
-        dialogButtonPanel.add(createButton);
         dialogButtonPanel.add(createButton);
     
         newProjectDialog.add(dialogButtonPanel, BorderLayout.SOUTH);
@@ -154,7 +195,6 @@ public ProjectsPanel(ProjectController projectController) {
         newProjectDialog.setLocationRelativeTo(SwingUtilities.getWindowAncestor(this));
         newProjectDialog.setVisible(true);
     }
-
 
 
     private void showEditProjectDialog(int selectedIndex) {
@@ -166,62 +206,73 @@ public ProjectsPanel(ProjectController projectController) {
         Project project = projectController.getProject(projectName);
     
         if (project != null) {
+            
             JDialog editProjectDialog = new JDialog(SwingUtilities.getWindowAncestor(this), "Edit Project");
             editProjectDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
             editProjectDialog.setLayout(new BorderLayout());
     
             // Create a panel for editing the project details
             JPanel editProjectPanel = new JPanel(new GridBagLayout());
-            GridBagConstraints editProjectConstraints = new GridBagConstraints();
-            editProjectConstraints.gridx = 0;
-            editProjectConstraints.gridy = 0;
-            editProjectConstraints.anchor = GridBagConstraints.WEST;
-            editProjectConstraints.insets = new Insets(5, 5, 5, 5);
-    
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            gbc.anchor = GridBagConstraints.WEST;
+            gbc.insets = new Insets(5, 5, 5, 5);
+
             JLabel projectNameLabel = new JLabel("Project Name:");
-            editProjectPanel.add(projectNameLabel, editProjectConstraints);
-    
-            editProjectConstraints.gridx = 1;
+            editProjectPanel.add(projectNameLabel, gbc);
+
+            gbc.gridx = 1;
             JTextField projectNameField = new JTextField(project.getName(), 20);
-            editProjectPanel.add(projectNameField, editProjectConstraints);
-    
-            editProjectConstraints.gridx = 0;
-            editProjectConstraints.gridy = 1;
+            editProjectPanel.add(projectNameField, gbc);
+
+            gbc.gridx = 0;
+            gbc.gridy++;
             JLabel projectDescriptionLabel = new JLabel("Project Description:");
-            editProjectPanel.add(projectDescriptionLabel, editProjectConstraints);
-    
-            editProjectConstraints.gridx = 1;
+            editProjectPanel.add(projectDescriptionLabel, gbc);
+
+            gbc.gridx = 1;
             JTextArea projectDescriptionArea = new JTextArea(project.getDescription(), 4, 20);
             JScrollPane projectDescriptionScrollPane = new JScrollPane(projectDescriptionArea);
-            editProjectPanel.add(projectDescriptionScrollPane, editProjectConstraints);
-    
-            editProjectConstraints.gridx = 0;
-            editProjectConstraints.gridy = 2;
+            editProjectPanel.add(projectDescriptionScrollPane, gbc);
+
+            gbc.gridx = 0;
+            gbc.gridy++;
             JLabel projectBudgetLabel = new JLabel("Project Budget:");
-            editProjectPanel.add(projectBudgetLabel, editProjectConstraints);
-    
-            editProjectConstraints.gridx = 1;
+            editProjectPanel.add(projectBudgetLabel, gbc);
+
+            gbc.gridx = 1;
             JTextField projectBudgetField = new JTextField(String.valueOf(project.getBudget()), 10);
-            editProjectPanel.add(projectBudgetField, editProjectConstraints);
-    
-            editProjectConstraints.gridx = 0;
-            editProjectConstraints.gridy = 3;
+            editProjectPanel.add(projectBudgetField, gbc);
+
+            gbc.gridx = 0;
+            gbc.gridy++;
             JLabel projectExpensesLabel = new JLabel("Project Expenses:");
-            editProjectPanel.add(projectExpensesLabel, editProjectConstraints);
-    
-            editProjectConstraints.gridx = 1;
+            editProjectPanel.add(projectExpensesLabel, gbc);
+
+            gbc.gridx = 1;
             JTextField projectExpensesField = new JTextField(String.valueOf(project.getExpenses()), 10);
-            editProjectPanel.add(projectExpensesField, editProjectConstraints);
-    
-            editProjectConstraints.gridx = 0;
-            editProjectConstraints.gridy = 4;
-            JLabel totalCostLabel = new JLabel("Total Cost:");
-            editProjectPanel.add(totalCostLabel, editProjectConstraints);
-    
-            editProjectConstraints.gridx = 1;
-            JLabel totalCostValueLabel = new JLabel(String.valueOf(project.getBudget() - project.getExpenses()));
-            editProjectPanel.add(totalCostValueLabel, editProjectConstraints);
-    
+            editProjectPanel.add(projectExpensesField, gbc);
+
+            gbc.gridx = 0;
+            gbc.gridy++;
+            JLabel privateProjectLabel = new JLabel("Private Project:");
+            editProjectPanel.add(privateProjectLabel, gbc);
+
+            gbc.gridx = 1;
+            JCheckBox privateCheckbox = new JCheckBox();
+            privateCheckbox.setSelected(project.isPrivate());
+            editProjectPanel.add(privateCheckbox, gbc);
+
+            gbc.gridx = 0;
+            gbc.gridy++;
+            JLabel pinLabel = new JLabel("PIN:");
+            editProjectPanel.add(pinLabel, gbc);
+
+            gbc.gridx = 1;
+            JTextField pinField = new JTextField(project.getPin(), 10);
+            editProjectPanel.add(pinField, gbc);
+
             editProjectDialog.add(editProjectPanel, BorderLayout.CENTER);
     
             // Create a panel for the dialog buttons
@@ -238,7 +289,13 @@ public ProjectsPanel(ProjectController projectController) {
                 project.setDescription(updatedProjectDescription);
                 project.setBudget(updatedProjectBudget);
                 project.setExpenses(updatedProjectExpenses);
-    
+                
+                String pin = pinField.getText();
+                project.setPin(pin);
+
+                boolean isPrivate = privateCheckbox.isSelected();
+                project.setPrivate(isPrivate);
+                
                 // Update the project in the list model and call the controller to update the project
                 updateProject(selectedIndex, project);
     
@@ -254,6 +311,148 @@ public ProjectsPanel(ProjectController projectController) {
         }
     }
 
+   /** This method opens a documents using the file path 
+    *  that is created when adding a project 
+    */ 
+
+private void openDocument(ProjectDocument selectedDocument) {
+    try {
+        String filePath = selectedDocument.getFilepath();
+        Path path = Paths.get(filePath);
+
+        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.OPEN)) {
+            Desktop desktop = Desktop.getDesktop();
+            desktop.open(path.toFile());
+        } else {
+            // Handle the case when the Desktop API is not supported
+            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ProjectsPanel.this),
+                    "Failed to open the document. Desktop API is not supported.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } catch (IOException ex) {
+        ex.printStackTrace();
+        SwingUtilities.invokeLater(() -> {
+            JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ProjectsPanel.this),
+                    "Failed to open the document.",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        });
+    }
+}
+
+/** This method below is if we want documents to be selected and viewed within the application 
+ *  This method has a lot of bugs
+ */
+
+// private void openDocument(ProjectDocument selectedDocument) {
+//     JFileChooser fileChooser = new JFileChooser();
+//     int result = fileChooser.showOpenDialog(SwingUtilities.getWindowAncestor(this));
+//     if (result == JFileChooser.APPROVE_OPTION) {
+//         File selectedFile = fileChooser.getSelectedFile();
+//         try {
+//             String filePath = selectedFile.getAbsolutePath();
+//             Path path = Paths.get(filePath);
+//             String fileExtension = path.getFileName().toString().toLowerCase();
+//             int lastDotIndex = fileExtension.lastIndexOf(".");
+//             if (lastDotIndex != -1) {
+//                 fileExtension = fileExtension.substring(lastDotIndex + 1);
+//             }
+
+//             JFrame documentFrame = new JFrame(selectedDocument.name());
+//             documentFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+//             JPanel documentPanel = new JPanel(new BorderLayout());
+
+//             List<String> pdfExtensions = Arrays.asList("pdf");
+//             List<String> docExtensions = Arrays.asList("doc", "docx");
+//             List<String> excelExtensions = Arrays.asList("xls", "xlsx");
+//             List<String> pptExtensions = Arrays.asList("ppt", "pptx");
+
+//             if (pdfExtensions.contains(fileExtension)) {
+//                 PDDocument document = PDDocument.load(selectedFile);
+//                 PDFRenderer pdfRenderer = new PDFRenderer(document);
+//                 BufferedImage image = pdfRenderer.renderImageWithDPI(0, 300);
+//                 JLabel imageLabel = new JLabel(new ImageIcon(image));
+//                 documentPanel.add(new JScrollPane(imageLabel), BorderLayout.CENTER);
+//                 document.close();
+//             } else if (docExtensions.contains(fileExtension)) {
+//                 FileInputStream fileInputStream = new FileInputStream(selectedFile);
+//                 HWPFDocument wordDocument = new HWPFDocument(fileInputStream);
+//                 WordExtractor extractor = new WordExtractor(wordDocument);
+//                 String documentText = extractor.getText();
+//                 JEditorPane documentViewer = new JEditorPane();
+//                 documentViewer.setEditable(false);
+//                 documentViewer.setContentType("text/plain");
+//                 documentViewer.setText(documentText);
+//                 documentPanel.add(new JScrollPane(documentViewer), BorderLayout.CENTER);
+//                 fileInputStream.close();
+//             } else if (excelExtensions.contains(fileExtension)) {
+//                 FileInputStream fileInputStream = new FileInputStream(selectedFile);
+//                 Workbook workbook = WorkbookFactory.create(fileInputStream);
+//                 Sheet sheet = workbook.getSheetAt(0);
+//                 StringBuilder stringBuilder = new StringBuilder();
+//                 for (Row row : sheet) {
+//                     for (Cell cell : row) {
+//                         stringBuilder.append(getCellValue(cell)).append("\t");
+//                     }
+//                     stringBuilder.append("\n");
+//                 }
+//                 JEditorPane documentViewer = new JEditorPane();
+//                 documentViewer.setEditable(false);
+//                 documentViewer.setContentType("text/plain");
+//                 documentViewer.setText(stringBuilder.toString());
+//                 documentPanel.add(new JScrollPane(documentViewer), BorderLayout.CENTER);
+//                 fileInputStream.close();
+//             } else if (pptExtensions.contains(fileExtension)) {
+//                 FileInputStream fileInputStream = new FileInputStream(selectedFile);
+//                 XMLSlideShow pptDocument = new XMLSlideShow(fileInputStream);
+//                 boolean isBlank = pptDocument.getSlides().isEmpty();
+//                 if (!isBlank) {
+//                     Slide slide = pptDocument.getSlides().get(0);
+//                     BufferedImage image = new BufferedImage(slide.getSlideShow().getPageSize().width, slide.getSlideShow().getPageSize().height, BufferedImage.TYPE_INT_ARGB);
+//                     Graphics2D graphics = image.createGraphics();
+//                     graphics.setPaint(Color.WHITE);
+//                     graphics.fillRect(0, 0, image.getWidth(), image.getHeight());
+//                     slide.draw(graphics);
+//                     JLabel imageLabel = new JLabel(new ImageIcon(image));
+//                     documentPanel.add(new JScrollPane(imageLabel), BorderLayout.CENTER);
+//                 }
+//                 fileInputStream.close();
+//             } else {
+//                 JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ProjectsPanel.this),
+//                         "This file type is not supported for viewing within the application.",
+//                         "Unsupported File Type", JOptionPane.WARNING_MESSAGE);
+//                 return;
+//             }
+
+//             documentFrame.getContentPane().add(documentPanel);
+//             documentFrame.setSize(800, 600);
+//             documentFrame.setLocationRelativeTo(SwingUtilities.getWindowAncestor(this));
+//             documentFrame.setVisible(true);
+//         } catch (IOException ex) {
+//             ex.printStackTrace();
+//             SwingUtilities.invokeLater(() -> {
+//                 JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(ProjectsPanel.this),
+//                         "Failed to open the document.",
+//                         "Error", JOptionPane.ERROR_MESSAGE);
+//             });
+//         }
+//     }
+// }
+
+// private String getCellValue(Cell cell) {
+//     switch (cell.getCellType()) {
+//         case NUMERIC:
+//             return String.valueOf(cell.getNumericCellValue());
+//         case STRING:
+//             return cell.getStringCellValue();
+//         case BOOLEAN:
+//             return String.valueOf(cell.getBooleanCellValue());
+//         case FORMULA:
+//             return cell.getCellFormula();
+//         default:
+//             return "";
+//     }
+// }
 
     /**
      * Sets the project name to be displayed.

@@ -31,13 +31,17 @@ public class ProjectRepository {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] projectData = line.split(", ");
-                if (projectData.length == 4) {
+                if (projectData.length == 6) {
                     String name = projectData[0];
                     String description = projectData[1];
                     double budget = Double.parseDouble(projectData[2]);
                     double expenses = 0.0;
+                    boolean isPrivate = Boolean.parseBoolean(projectData[4]);
+                    String pin = isPrivate ? projectData[5] : "";
                     Project project = new Project(name, description, budget);
                     project.setExpenses(expenses);
+                    project.setPrivate(isPrivate);
+                    project.setPin(pin);
 
                     int numDocuments = Integer.parseInt(reader.readLine());
                     for (int i = 0; i < numDocuments; i++) {
@@ -73,7 +77,9 @@ public class ProjectRepository {
                 ProjectList projectList = user.getProjectList();
                 List<Project> projects = projectList.getProjects();
                 for (Project project : projects) {
-                    writer.println(project.getName() + ", " + project.getDescription() + ", " + project.getBudget() + ", " + project.getExpenses());
+                    writer.println(project.getName() + ", " + project.getDescription() + ", " 
+                    + project.getBudget() + ", " + project.getExpenses() 
+                    + ", " + project.isPrivate() + ", " + (project.isPrivate() ? project.getPin() : ""));
     
                     List<ProjectDocument> documents = project.getDocuments();
                     int numDocuments = documents.size();
