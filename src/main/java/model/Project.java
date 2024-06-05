@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * Represents a project with a name and description.
+ * @author Bernard Bega, Barno Tashpulatova, Ahmed Hassan, Mahri Yalkapova
  */
 public class Project {
 
