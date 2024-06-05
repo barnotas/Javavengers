@@ -23,7 +23,7 @@ public class UserController {
     public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-     /**
+    /**
      * Logs in a user by verifying the provided username and password.
      *
      * @param username the username of the user

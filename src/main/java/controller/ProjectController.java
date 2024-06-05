@@ -44,7 +44,7 @@ public class ProjectController {
                 projectsPanel.addProject(project);
             }
         }
-   }
+    }
 }
 
     public Project getProject(String projectName) {

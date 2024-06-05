@@ -1,13 +1,3 @@
-view\AboutPanel.class
-view\CreateUserDialog.class
-view\HomePanel.class
-view\SettingsPanel.class
-view\HomePanel$1.class
-view\LoginDialog.class
-view\MainFrame.class
-view\App.class
-model\ProjectRepository.class
-view\ProjectsPanel.class
-model\UserRepository.class
-view\ProjectsPanel$1.class
-model\User.class
+controller/AboutController.class
+model/About.class
+view/AboutPanel.class
