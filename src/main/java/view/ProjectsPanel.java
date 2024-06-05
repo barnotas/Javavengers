@@ -302,7 +302,110 @@ public ProjectsPanel(ProjectController projectController) {
                 editProjectDialog.dispose();
             });
             dialogButtonPanel.add(saveButton);
-    
+
+            JButton deleteButton = new JButton("Delete");
+            deleteButton.addActionListener(e -> {
+                int confirmResult = JOptionPane.showConfirmDialog(this,
+                "Are you sure you want to delete this project?",
+                "Confirm Delete", JOptionPane.YES_NO_OPTION);
+                if (confirmResult == JOptionPane.YES_OPTION) {
+                // Remove the project from the list model and delete it using the ProjectController
+                String projectname = parts[0].substring("Project Name: ".length());
+                Project projects = projectController.getProject(projectname);
+                if (projects != null) {
+                    projectListModel.remove(selectedIndex);
+                    projectController.deleteProject(project);
+                }
+                editProjectDialog.dispose();
+            }
+            });
+            dialogButtonPanel.add(deleteButton);
+
+            // Create a panel for displaying project documents
+            JPanel documentsPanel = new JPanel(new BorderLayout());
+            JLabel documentsLabel = new JLabel("Documents:");
+            documentsPanel.add(documentsLabel, BorderLayout.NORTH);
+
+            DefaultListModel<ProjectDocument> documentsListModel = new DefaultListModel<>();
+            documentsListModel.clear();
+            //add exsiting documents
+            for (ProjectDocument document : project.getDocuments()) {
+                documentsListModel.addElement(document);
+            }
+            JList<ProjectDocument> documentsList = new JList<>(documentsListModel);
+            documentsList.setCellRenderer(new DefaultListCellRenderer() {
+                @Override
+                public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                    super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                    if (value instanceof ProjectDocument) {
+                        ProjectDocument document = (ProjectDocument) value;
+                        setText(document.name());
+                    }
+                    return this;
+                }
+            });
+            documentsPanel.add(new JScrollPane(documentsList), BorderLayout.CENTER);
+           
+            JButton addDocumentButton = new JButton("Add Document");
+            addDocumentButton.addActionListener(e -> {
+                    JFileChooser fileChooser = new JFileChooser();
+                    int result = fileChooser.showOpenDialog(SwingUtilities.getWindowAncestor(this));
+                    if (result == JFileChooser.APPROVE_OPTION) {
+                        File selectedFile = fileChooser.getSelectedFile();
+                        // Create a new ProjectDocument with the selected file
+                        String documentName = selectedFile.getName();
+                        String filePath = selectedFile.getAbsolutePath();
+                        ProjectDocument document = new ProjectDocument(documentName, filePath);
+                        // Add the document to the project
+                        project.addDocument(document);
+                        // Save the updated project
+                        projectController.updateProject(project);
+                        documentsListModel.clear();
+
+                        for (ProjectDocument documents : project.getDocuments()) {
+                            documentsListModel.addElement(documents);
+                        }
+
+                        JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this), "Document added successfully!");
+                    }
+                
+            });
+            documentsPanel.add(addDocumentButton, BorderLayout.NORTH);
+
+            JButton viewDocumentButton = new JButton("View Document");
+            viewDocumentButton.addActionListener(e -> {
+                int selectedDocumentIndex = documentsList.getSelectedIndex();
+                if (selectedDocumentIndex != -1) {
+                    ProjectDocument selectedDocument = documentsListModel.getElementAt(selectedDocumentIndex);
+                    // Open the selected document in a separate thread
+                    new Thread(() -> openDocument(selectedDocument)).start();
+                }
+            });
+            documentsPanel.add(viewDocumentButton, BorderLayout.LINE_END);
+
+            JButton deleteDocumentButton = new JButton("Delete Document");
+            deleteDocumentButton.addActionListener(e -> {
+                int selectedDocumentIndex = documentsList.getSelectedIndex();
+                if (selectedDocumentIndex != -1) {
+                    ProjectDocument selectedDocument = documentsListModel.getElementAt(selectedDocumentIndex);
+                    int confirmResult = JOptionPane.showConfirmDialog(this,
+                            "Are you sure you want to delete this document?",
+                            "Confirm Delete", JOptionPane.YES_NO_OPTION);
+                    if (confirmResult == JOptionPane.YES_OPTION) {
+                        project.removeDocument(selectedDocument);
+                        projectController.updateProject(project);
+                        // Refresh the documents list
+                        documentsListModel.clear();
+                        for (ProjectDocument document : project.getDocuments()) {
+                            documentsListModel.addElement(document);
+                        }
+                    }
+                }
+            });
+            documentsPanel.add(deleteDocumentButton, BorderLayout.PAGE_END);
+
+            editProjectDialog.add(documentsPanel, BorderLayout.EAST);
+            
             editProjectDialog.add(dialogButtonPanel, BorderLayout.SOUTH);
     
             editProjectDialog.pack();
