@@ -29,9 +29,21 @@ public class User implements Serializable {
     public User(String username, String password, String email, String firstName) {
         this.username = username;
         this.password = password;
+        this.email = email;
+        this.firstName = firstName;
     }
 
+    public ProjectList getProjectList(){
+        return projectList;
+    }
 
+    public void addProject(Project project){
+        projectList.addProject(project);
+    }
+    public void removeProject(Project project){
+        projectList.getProjects().remove(project);
+    }
+    
     /**
      * Returns username.
      * @return

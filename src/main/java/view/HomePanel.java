@@ -7,6 +7,7 @@ import model.Project;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import controller.*;
 
 public class HomePanel extends JPanel {
     private JList<String> projectList;

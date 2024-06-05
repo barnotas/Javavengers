@@ -46,7 +46,7 @@ public class UserController {
      * @param password the password for the new user
      * @return the created user if the username is not already taken; otherwise, null
      */
-    public User createUser(String username, String password) {
+    public User createUser(String username, String password, String email, String firstName) {
         User existingUser = userRepository.findUser(username);
         if (existingUser == null) {
             User newUser = new User(username, password, email, firstName);

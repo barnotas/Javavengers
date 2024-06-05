@@ -3,7 +3,6 @@ package view;
 import javax.swing.SwingUtilities;
 
 import controller.*;
-import model.NewProjectModel;
 import model.ProjectList;
 import model.*;
 
@@ -11,7 +10,6 @@ import model.*;
 import view.*;
 
 public class App {
-    private static NewProjectController newProjectController;
     private static SettingsController settingsController;
     private static About about;
 
@@ -43,10 +41,6 @@ public class App {
             
             // Set the ProjectsPanel in the ProjectController
             projectController.setProjectsPanel(projectsPanel);
-
-            // Create the SettingsController
-            SettingsController settingsController = new SettingsController(user, about, settingsPanel);
-
     
             About about = new About();
             SettingsController settingsController = new SettingsController(user, about, settingsPanel);
