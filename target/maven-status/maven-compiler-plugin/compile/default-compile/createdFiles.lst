@@ -1,4 +1,5 @@
 view/ProjectsPanel$1.class
+view/ProjectsPanel$2.class
 model/ProjectRepository.class
 model/UserRepository.class
 controller/UserController.class
