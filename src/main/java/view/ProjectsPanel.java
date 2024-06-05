@@ -162,11 +162,15 @@ public class ProjectsPanel extends JPanel {
             double projectBudget = Double.parseDouble(projectBudgetField.getText());
             boolean isPrivate = privateCheckbox.isSelected();
             String pin = pinField.getText();
-    
-            Project project = new Project(projectName, projectDescription, projectBudget);
-            project.setPrivate(isPrivate);
-            project.setPin(pin);
-            projectController.createProject(projectName, projectDescription, projectBudget);
+        
+            if (isPrivate && (pin.isEmpty() || !pin.matches("\\d+"))) {
+                JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
+                        "Please enter a valid numeric PIN.",
+                        "Invalid PIN", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+        
+            projectController.createProject(projectName, projectDescription, projectBudget, isPrivate, pin);
             newProjectDialog.dispose();
         });
         dialogButtonPanel.add(createButton);
@@ -293,22 +297,28 @@ public class ProjectsPanel extends JPanel {
                 String updatedProjectDescription = projectDescriptionArea.getText();
                 double updatedProjectBudget = Double.parseDouble(projectBudgetField.getText());
                 double updatedProjectExpenses = Double.parseDouble(projectExpensesField.getText());
-    
+            
+                String pin = pinField.getText();
+                boolean isPrivate = privateCheckbox.isSelected();
+            
+                if (isPrivate && (pin.isEmpty() || !pin.matches("\\d+"))) {
+                    JOptionPane.showMessageDialog(SwingUtilities.getWindowAncestor(this),
+                            "Please enter a valid numeric PIN.",
+                            "Invalid PIN", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+            
                 // Update the project details
                 project.setName(updatedProjectName);
                 project.setDescription(updatedProjectDescription);
                 project.setBudget(updatedProjectBudget);
                 project.setExpenses(updatedProjectExpenses);
-                
-                String pin = pinField.getText();
                 project.setPin(pin);
-
-                boolean isPrivate = privateCheckbox.isSelected();
                 project.setPrivate(isPrivate);
-                
+            
                 // Update the project in the list model and call the controller to update the project
                 updateProject(selectedIndex, project);
-    
+            
                 editProjectDialog.dispose();
             });
             dialogButtonPanel.add(saveButton);
@@ -488,23 +498,38 @@ private void openDocument(ProjectDocument selectedDocument) {
     }
 
     public void addProject(Project project) {
-        String listEntry = "Project Name: " + project.getName() + " - Description: " + project.getDescription() + " - Budget: $" + project.getBudget() + " - Expenses: $" + project.getExpenses()+
-        " - Total Cost: $" + (project.getBudget() - project.getExpenses());
+        double totalCost = project.getBudget() - project.getExpenses();
+        String formattedTotalCost = String.format("%.2f", totalCost);
+        String listEntry = "Project Name: " + project.getName() + " - Description: " + project.getDescription() +
+        " - Budget: $" + project.getBudget() + " - Expenses: $" + project.getExpenses() +
+        " - Total Cost: $" + formattedTotalCost;
+    
+        // Check if total cost is negative and append an indicator
+        if (project.getBudget() - project.getExpenses() < 0) {
+            listEntry += " Budget is negative"; 
+        }
+    
         projectListModel.addElement(listEntry);
         revalidate();
         repaint();
     }
-
     public void updateProject(int index, Project project) {
+        double totalCost = project.getBudget() - project.getExpenses();
+        String formattedTotalCost = String.format("%.2f", totalCost);
         String listEntry = "Project Name: " + project.getName() + " - Description: " + project.getDescription() +
-                " - Budget: $" + project.getBudget() + " - Expenses: $" + project.getExpenses() +
-                " - Total Cost: $" + (project.getBudget() - project.getExpenses());
+        " - Budget: $" + project.getBudget() + " - Expenses: $" + project.getExpenses() +
+        " - Total Cost: $" + formattedTotalCost;
+    
+        // Check if total cost is negative and append an indicator
+        if (project.getBudget() - project.getExpenses() < 0) {
+            listEntry += " Budget is negative";
+        }
+    
         projectListModel.setElementAt(listEntry, index);
     
         // Call the ProjectController to update the project in the repository
         projectController.updateProject(project);
     }
-    
 
     
     public void removeProject(Project project) {

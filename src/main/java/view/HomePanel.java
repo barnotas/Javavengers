@@ -51,21 +51,37 @@ public class HomePanel extends JPanel {
 
     public void addProject(String projectName, String projectDescription, double budget, double expenses, boolean isPrivate) {
         if (!isPrivate) {
+            double totalCost = budget - expenses;
+            String formattedTotalCost = String.format("%.2f", totalCost);
             String listEntry = "Project Name: " + projectName + " - Description: " + projectDescription +
                     " - Budget: $" + budget + " - Expenses: $" + expenses +
-                    " - Total Cost: $" + (budget - expenses);
+                    " - Total Cost: $" + formattedTotalCost;
+                    
+                    if (totalCost < 0) {
+                        listEntry += " Budget is negative";
+                    }
+                    
             projectListModel.addElement(listEntry);
         }
     }
     
     public void updateProject(int index, String name, String description, double budget, double expenses, boolean isPrivate) {
         if (!isPrivate) {
+            double totalCost = budget - expenses;
+            String formattedTotalCost = String.format("%.2f", totalCost);
             String listEntry = "Project Name: " + name + " - Description: " + description +
                     " - Budget: $" + budget + " - Expenses: $" + expenses +
-                    " - Total Cost: $" + (budget - expenses);
-            projectListModel.setElementAt(listEntry, index);
+                    " - Total Cost: $" + formattedTotalCost;
+
+                    if (totalCost < 0) {
+                        listEntry += " Budget is negative";
+                    } 
+
+            if (index >= 0 && index < projectListModel.getSize()) {
+                projectListModel.setElementAt(listEntry, index);
+            }
         } else {
-            projectListModel.remove(index);
+            removeProject(name);
         }
     }
 
@@ -154,5 +170,9 @@ public class HomePanel extends JPanel {
 
     public void clearProjects() {
         projectListModel.clear();
+    }
+
+    public DefaultListModel<String> getProjectListModel() {
+        return projectListModel;
     }
 }
