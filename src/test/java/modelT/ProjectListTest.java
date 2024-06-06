@@ -1,6 +1,6 @@
 package modelT;
 
-import org.junit.*
+import org.junit.*;
 import model.ProjectList;
 import model.Project;
 
