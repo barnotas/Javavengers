@@ -93,7 +93,7 @@ public class ProjectTest {
     @Test
     public void testRemoveDocument() {
         Project p = new Project("test", "testing", 99.99);
-        ProjectDocument pd = new ProjectDocument("something.yes", "place/child")
+        ProjectDocument pd = new ProjectDocument("something.yes", "place/child");
         p.addDocument(pd);
         p.removeDocument(pd);
         Assert.assertEquals("test", p.getName());
