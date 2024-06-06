@@ -1,11 +1,25 @@
 package model;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
-
+/**
+ * The ProjectRepository class is responsible for managing the loading and saving of projects
+ * associated with users. It interacts with the file system to persist project data.
+ * 
+ * @autor Bernard Bega, Barno Tashpulatova, Ahmed Hassan, Mahri Yalkapova
+ */
 public class ProjectRepository {
+    /** A field for project directory. */
     private static final String PROJECTS_DIRECTORY = "projects";
 
+     /**
+     * Constructs a ProjectRepository and ensures the projects directory exists.
+     */
     public ProjectRepository() {
         File projectsDir = new File(PROJECTS_DIRECTORY);
         if (!projectsDir.exists()) {
@@ -13,6 +27,11 @@ public class ProjectRepository {
         }
     }
 
+    /**
+     * Loads the projects for the specified user from the file system.
+     * 
+     * @param user the user whose projects are to be loaded
+     */
     public void loadProjects(User user) {
         ProjectList projectList = user.getProjectList();
         String userProjectFile = getUserProjectFile(user);
@@ -63,6 +82,11 @@ public class ProjectRepository {
         }
     }
 
+    /**
+     * Saves the projects for the specified user to the file system.
+     * 
+     * @param user the user whose projects are to be saved
+     */
     public void saveProjects(User user) {
         String userProjectFile = getUserProjectFile(user);
         File file = new File(userProjectFile);
@@ -98,17 +122,34 @@ public class ProjectRepository {
         }
     }
 
-
+    /**
+     * Returns the file path for the specified user's project file.
+     * 
+     * @param user the user whose project file path is to be generated
+     * @return the file path for the user's project file
+     */
     private String getUserProjectFile(User user) {
         String uniqueIdentifier = user.getEmail().replace("@", "_").replace(".", "_"); // Replace '@' and '.' with '_' in the email address
         return PROJECTS_DIRECTORY + "/" + user.getUsername() + "_" + uniqueIdentifier + "_projects.txt";
     }
 
+    /**
+     * Adds a project to the specified user's project list and saves the projects.
+     * 
+     * @param user the user to whom the project is to be added
+     * @param project the project to be added
+     */
     public void addProject(User user, Project project) {
         user.addProject(project);
         saveProjects(user);
     }
 
+    /**
+     * Removes a project from the specified user's project list and saves the projects.
+     * 
+     * @param user the user from whom the project is to be removed
+     * @param project the project to be removed
+     */
     public void removeProject(User user, Project project) {
         user.removeProject(project);
         saveProjects(user);
