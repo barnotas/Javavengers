@@ -36,7 +36,7 @@ public class AboutTest {
      */
     @Test
     public void testGetDevs(){
-        Assert.assertEquals(new String[]{"Ahmed Hassan", "Barno Tashpulatova",
+        Assert.assertArrayEquals(new String[]{"Ahmed Hassan", "Barno Tashpulatova",
                         "Bernard Bega", "Mahri Yalkapova"}, A.getDevs());
     }
 }
