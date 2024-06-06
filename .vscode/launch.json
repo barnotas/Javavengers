@@ -3,6 +3,27 @@
   "configurations": [
     {
       "type": "java",
+      "name": "App",
+      "request": "launch",
+      "mainClass": "view.App",
+      "projectName": "your-artifact-id"
+    },
+    {
+      "type": "java",
+      "name": "App",
+      "request": "launch",
+      "mainClass": "view.App",
+      "projectName": "Javavengers-1_1ec3c19d"
+    },
+    {
+      "type": "java",
+      "name": "MainFrame",
+      "request": "launch",
+      "mainClass": "view.MainFrame",
+      "projectName": "Javavengers_7dd0a10d"
+    },
+    {
+      "type": "java",
       "name": "MainFrame",
       "request": "launch",
       "mainClass": "view.MainFrame",
@@ -28,6 +49,13 @@
       "request": "launch",
       "mainClass": "view.MainFrame",
       "projectName": "Javavengers-1_1ec3c19d"
+    },
+    {
+      "type": "java",
+      "name": "Driver",
+      "request": "launch",
+      "mainClass": "controller.Driver",
+      "projectName": "Javavengers_7dd0a10d"
     },
     {
       "type": "java",
