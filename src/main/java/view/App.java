@@ -66,7 +66,7 @@ public class App {
             SettingsController settingsController = new SettingsController(user, about, settingsPanel);
 
             // Create and show the MainFrame
-            MainFrame mainFrame = new MainFrame(user, homePanel, projectsPanel, settingsPanel, aboutPanel, projectController, settingsController);
+            MainFrame mainFrame = new MainFrame(user, homePanel, projectsPanel, settingsPanel, aboutPanel, projectController, settingsController, userController);
             mainFrame.setVisible(true);
         });
     }

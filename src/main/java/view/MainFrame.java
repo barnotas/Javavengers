@@ -1,16 +1,38 @@
 package view;
 
 import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import controller.*;
 import model.*;
 
 public class MainFrame extends JFrame {
+    
+    private UserController userController;
+
     public MainFrame(User user, HomePanel homePanel, ProjectsPanel projectsPanel, SettingsPanel settingsPanel,
-                     AboutPanel aboutPanel, ProjectController projectController, SettingsController settingsController) {
+                     AboutPanel aboutPanel, ProjectController projectController, SettingsController settingsController, UserController userController) {
         setTitle("Project Peak");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(800, 600);
         setLocationRelativeTo(null);
+
+        this.userController = userController;
+
+
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // Dispose the main frame
+                dispose();
+                
+                // Show the login dialog
+                LoginDialog loginDialog = new LoginDialog(userController);
+                loginDialog.setVisible(true);
+            }
+        });
 
         // Create the tab pane
         JTabbedPane tabbedPane = new JTabbedPane();
