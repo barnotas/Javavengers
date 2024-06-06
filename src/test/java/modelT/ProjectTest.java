@@ -20,7 +20,7 @@ public class ProjectTest {
         Project p = new Project("test", "testing", 99.99);
         Assert.assertEquals("test", p.getName());
         Assert.assertEquals("testing", p.getDescription());
-        Assert.assertEquals(99.99, p.getBudget());
+        Assert.assertEquals(99.99, p.getBudget(), 0.001);
     }
 
     /**
@@ -32,7 +32,7 @@ public class ProjectTest {
         p.setName("new name");
         Assert.assertEquals("new name", p.getName());
         Assert.assertEquals("testing", p.getDescription());
-        Assert.assertEquals(99.99, p.getBudget());
+        Assert.assertEquals(99.99, p.getBudget(), 0.001);
     }
 
     /**
@@ -44,7 +44,7 @@ public class ProjectTest {
         p.setDescription("new description");
         Assert.assertEquals("test", p.getName());
         Assert.assertEquals("new description", p.getDescription());
-        Assert.assertEquals(99.99, p.getBudget());
+        Assert.assertEquals(99.99, p.getBudget(), 0.001);
     }
 
     /**
@@ -56,7 +56,7 @@ public class ProjectTest {
         p.setPin("1234");
         Assert.assertEquals("test", p.getName());
         Assert.assertEquals("testing", p.getDescription());
-        Assert.assertEquals(99.99, p.getBudget());
+        Assert.assertEquals(99.99, p.getBudget(), 0.001);
         Assert.assertEquals("1234", p.getPin());
     }
 
@@ -69,7 +69,7 @@ public class ProjectTest {
         p.setPrivate(true);
         Assert.assertEquals("test", p.getName());
         Assert.assertEquals("testing", p.getDescription());
-        Assert.assertEquals(99.99, p.getBudget());
+        Assert.assertEquals(99.99, p.getBudget(), 0.001);
         Assert.assertEquals(true, p.isPrivate());
     }
 
@@ -83,7 +83,7 @@ public class ProjectTest {
         p.addDocument(pd);
         Assert.assertEquals("test", p.getName());
         Assert.assertEquals("testing", p.getDescription());
-        Assert.assertEquals(99.99, p.getBudget());
+        Assert.assertEquals(99.99, p.getBudget(), 0.001);
         Assert.assertEquals(1, p.getDocuments().size());
     }
 
@@ -98,7 +98,7 @@ public class ProjectTest {
         p.removeDocument(pd);
         Assert.assertEquals("test", p.getName());
         Assert.assertEquals("testing", p.getDescription());
-        Assert.assertEquals(99.99, p.getBudget());
+        Assert.assertEquals(99.99, p.getBudget(), 0.001);
         Assert.assertEquals(0, p.getDocuments().size());
     }
 
@@ -111,7 +111,7 @@ public class ProjectTest {
         p.addExpense(50);
         Assert.assertEquals("test", p.getName());
         Assert.assertEquals("testing", p.getDescription());
-        Assert.assertEquals(99.99, p.getBudget());
+        Assert.assertEquals(99.99, p.getBudget(), 0.001);
         Assert.assertEquals(50, p.getExpenses());
     }
 
@@ -119,12 +119,12 @@ public class ProjectTest {
      * Tests the setExpenses method.
      */
     @Test
-    public void testAddExpense() {
+    public void testSetExpense() {
         Project p = new Project("test", "testing", 99.99);
         p.setExpenses(100);
         Assert.assertEquals("test", p.getName());
         Assert.assertEquals("testing", p.getDescription());
-        Assert.assertEquals(99.99, p.getBudget());
+        Assert.assertEquals(99.99, p.getBudget(), 0.001);
         Assert.assertEquals(100, p.getExpenses());
     }
 }
