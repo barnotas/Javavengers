@@ -20,7 +20,7 @@ public class AboutTest {
      */
     @Test
     public void testGetVersion() {
-        Assert.assertEquals(0.1, A.getVersion(), 0.1);
+        Assert.assertEquals(1.1, A.getVersion(), 0.1);
     }
 
     /**
