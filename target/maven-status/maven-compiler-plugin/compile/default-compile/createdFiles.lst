@@ -16,6 +16,7 @@ model/About.class
 view/CreateUserDialog.class
 view/LoginDialog.class
 model/ProjectDocument.class
+view/MainFrame$1.class
 view/ProjectsPanel.class
 view/App.class
 view/SettingsPanel.class
