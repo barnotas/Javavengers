@@ -1,17 +1,40 @@
 package controller;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
 import model.About;
 import model.User;
 import view.SettingsPanel;
-
-import javax.swing.*;
-import java.io.*;
-
+/**
+ * The SettingsController class manages the settings for the application,
+ * including exporting and importing user settings. It interacts with the
+ * User and About models, and the SettingsPanel view.
+ * 
+ * @autor Bernard Bega, Barno Tashpulatova, Ahmed Hassan, Mahri Yalkapova
+ */
 public class SettingsController {
+    /** A field for user model. */
     private User userModel;
+    /** A field for about model */
     private About aboutModel;
+    /** A field for setting panel. */
     private SettingsPanel view;
 
+     /**
+     * Constructs a SettingsController with the specified User, About models, and SettingsPanel view.
+     * Initializes the view with the current user's username and email, and sets up action listeners.
+     * 
+     * @param userModel the user model containing user information
+     * @param aboutModel the about model containing application information
+     * @param view the settings panel view
+     */
     public SettingsController(User userModel, About aboutModel, SettingsPanel view) {
         this.userModel = userModel;
         this.aboutModel = aboutModel;
@@ -25,7 +48,10 @@ public class SettingsController {
         view.addExportButtonListener(e -> exportSettings());
         view.addImportButtonListener(e -> importSettings());
     }
-
+    /**
+     * Exports the current user settings to a file chosen by the user.
+     * Includes the username, email, and additional information from the About model.
+     */
     private void exportSettings() {
         JFileChooser fileChooser = new JFileChooser();
         int result = fileChooser.showSaveDialog(view);
@@ -42,7 +68,10 @@ public class SettingsController {
             }
         }
     }
-
+    /**
+     * Imports user settings from a file chosen by the user.
+     * Updates the user model and view with the imported username and email.
+     */
     private void importSettings() {
         JFileChooser fileChooser = new JFileChooser();
         int result = fileChooser.showOpenDialog(view);
