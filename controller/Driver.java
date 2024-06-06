@@ -8,7 +8,7 @@ import java.awt.*;
 /**
  * A driver for starting the application.
  *
- * @author Bernard Bega
+ * @author Bernard Bega Barno Tashpulatova, Ahmed Hassan, Mahri Yalkapova
  * @version 0.1
  */
 public class Driver {

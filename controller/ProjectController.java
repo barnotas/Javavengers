@@ -38,9 +38,6 @@ public ProjectController(Project model, ProjectsPanel view){
     this.model  = model;
     this.view = view;
 }
-     /**
-      * 
-      */
     public void updateView(){
         
     }

@@ -88,7 +88,11 @@ public class SettingsController {
             importSettings();
         }
     }
-
+    /**
+     * Exports the user settings to a file.
+     * 
+     * @throws FileNotFoundException if the file to write the settings is not found
+     */
 private void exportSettings() {
     try {
         // Create a file chooser dialog
@@ -110,7 +114,11 @@ private void exportSettings() {
         System.out.println("Error exporting settings: " + e.getMessage());
     }
 }
-
+/**
+* Imports the user settings from a file.
+* 
+* @throws IOException if an I/O error occurs while reading the settings
+*/
 private void importSettings() {
     try {
         // Create a file chooser dialog
