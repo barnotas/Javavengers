@@ -112,7 +112,7 @@ public class ProjectTest {
         Assert.assertEquals("test", p.getName());
         Assert.assertEquals("testing", p.getDescription());
         Assert.assertEquals(99.99, p.getBudget(), 0.001);
-        Assert.assertEquals(50, p.getExpenses());
+        Assert.assertEquals(50, p.getExpenses(), 0.001);
     }
 
     /**
@@ -125,6 +125,6 @@ public class ProjectTest {
         Assert.assertEquals("test", p.getName());
         Assert.assertEquals("testing", p.getDescription());
         Assert.assertEquals(99.99, p.getBudget(), 0.001);
-        Assert.assertEquals(100, p.getExpenses());
+        Assert.assertEquals(100, p.getExpenses(), 0.001);
     }
 }
