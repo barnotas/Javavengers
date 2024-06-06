@@ -9,9 +9,6 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
-import java.awt.List;
-import java.io.*;
-import java.util.ArrayList;
 
 /**
  * Represents a user with a first name and email address.
@@ -38,20 +35,35 @@ public class User implements Serializable {
 
     }
 
+    /**
+     * Returns project list.
+     * @return
+     */
     public ProjectList getProjectList() {
         return projectList;
     }
 
+    /**
+     * Adds project to the project list.
+     * @param project
+     */
     public void addProject(Project project) {
         projectList.addProject(project);
     }
-    
+    /**
+     * Removes a project from project list.
+     * @param project
+     */
     public void removeProject(Project project) {
         projectList.getProjects().remove(project);
     }
 
 
 
+    /**
+     * Returns username.
+     * @return
+     */
     public String getUsername() {
         return username;
     }
