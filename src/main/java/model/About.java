@@ -9,7 +9,6 @@ import java.io.Serializable;
  * Represents information about an application.
  *
  * @author Bernard Bega, Barno Tashpulatova, Ahmed Hassan, Mahri Yalkapova
- * @version 0.1
  */
 public class About implements Serializable  {
     /**
