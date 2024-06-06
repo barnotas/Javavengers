@@ -1,16 +1,39 @@
 package view;
 
-import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import controller.*;
-import model.*;
+import javax.swing.JFrame;
+import javax.swing.JTabbedPane;
 
+import controller.AboutController;
+import controller.ProjectController;
+import controller.SettingsController;
+import controller.UserController;
+import model.About;
+import model.User;
+/**
+ * MainFrame is the main window for the Project Peak application. It contains tabs for Home, Projects,
+ * About, and Settings. It also handles the closing event to display the login dialog.
+ * 
+ * @autor Bernard Bega, Barno Tashpulatova, Ahmed Hassan, Mahri Yalkapova
+ */
 public class MainFrame extends JFrame {
-    
+    /** A field for user controller. */
     private UserController userController;
-
+    
+    /**
+     * Constructs a MainFrame with the specified user and controllers.
+     * 
+     * @param user the current user
+     * @param homePanel the HomePanel instance
+     * @param projectsPanel the ProjectsPanel instance
+     * @param settingsPanel the SettingsPanel instance
+     * @param aboutPanel the AboutPanel instance
+     * @param projectController the ProjectController instance
+     * @param settingsController the SettingsController instance
+     * @param userController the UserController instance
+     */
     public MainFrame(User user, HomePanel homePanel, ProjectsPanel projectsPanel, SettingsPanel settingsPanel,
                      AboutPanel aboutPanel, ProjectController projectController, SettingsController settingsController, UserController userController) {
         setTitle("Project Peak");
