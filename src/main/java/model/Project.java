@@ -83,7 +83,7 @@ public class Project {
         this.description = description;
     }
     public void setBudget(double budget){
-        this.budget = budget;
+        this.budget = Math.round(budget * 100.0) / 100.0;
     }
     public double getBudget(){
         return budget;
@@ -110,6 +110,6 @@ public class Project {
     }
 
     public void setExpenses(double expenses) {
-        this.expenses = expenses;
+        this.expenses = Math.round(expenses * 100.0) / 100.0;
     }
 }
