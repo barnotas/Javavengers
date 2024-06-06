@@ -29,6 +29,9 @@ public class UserRepository {
         this.users = loadUsers();
     }
 
+    /**
+     * Creates user folder.
+     */
     private void createUserFolder() {
         Path folderPath = Paths.get(USER_FOLDER);
         if(!Files.exists(folderPath)) {
@@ -41,6 +44,10 @@ public class UserRepository {
         }
     }
 
+    /**
+     * Returns list of user files.
+     * @return
+     */
     private List<User> loadUsers() {
         List<User> userList = new ArrayList<>();
         Path userFilePath = Paths.get(USER_FOLDER, USER_FILE);
@@ -66,6 +73,9 @@ public class UserRepository {
         return userList;
     }
 
+    /**
+     * Saves user details to  a file. 
+     */
     public void saveUsers() {
         Path userFilePath = Paths.get(USER_FOLDER, USER_FILE);
         try (PrintWriter writer = new PrintWriter(new FileWriter(userFilePath.toFile()))) {
@@ -77,6 +87,11 @@ public class UserRepository {
         }
     }
 
+    /**
+     * Returns a specific user information.
+     * @param username
+     * @return
+     */
     public User findUser(String username) {
         for (User user : users) {
             if (user.getUsername().equals(username)) {
@@ -86,6 +101,10 @@ public class UserRepository {
         return null;
     }
 
+    /**
+     * Adds user to the user list.
+     * @param user
+     */
     public void addUser(User user) {
         users.add(user);
         saveUsers();
