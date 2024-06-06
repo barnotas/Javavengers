@@ -45,7 +45,7 @@ public class UserTest {
     @Test
     public void testRemoveProject() {
         User user = new User("test", "1234", "someemail@email.com", "user");
-        Project p = new Project("test", "test", 12.34)
+        Project p = new Project("test", "test", 12.34);
         user.addProject(p);
         user.removeProject(p);
         Assert.assertEquals("test", user.getUsername());
