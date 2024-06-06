@@ -174,17 +174,6 @@ public class ProjectsPanel extends JPanel {
             newProjectDialog.dispose();
         });
         dialogButtonPanel.add(createButton);
-
-        createButton.addActionListener(e -> {
-            String projectName = projectNameField.getText();
-            String projectDescription = projectDescriptionArea.getText();
-            double projectBudget = Double.parseDouble(projectBudgetField.getText());
-            boolean isPrivate = privateCheckbox.isSelected();
-            String pin = pinField.getText();
-        
-            projectController.createProject(projectName, projectDescription, projectBudget, isPrivate, pin);
-            newProjectDialog.dispose();
-        });
     
         newProjectDialog.add(dialogButtonPanel, BorderLayout.SOUTH);
     
