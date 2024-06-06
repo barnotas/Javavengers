@@ -1,11 +1,12 @@
 package view;
 
-import model.Project;
-import model.ProjectDocument;
-import controller.ProjectController;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Desktop;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -13,10 +14,30 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+
+import controller.ProjectController;
+import model.Project;
+import model.ProjectDocument;
+
 /**
  * The ProjectsPanel class represents a panel for displaying and managing projects.
  * It provides a list of projects, project details, and buttons for adding new projects.
- */
+ * @autor Bernard Bega, Barno Tashpulatova, Ahmed Hassan, Mahri Yalkapova
+ * */
 
 public class ProjectsPanel extends JPanel {
     
@@ -46,8 +67,12 @@ public class ProjectsPanel extends JPanel {
      * The JLabel for displaying the project expenses.
      */
     private JLabel expensesLabel;
+    /** A field project controller. */
     private ProjectController projectController;
-
+    /**
+     * Constructs a ProjectsPanel with the specified ProjectController.
+     * @param projectController the ProjectController instance
+     */
     public ProjectsPanel(ProjectController projectController) {
         this.projectController = projectController;
         setLayout(new BorderLayout());
@@ -83,7 +108,9 @@ public class ProjectsPanel extends JPanel {
         buttonPanel.add(newProjectButton);
         add(buttonPanel, BorderLayout.NORTH);
     }
-
+    /**
+     * Displays the dialog for creating a new project.
+     */
     private void showCreateNewProjectDialog() {
         JDialog newProjectDialog = new JDialog(SwingUtilities.getWindowAncestor(this), "Create New Project");
         newProjectDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -182,7 +209,9 @@ public class ProjectsPanel extends JPanel {
         newProjectDialog.setVisible(true);
     }
 
-
+    /**
+     * Displays the dialog for creating a new project.
+     */
     private void showEditProjectDialog(int selectedIndex) {
         String listEntry = projectListModel.getElementAt(selectedIndex);
         String[] parts = listEntry.split(" - ");
@@ -423,10 +452,10 @@ public class ProjectsPanel extends JPanel {
         }
     }
 
-   /** This method opens a documents using the file path 
-    *  that is created when adding a project 
-    */ 
-
+/**
+     * Opens a document using the file path associated with the ProjectDocument.
+     * @param selectedDocument the selected ProjectDocument
+     */
 private void openDocument(ProjectDocument selectedDocument) {
     try {
         String filePath = selectedDocument.getFilepath();
@@ -485,7 +514,10 @@ private void openDocument(ProjectDocument selectedDocument) {
     public void setExpenses(double expenses) {
         expensesLabel.setText("Expenses: $" + expenses);
     }
-
+    /**
+     * Adds a project to the list of projects displayed.
+     * @param project the project to add
+     */
     public void addProject(Project project) {
         double totalCost = project.getBudget() - project.getExpenses();
         String formattedTotalCost = String.format("%.2f", totalCost);
@@ -502,6 +534,13 @@ private void openDocument(ProjectDocument selectedDocument) {
         revalidate();
         repaint();
     }
+
+    /**
+     * Updates a project in the list of projects displayed.
+     * @param index the index of the project to update
+     * @param project the updated project
+     */
+
     public void updateProject(int index, Project project) {
         double totalCost = project.getBudget() - project.getExpenses();
         String formattedTotalCost = String.format("%.2f", totalCost);
@@ -519,8 +558,11 @@ private void openDocument(ProjectDocument selectedDocument) {
         // Call the ProjectController to update the project in the repository
         projectController.updateProject(project);
     }
-
-    
+ 
+    /**
+     * Removes a project from the list of projects displayed.
+     * @param project the project to remove
+     */
     public void removeProject(Project project) {
         // Find the index of the project in the list model
         int index = -1;
@@ -542,7 +584,9 @@ private void openDocument(ProjectDocument selectedDocument) {
     }
 
 
-
+    /**
+     * Clears the list of projects displayed.
+     */
     public void clearProjects() {
         projectListModel.clear();
     }
