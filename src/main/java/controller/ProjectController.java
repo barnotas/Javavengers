@@ -6,23 +6,55 @@ import model.ProjectRepository;
 import model.User;
 import view.HomePanel;
 import view.ProjectsPanel;
+/**
+ * The ProjectController class is responsible for managing projects.
+ * It handles the creation, updating, retrieval, and deletion of projects,
+ * as well as loading projects for a given user.
+ * This class interacts with ProjectRepository, HomePanel, ProjectsPanel, and UserController.
+ * 
+ *
+ * @author Bernard Bega, Barno Tashpulatova, Ahmed Hassan, Mahri Yalkapova
+ */
 
 public class ProjectController {
+    /** A field for project repository. */
     private ProjectRepository projectRepository;
+    /** A field for home panel. */
     private HomePanel homePanel;
+    /** A field for project panel. */
     private ProjectsPanel projectsPanel;
+    /** A field for user controller. */
     private UserController userController;
 
+    /**
+     * Constructs a ProjectController with the specified ProjectRepository, HomePanel, and UserController.
+     * 
+     * @param projectRepository the repository for managing project data
+     * @param homePanel the panel for displaying project information on the home screen
+     * @param userController the controller for managing user information
+     */
     public ProjectController(ProjectRepository projectRepository, HomePanel homePanel, UserController userController) {
         this.projectRepository = projectRepository;
         this.homePanel = homePanel;
         this.userController = userController;
     }
-
+    /**
+     * Sets the ProjectsPanel for the controller.
+     * 
+     * @param projectsPanel the panel for displaying project information on the projects screen
+     */
     public void setProjectsPanel(ProjectsPanel projectsPanel) {
         this.projectsPanel = projectsPanel;
     }
-
+    
+    /**
+     * Creates a new project with the specified name, description, and budget.
+     * The project will be added to the current user's project list if it doesn't already exist.
+     * 
+     * @param name the name of the project
+     * @param description the description of the project
+     * @param budget the budget for the project
+     */
     public void createProject(String name, String description, double budget) {
         User currentUser = userController.getCurrentUser();
         if (currentUser != null) {
@@ -45,8 +77,19 @@ public class ProjectController {
                 }
             }
         }
-    }
+    } 
 
+
+    /**
+     * Creates a new project with the specified name, description, budget, privacy status, and pin.
+     * The project will be added to the current user's project list if it doesn't already exist.
+     * 
+     * @param name the name of the project
+     * @param description the description of the project
+     * @param budget the budget for the project
+     * @param isPrivate the privacy status of the project
+     * @param pin the pin for accessing the project
+     */
     public void createProject(String name, String description, double budget, boolean isPrivate, String pin) {
         User currentUser = userController.getCurrentUser();
         if (currentUser != null) {
@@ -72,7 +115,12 @@ public class ProjectController {
             }
         }
     }
-    
+    /**
+     * Retrieves a project with the specified name from the current user's project list.
+     * 
+     * @param projectName the name of the project to retrieve
+     * @return the project with the specified name, or null if not found
+     */
     public Project getProject(String projectName) {
         User currentUser = userController.getCurrentUser();
         if (currentUser != null) {
@@ -87,7 +135,11 @@ public class ProjectController {
     }
 
     
-
+    /**
+     * Loads all projects for the specified user and displays them on the panels.
+     * 
+     * @param user the user whose projects will be loaded
+     */
     public void loadProjects(User user) {
         if (homePanel != null) {
             homePanel.clearProjects();
@@ -136,7 +188,11 @@ public class ProjectController {
     //         //loadProjects(currentUser);
     //     }
     // }
-
+    /**
+     * Updates the specified project in the current user's project list and panels.
+     * 
+     * @param project the project to update
+     */
     public void updateProject(Project project) {
         User currentUser = userController.getCurrentUser();
         if (currentUser != null) {
@@ -172,7 +228,11 @@ public class ProjectController {
             }
         }
     }
-
+    /**
+     * Deletes the specified project from the current user's project list and panels.
+     * 
+     * @param project the project to delete
+     */
     public void deleteProject(Project project) {
     User currentUser = userController.getCurrentUser();
     if (currentUser != null) {
@@ -184,11 +244,18 @@ public class ProjectController {
         //loadProjects(currentUser);
     }
 }
-
+    /**
+     * Returns the ProjectRepository associated with this controller.
+     * 
+     * @return the project repository
+     */
     public ProjectRepository getProjectRepository() {
         return projectRepository;
     }
-
+    /**
+     * Returns user controller.
+     * @return
+     */
     public User getCurrentUser() {
         return userController.getCurrentUser();
     }
