@@ -30,6 +30,18 @@ public class UserRepository {
         this.users = loadUsers();
     }
 
+    private void createUserFolder() {
+        Path folderPath = Paths.get(USER_FOLDER);
+        if(!Files.exists(folderPath)) {
+            try {
+                Files.createDirectory(folderPath);
+                System.out.println("User folder Created: " + folderPath);
+            } catch (IOException e) {
+                System.out.println("Error creating user folder: " + e.getMessage());
+            }
+        }
+    }
+
     private List<User> loadUsers() {
         List<User> userList = new ArrayList<>();
         Path userFilePath = Paths.get(USER_FOLDER, USER_FILE);
