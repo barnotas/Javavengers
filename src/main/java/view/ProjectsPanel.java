@@ -581,6 +581,9 @@ private void openDocument(ProjectDocument selectedDocument) {
         
         // Call the ProjectController to delete the project
         projectController.deleteProject(project); 
+        
+        // Notify the HomePanel about the deleted project
+        projectController.notifyHomePanel(project);
     }
 
 

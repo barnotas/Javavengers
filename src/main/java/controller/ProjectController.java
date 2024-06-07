@@ -162,32 +162,12 @@ public class ProjectController {
         }
     }
 
-    // public void loadProjects(User user) {
-    //     ProjectList projectList = user.getProjectList();
-    //     for (Project project : projectList.getProjects()) {
-    //         if (homePanel != null) {
-    //             homePanel.addProject(project.getName(), project.getDescription(), project.getBudget(), project.getExpenses());
-    //         }
-    //         if (projectsPanel != null) {
-    //             projectsPanel.addProject(project);
-    //         }
-    //     }
-    // }
+    public void notifyHomePanel(Project project) {
+        if (homePanel != null) {
+            homePanel.removeProject(project);
+        }
+    }
 
-    // public void updateProject(Project project) {
-    //     User currentUser = userController.getCurrentUser();
-    //     if (currentUser != null) {
-    //         // Update the Project instance in the ProjectList
-    //         ProjectList projectList = currentUser.getProjectList();
-    //         int index = projectList.getProjects().indexOf(project);
-    //         if (index != -1) {
-    //             projectList.getProjects().set(index, project);
-    //         }
-            
-    //         projectRepository.saveProjects(currentUser);
-    //         //loadProjects(currentUser);
-    //     }
-    // }
     /**
      * Updates the specified project in the current user's project list and panels.
      * 
@@ -218,7 +198,7 @@ public class ProjectController {
                 
                 // Remove the old project entry from the HomePanel
                 if (homeIndex != -1) {
-                    homePanel.removeProject(project.getName());
+                    homePanel.removeProject(project);
                 }
                 
                 // Add or update the project in the HomePanel based on its privacy status
@@ -239,6 +219,7 @@ public class ProjectController {
         // Remove the project from the ProjectList
         ProjectList projectList = currentUser.getProjectList();
         projectList.getProjects().remove(project);
+        
         
         projectRepository.removeProject(currentUser, project);
         //loadProjects(currentUser);
