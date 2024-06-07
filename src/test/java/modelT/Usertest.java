@@ -10,7 +10,7 @@ import org.junit.*;
  * @author Bernard Bega
  * @version 1.0
  */
-public class Usertest {
+public class UserTest {
 
     /**
      * Tests the User constructor.
