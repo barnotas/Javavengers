@@ -19,6 +19,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+
+import model.Project;
 /**
  * HomePanel is a JPanel that displays a welcome message and a list of projects.
  * It provides functionality to add, update, and remove projects from the list.
@@ -98,35 +100,31 @@ public class HomePanel extends JPanel {
         }
     }
      /**
-     * Updates a project in the project list at the specified index.
-     * If the project is private, it is removed from the list.
-     * 
-     * @param index the index of the project to update
-     * @param name the updated name of the project
-     * @param description the updated description of the project
-     * @param budget the updated budget of the project
-     * @param expenses the updated expenses of the project
-     * @param isPrivate indicates if the project is private
-     */
-    public void updateProject(int index, String name, String description, double budget, double expenses, boolean isPrivate) {
-        if (!isPrivate) {
-            double totalCost = budget - expenses;
-            String formattedTotalCost = String.format("%.2f", totalCost);
-            String listEntry = "Project Name: " + name + " - Description: " + description +
-                    " - Budget: $" + budget + " - Expenses: $" + expenses +
-                    " - Total Cost: $" + formattedTotalCost;
+ * Updates a project in the project list at the specified index.
+ * If the project is private, it is removed from the list.
+ * 
+ * @param index the index of the project to update
+ * @param project the updated project object
+ */
+public void updateProject(int index, Project project) {
+    if (!project.isPrivate()) {
+        double totalCost = project.getBudget() - project.getExpenses();
+        String formattedTotalCost = String.format("%.2f", totalCost);
+        String listEntry = "Project Name: " + project.getName() + " - Description: " + project.getDescription() +
+                " - Budget: $" + project.getBudget() + " - Expenses: $" + project.getExpenses() +
+                " - Total Cost: $" + formattedTotalCost;
 
-                    if (totalCost < 0) {
-                        listEntry += " Budget is negative";
-                    } 
-
-            if (index >= 0 && index < projectListModel.getSize()) {
-                projectListModel.setElementAt(listEntry, index);
-            }
-        } else {
-            removeProject(name);
+        if (totalCost < 0) {
+            listEntry += " Budget is negative";
         }
+
+        if (index >= 0 && index < projectListModel.getSize()) {
+            projectListModel.setElementAt(listEntry, index);
+        }
+    } else {
+        removeProject(project);
     }
+}
      /**
      * Displays a dialog to view project details when a project is double-clicked in the list.
      * 
@@ -200,24 +198,24 @@ public class HomePanel extends JPanel {
     /**
      * Removes a project from the project list by name.
      * 
-     * @param projectName the name of the project to remove
+     * @param project the project to remove
      */
-    public void removeProject(String projectName) {
-        // Find the index of the project in the list model
-        int index = -1;
-        for (int i = 0; i < projectListModel.getSize(); i++) {
-            String listEntry = projectListModel.getElementAt(i);
-            if (listEntry.startsWith("Project Name: " + projectName + " - ")) {
-                index = i;
-                break;
-            }
-        }
-
-        // Remove the project from the list model if found
-        if (index != -1) {
-            projectListModel.remove(index);
+    public void removeProject(Project project) {
+    // Find the index of the project in the list model
+    int index = -1;
+    for (int i = 0; i < projectListModel.getSize(); i++) {
+        String listEntry = projectListModel.getElementAt(i);
+        if (listEntry.startsWith("Project Name: " + project.getName() + " - ")) {
+            index = i;
+            break;
         }
     }
+
+    // Remove the project from the list model if found
+    if (index != -1) {
+        projectListModel.remove(index);
+    }
+}
     /**
      * Clears all projects from the project list.
      */
