@@ -8,7 +8,30 @@ import java.util.List;
  */
 
 public class ProjectList {
-    
+    /** A field for project list. */
+    private List<Project> projects;
+
+    /**
+     * Constructs project list class.
+     */
+    public ProjectList() {
+        projects = new ArrayList<>();
+    }
+
+    /**
+     * Adds projects to the list.
+     * @param project
+     */
+    public void addProject(Project project) {
+        projects.add(project);
+    }
+
+    /** 
+     * Returns project list.
+     */
+    public List<Project> getProjects () {
+        return projects;
+    }
 
 
 }
